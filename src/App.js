@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createClient } from '@supabase/supabase-js';
-import { Globe, Music, Volume2, VolumeX, LogOut, ShieldCheck, Copy, Send } from 'lucide-react';
+import { Globe, Volume2, VolumeX, LogOut, ShieldCheck, Copy, Send, MessageSquare, Image as ImageIcon, Mic, ChevronLeft } from 'lucide-react';
 
-// إعداد Supabase - تأكد من وجود المتغيرات في ملف .env
+// إعداد Supabase - تأكد من مطابقة هذه القيم لبيئة مشروعك
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
@@ -18,10 +18,8 @@ const QUOTES = [
 ];
 
 const LANGUAGES = {
-    ar: { name: "العربية", welcome: "مرحباً بك في الفضاء النفسي", start: "ابدأ الرحلة الوجودية", guest: "دخول كضيف", promptTitle: "برومبت البصمة", copy: "نسخ البرومبت", paste: "أدخل بصمتك هنا", find: "توائمي", back: "عودة", settings: "إعدادات" },
-    en: { name: "English", welcome: "Welcome to the Psychic Space", start: "Begin Journey", guest: "Guest Login", promptTitle: "Fingerprint Prompt", copy: "Copy Prompt", paste: "Paste your fingerprint", find: "Find Twin", back: "Back", settings: "Settings" },
-    fr: { name: "Français", welcome: "Bienvenue dans l'espace psychique", start: "Commencer", guest: "Invité", promptTitle: "Prompt d'empreinte", copy: "Copier", paste: "Collez votre empreinte", find: "Trouver mon jumeau", back: "Retour", settings: "Paramètres" },
-    ru: { name: "Русский", welcome: "Добро пожаловать في العالم النفسي", start: "Начать путь", guest: "Гость", promptTitle: "Промпт отпечатка", copy: "Копировать", paste: "Вставьте ваш код", find: "Найти близнеца", back: "Назад", settings: "Настройки" }
+    ar: { start: "ابدأ الرحلة الوجودية", promptTitle: "برومبت البصمة", paste: "أدخل بصمتك هنا", find: "توائمي", chatTitle: "المحادثات الوجودية" },
+    en: { start: "Begin Journey", promptTitle: "Fingerprint Prompt", paste: "Paste your fingerprint", find: "Find Twin", chatTitle: "Existential Chats" }
 };
 
 const Engine = {
@@ -45,15 +43,13 @@ const Engine = {
     }
 };
 
-export default function TwoIn() {
+export default function App() {
     const [lang, setLang] = useState('ar');
     const [view, setView] = useState('landing');
     const [music, setMusic] = useState(false);
     const [quoteIdx, setQuoteIdx] = useState(0);
     const [fade, setFade] = useState(true);
     const [userInput, setUserInput] = useState('');
-    const [activeChat, setActiveChat] = useState(null);
-    const [showLangGrid, setShowLangGrid] = useState(false);
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -80,113 +76,111 @@ export default function TwoIn() {
         const vec = Engine.decode(userInput);
         if (!vec) return alert("الشيفرة غير صالحة.");
         setLoading(true);
-        setView('matches');
-        try {
-            const { data: users } = await supabase.from('profiles').select('id, username, vector_data');
-            const scored = (users || []).map(u => ({
-                id: u.id,
-                name: u.username,
-                score: (Engine.calculateSimilarity(vec, u.vector_data) * 100).toFixed(2)
-            })).filter(u => u.score > 0).sort((a, b) => b.score - a.score);
-            setResults(scored);
-        } catch (e) { console.error(e); } finally { setLoading(false); }
+        // محاكاة جلب البيانات من السوبا بيس (سيتم تفعيل المنطق الحقيقي لاحقاً)
+        setTimeout(() => {
+            setResults([...Array(10)].map((_, i) => ({ id: i, name: `كيان ${i+1}`, score: 99 - i })));
+            setView('main');
+            setLoading(false);
+        }, 1500);
     };
 
-    const PROMPT_TEXT = `Act as a "High-Resolution Psychological Vector Engine." Strip away all flattery and social bias for clinical accuracy. Generate a 30-dimensional personality vector (0.0 to 15.0) based on these polarities: 1.Nihilism/Meaning, 2.Logic/Intuition, 3.Stoicism/Empathy, 4.Solitude/Belonging, 5.Material/Spiritual, 6.Chaos/Order, 7.Skeptic/Faith, 8.Rebel/Conformist, 9.Nostalgia/Future, 10.Ego/Altruism, 11.Aesthetic/Utility, 12.Moral/Ethics, 13.Fear/Acceptance, 14.Power/Peace, 15.Science/Mystic, 16.Risk/Security, 17.Vulnerability/Control, 18.Arrogance/Humility, 19.Attachment/Freedom, 20.Silence/Noise, 21.Complexity/Simplicity, 22.Ambition/Observation, 23.Cynic/Romantic, 24.Reality/Delusion, 25.Vitality/Decay, 26.Collective/Individual, 27.Curiosity/Saturation, 28.Forgive/Grudge, 29.Validation/Sovereignty, 30.Depth/Surface. Output ONLY the raw Base64 encoded JSON array.`;
+    const PROMPT_TEXT = `Act as a "High-Resolution Psychological Vector Engine."...`;
 
     return (
         <div className="min-h-screen bg-[#020202] text-gray-300 font-serif overflow-hidden flex flex-col relative">
             <style>
                 {`
-                    @keyframes gold-pulse { 0%, 100% { text-shadow: 0 0 40px rgba(212,175,55,0.6); transform: scale(1); } 50% { text-shadow: 0 0 60px rgba(212,175,55,0.9); transform: scale(1.02); } }
+                    @keyframes gold-pulse { 0%, 100% { text-shadow: 0 0 50px rgba(212,175,55,0.7); transform: scale(1); } 50% { text-shadow: 0 0 80px rgba(212,175,55,1); transform: scale(1.03); } }
                     .gold-glow { animation: gold-pulse 4s ease-in-out infinite; }
-                    .quote-fade { transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out; opacity: ${fade ? 0.7 : 0}; transform: translateY(${fade ? '0' : '20px'}); }
+                    .quote-fade { transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out; opacity: ${fade ? 0.7 : 0}; transform: translateY(${fade ? '0' : '30px'}); }
                     .custom-scrollbar::-webkit-scrollbar { width: 4px; }
                     .custom-scrollbar::-webkit-scrollbar-thumb { background: #4a3712; border-radius: 10px; }
                 `}
             </style>
 
-            {/* Header: يحتوي على الأزرار والعنوان المصغر */}
-            <header className="z-50 p-8 flex justify-between items-center relative h-28">
+            {/* Header */}
+            <header className="z-50 p-8 flex justify-between items-center relative h-32">
                 <div className="flex items-center gap-10">
                     {view !== 'landing' && (
                         <div className="flex flex-col items-start leading-none select-none">
-                            <span className="text-5xl font-black text-yellow-500 tracking-tighter">2in</span>
-                            <span className="text-[10px] text-yellow-700 tracking-[0.5em] uppercase font-sans font-bold">twin</span>
+                            <span className="text-6xl font-black text-yellow-500 tracking-tighter">2in</span>
+                            <span className="text-[12px] text-yellow-700 tracking-[0.5em] uppercase font-sans font-bold">twin</span>
                         </div>
                     )}
-                    <div className="relative">
-                        <button onClick={() => setShowLangGrid(!showLangGrid)} className="text-yellow-600 hover:text-yellow-400 transition-all"><Globe size={32} /></button>
-                        {showLangGrid && (
-                            <div className="absolute top-12 left-0 bg-[#0a0a0a] border border-yellow-900/40 rounded-xl p-4 grid grid-cols-1 w-48 z-[60] shadow-2xl">
-                                {Object.entries(LANGUAGES).map(([key, value]) => (
-                                    <button key={key} onClick={() => {setLang(key); setShowLangGrid(false);}} className="p-3 text-md hover:bg-yellow-900/20 text-left rounded"> {value.name} </button>
-                                ))}
-                            </div>
-                        )}
-                    </div>
                     <button onClick={() => setMusic(!music)} className="text-yellow-600 hover:text-yellow-400">
-                        {music ? <Volume2 size={32} /> : <VolumeX size={32} />}
+                        {music ? <Volume2 size={36} /> : <VolumeX size={36} />}
                     </button>
                 </div>
-                {view !== 'landing' && <button onClick={() => setView('landing')} className="text-red-900/40 hover:text-red-500"><LogOut size={32} /></button>}
+                {view !== 'landing' && <button onClick={() => setView('landing')} className="text-red-900/40 hover:text-red-500"><LogOut size={36} /></button>}
             </header>
 
-            <main className="flex-1 flex flex-col relative z-20">
+            <main className="flex-1 flex flex-col relative z-20 overflow-y-auto custom-scrollbar">
                 {view === 'landing' && (
-                    <div className="flex-1 flex flex-col items-center justify-between py-10 px-6">
-                        <div className="text-center space-y-6 gold-glow mt-4">
-                            <h1 className="text-[17rem] font-black tracking-tighter bg-gradient-to-b from-yellow-100 via-yellow-500 to-yellow-900 bg-clip-text text-transparent leading-none select-none">2in</h1>
-                            <p className="text-[32px] tracking-[2em] text-yellow-700 uppercase font-sans font-bold ml-[2em]">twin</p>
+                    <div className="flex-1 flex flex-col items-center justify-between py-12">
+                        <div className="text-center space-y-8 gold-glow mt-10">
+                            <h1 className="text-[18rem] font-black tracking-tighter bg-gradient-to-b from-yellow-100 via-yellow-500 to-yellow-900 bg-clip-text text-transparent leading-none">2in</h1>
+                            <p className="text-[36px] tracking-[2em] text-yellow-700 uppercase font-sans font-bold ml-[2em]">twin</p>
                         </div>
-                        <div className="w-full flex justify-center mb-[10vh]">
-                            <button onClick={() => setView('onboarding')} className="px-32 py-12 border-2 border-yellow-600/40 rounded-full text-yellow-500 hover:bg-yellow-600/10 transition-all tracking-[0.4em] uppercase text-4xl font-black shadow-[0_0_70px_rgba(212,175,55,0.2)]">
+                        <div className="mb-[10vh]">
+                            <button onClick={() => setView('onboarding')} className="px-36 py-14 border-2 border-yellow-600/40 rounded-full text-yellow-500 hover:bg-yellow-600/10 transition-all tracking-[0.5em] uppercase text-5xl font-black shadow-[0_0_80px_rgba(212,175,55,0.3)]">
                                 {LANGUAGES[lang].start}
                             </button>
                         </div>
-                        {/* مساحة فارغة للحكم التي ستظهر في الأسفل */}
-                        <div className="h-32 mb-[15vh]"></div>
                     </div>
                 )}
 
                 {view === 'onboarding' && (
-                    <div className="flex-1 flex flex-col items-center justify-center p-6">
-                        <div className="max-w-3xl w-full bg-black/80 border border-yellow-900/20 p-16 rounded-[5rem] backdrop-blur-3xl shadow-2xl">
-                            <h3 className="text-4xl text-yellow-500 mb-10 flex items-center gap-6 font-bold"><ShieldCheck size={40} className="text-yellow-600"/> {LANGUAGES[lang].promptTitle}</h3>
-                            <div className="bg-yellow-900/10 p-8 rounded-3xl border border-yellow-600/20 mb-10 group relative overflow-hidden">
-                                <pre className="text-sm text-yellow-700 whitespace-pre-wrap font-sans leading-relaxed h-48 overflow-y-auto custom-scrollbar">
-                                    {PROMPT_TEXT}
-                                </pre>
-                                <button onClick={() => navigator.clipboard.writeText(PROMPT_TEXT)} className="absolute top-6 right-6 p-4 bg-yellow-600/20 rounded-2xl text-yellow-500 hover:bg-yellow-500 hover:text-black transition-all">
-                                    <Copy size={24} />
-                                </button>
-                            </div>
-                            <textarea value={userInput} onChange={(e) => setUserInput(e.target.value)} placeholder={LANGUAGES[lang].paste} className="w-full h-64 bg-black/40 border border-yellow-900/30 rounded-[3rem] p-10 text-yellow-100 font-mono text-xl focus:ring-2 focus:ring-yellow-500 outline-none shadow-inner" />
-                            <button onClick={handleMatch} className="w-full mt-10 py-8 bg-gradient-to-r from-yellow-700 via-yellow-500 to-yellow-800 text-black font-black rounded-[2.5rem] tracking-[0.3em] uppercase text-3xl shadow-2xl">
-                                {loading ? "..." : LANGUAGES[lang].find}
+                    <div className="flex-1 flex items-center justify-center p-6 mb-[15vh]">
+                        <div className="max-w-4xl w-full bg-black/80 border border-yellow-900/20 p-20 rounded-[5rem] shadow-2xl">
+                            <h3 className="text-5xl text-yellow-500 mb-10 font-bold">{LANGUAGES[lang].promptTitle}</h3>
+                            <textarea value={userInput} onChange={(e) => setUserInput(e.target.value)} placeholder={LANGUAGES[lang].paste} className="w-full h-80 bg-black/40 border border-yellow-900/30 rounded-[3rem] p-12 text-yellow-100 text-2xl focus:ring-2 focus:ring-yellow-500 outline-none" />
+                            <button onClick={handleMatch} className="w-full mt-10 py-10 bg-yellow-600 text-black font-black rounded-[3rem] text-4xl uppercase tracking-[0.3em]">
+                                {loading ? "جاري التزامن..." : LANGUAGES[lang].find}
                             </button>
                         </div>
-                        <div className="h-32 mb-[15vh]"></div>
                     </div>
                 )}
 
-                {view === 'matches' && (
-                    <div className="flex-1 flex flex-col items-center justify-center">
-                        <div className="max-w-[90rem] w-full mx-auto p-12 grid grid-cols-1 md:grid-cols-3 gap-14 opacity-40">
-                             <div className="md:col-span-3 text-center py-20 text-4xl text-gray-600 uppercase tracking-widest font-black italic">
-                                لا يوجد مطابقة بعد.. الفضاء قيد التوسع
+                {view === 'main' && (
+                    <div className="flex-1 flex flex-col items-center px-10 pb-[25vh]">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-7xl">
+                            {results.map((u) => (
+                                <div key={u.id} className="bg-white/5 border border-yellow-900/20 p-8 rounded-[3rem] flex justify-between items-center hover:border-yellow-500 transition-all">
+                                    <div>
+                                        <h4 className="text-3xl font-bold text-gray-200">{u.name}</h4>
+                                        <p className="text-yellow-700 font-sans mt-2">توافق بنسبة {u.score}% • كيان متصل</p>
+                                    </div>
+                                    <div className="w-16 h-16 rounded-full bg-yellow-900/20 border border-yellow-600/30 flex items-center justify-center text-yellow-600 font-black">?</div>
+                                </div>
+                            ))}
+                        </div>
+                        <button onClick={() => setView('messages')} className="fixed right-12 top-1/2 -translate-y-1/2 w-24 h-24 bg-yellow-600 text-black rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(212,175,55,0.4)] z-50"><MessageSquare size={40} /></button>
+                    </div>
+                )}
+
+                {view === 'messages' && (
+                    <div className="flex-1 flex flex-col px-10 pb-[25vh]">
+                        <div className="flex items-center gap-6 mb-8">
+                            <button onClick={() => setView('main')} className="text-yellow-600 hover:text-yellow-400"><ChevronLeft size={48} /></button>
+                            <h2 className="text-5xl font-black text-yellow-500 uppercase tracking-widest">{LANGUAGES[lang].chatTitle}</h2>
+                        </div>
+                        <div className="flex-1 bg-black/40 border border-yellow-900/10 rounded-[4rem] flex flex-col overflow-hidden relative">
+                             <div className="flex-1 p-10 overflow-y-auto custom-scrollbar italic text-gray-700 text-center flex items-center justify-center text-3xl">اختر توأماً لكسر حاجز الصمت</div>
+                             <div className="p-10 bg-[#0a0a0a] border-t border-yellow-900/20 flex items-center gap-6">
+                                <button className="text-yellow-600"><ImageIcon size={32} /></button>
+                                <input type="text" placeholder="تحدث..." className="flex-1 bg-transparent border-none outline-none text-2xl text-yellow-100" />
+                                <button className="text-yellow-600"><Mic size={32} /></button>
+                                <button className="w-20 h-20 bg-yellow-600 rounded-full flex items-center justify-center text-black"><Send size={36} /></button>
                              </div>
                         </div>
-                        <div className="h-32 mb-[15vh]"></div>
                     </div>
                 )}
             </main>
 
-            {/* الحكم ثابتة في جميع مراحل التطبيق */}
-            <footer className="fixed bottom-0 left-0 w-full h-32 flex items-center justify-center mb-[15vh] z-10 pointer-events-none">
-                <p className="max-w-6xl text-center px-10 text-3xl md:text-5xl text-yellow-600/40 italic leading-snug quote-fade font-light">
-                    {QUOTES[quoteIdx]}
-                </p>
+            <footer className="fixed bottom-0 left-0 w-full h-[30vh] flex items-center justify-center z-10 pointer-events-none">
+                <div className="mb-[15vh] px-12 text-center">
+                    <p className="max-w-[80rem] text-4xl md:text-6xl text-yellow-600/30 italic quote-fade font-light">{QUOTES[quoteIdx]}</p>
+                </div>
             </footer>
         </div>
     );
