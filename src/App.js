@@ -21,7 +21,7 @@ const LANGUAGES = {
     ar: { name: "العربية", welcome: "مرحباً بك في الفضاء النفسي", start: "ابدأ الرحلة الوجودية", guest: "دخول كضيف", promptTitle: "برومبت البصمة", copy: "نسخ البرومبت", paste: "أدخل بصمتك هنا", find: "توائمي", back: "عودة", settings: "إعدادات" },
     en: { name: "English", welcome: "Welcome to the Psychic Space", start: "Begin Journey", guest: "Guest Login", promptTitle: "Fingerprint Prompt", copy: "Copy Prompt", paste: "Paste your fingerprint", find: "Find Twin", back: "Back", settings: "Settings" },
     fr: { name: "Français", welcome: "Bienvenue dans l'espace psychique", start: "Commencer", guest: "Invité", promptTitle: "Prompt d'empreinte", copy: "Copier", paste: "Collez votre empreinte", find: "Trouver mon jumeau", back: "Retour", settings: "Paramètres" },
-    ru: { name: "Русский", welcome: "Добро пожаловать في العالم النفسي", start: "Начать путь", guest: "Гость", promptTitle: "Промпт отпечатка", copy: "Копировать", paste: "Вставьте ваш код", find: "Найти близнеца", back: "Назад", settings: "Настройки" }
+    ru: { name: "Русский", welcome: "Добро пожаловать في العالم النفسي", start: "Начать путь", guest: "Гость", promptTitle: "Промпт отпечатка", copy: "Коبيровать", paste: "Вставьте ваш код", find: "Найти близнеца", back: "Назад", settings: "Настройки" }
 };
 
 const Engine = {
@@ -129,8 +129,10 @@ export default function TwoIn() {
                 {view === 'landing' && (
                     <div className="flex-1 flex flex-col items-center justify-start pt-16 space-y-16">
                         <div className="text-center space-y-4 gold-glow">
-                            <h1 className="text-[12rem] font-black tracking-tighter bg-gradient-to-b from-yellow-100 via-yellow-500 to-yellow-900 bg-clip-text text-transparent leading-none">2in</h1>
-                            <p className="text-[20px] tracking-[1.6em] text-yellow-700 uppercase font-sans font-bold ml-[1.6em]">twin</p>
+                            {/* زيادة حجم العنوان بنسبة 25% من 12rem إلى 15rem */}
+                            <h1 className="text-[15rem] font-black tracking-tighter bg-gradient-to-b from-yellow-100 via-yellow-500 to-yellow-900 bg-clip-text text-transparent leading-none">2in</h1>
+                            {/* زيادة حجم twin بنسبة 25% من 20px إلى 25px */}
+                            <p className="text-[25px] tracking-[1.6em] text-yellow-700 uppercase font-sans font-bold ml-[1.6em]">twin</p>
                         </div>
 
                         <div className="max-w-5xl text-center px-12 h-32 flex items-center justify-center mt-10">
@@ -139,12 +141,14 @@ export default function TwoIn() {
                             </p>
                         </div>
 
-                        <button onClick={() => setView('onboarding')} className="mt-12 px-20 py-6 border-2 border-yellow-600/30 rounded-full text-yellow-500 hover:bg-yellow-600/10 transition-all tracking-[0.3em] uppercase text-xl font-black shadow-[0_0_40px_rgba(212,175,55,0.1)]">
+                        {/* زيادة حجم زر الدخول بنسبة 25% (زيادة الـ padding والخط) */}
+                        <button onClick={() => setView('onboarding')} className="mt-12 px-24 py-8 border-2 border-yellow-600/30 rounded-full text-yellow-500 hover:bg-yellow-600/10 transition-all tracking-[0.3em] uppercase text-2xl font-black shadow-[0_0_50px_rgba(212,175,55,0.15)]">
                             {LANGUAGES[lang].start}
                         </button>
                     </div>
                 )}
 
+                {/* باقي الكود كما هو للحفاظ على حجم الحكم وبقية العناصر */}
                 {view === 'onboarding' && (
                     <div className="flex-1 flex items-center justify-center p-6">
                         <div className="max-w-2xl w-full bg-black/70 border border-yellow-900/20 p-12 rounded-[4rem] backdrop-blur-2xl shadow-2xl">
@@ -165,7 +169,6 @@ export default function TwoIn() {
                     </div>
                 )}
 
-                {/* بقية الواجهات (Matches) تتبع نفس فلسفة التكبير */}
                 {view === 'matches' && (
                     <div className="flex-1 max-w-7xl w-full mx-auto p-8 grid grid-cols-1 md:grid-cols-3 gap-10">
                         <div className="md:col-span-1 space-y-6 overflow-y-auto max-h-[75vh] pr-4 custom-scrollbar">
