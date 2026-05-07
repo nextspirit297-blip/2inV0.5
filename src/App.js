@@ -50,6 +50,7 @@ export default function TwoIn() {
     const [view, setView] = useState('landing');
     const [music, setMusic] = useState(false);
     const [quoteIdx, setQuoteIdx] = useState(0);
+    const [fade, setFade] = useState(true); // حالة الـ Fade
     const [userInput, setUserInput] = useState('');
     const [activeChat, setActiveChat] = useState(null);
     const [showLangGrid, setShowLangGrid] = useState(false);
@@ -59,7 +60,13 @@ export default function TwoIn() {
     const audioRef = useRef(new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3'));
 
     useEffect(() => {
-        const qInterval = setInterval(() => setQuoteIdx(p => (p + 1) % QUOTES.length), 10000);
+        const qInterval = setInterval(() => {
+            setFade(false); // ابدأ بالاختفاء
+            setTimeout(() => {
+                setQuoteIdx(p => (p + 1) % QUOTES.length);
+                setFade(true); // ابدأ بالظهور
+            }, 1000); // وقت الاختفاء قبل التغيير
+        }, 10000);
         return () => clearInterval(qInterval);
     }, []);
 
@@ -93,6 +100,7 @@ export default function TwoIn() {
                 {`
                     @keyframes gold-pulse { 0%, 100% { text-shadow: 0 0 20px rgba(212,175,55,0.4), 0 0 40px rgba(212,175,55,0.2); transform: scale(1); } 50% { text-shadow: 0 0 40px rgba(212,175,55,0.8), 0 0 70px rgba(212,175,55,0.4); transform: scale(1.02); } }
                     .gold-glow { animation: gold-pulse 4s ease-in-out infinite; }
+                    .quote-fade { transition: opacity 1s ease-in-out; opacity: ${fade ? 1 : 0}; }
                     .custom-scrollbar::-webkit-scrollbar { width: 4px; }
                     .custom-scrollbar::-webkit-scrollbar-thumb { background: #4a3712; border-radius: 10px; }
                 `}
@@ -101,35 +109,35 @@ export default function TwoIn() {
             <header className="z-50 p-6 flex justify-between items-center bg-black/20 backdrop-blur-md">
                 <div className="flex items-center gap-6">
                     <div className="relative">
-                        <button onClick={() => setShowLangGrid(!showLangGrid)} className="text-yellow-600 hover:text-yellow-400 transition-all"><Globe size={22} /></button>
+                        <button onClick={() => setShowLangGrid(!showLangGrid)} className="text-yellow-600 hover:text-yellow-400 transition-all"><Globe size={24} /></button>
                         {showLangGrid && (
                             <div className="absolute top-10 left-0 bg-[#0a0a0a] border border-yellow-900/40 rounded-xl p-2 grid grid-cols-1 w-32 z-[60] shadow-2xl">
                                 {Object.entries(LANGUAGES).map(([key, value]) => (
-                                    <button key={key} onClick={() => {setLang(key); setShowLangGrid(false);}} className="p-2 text-[10px] hover:bg-yellow-900/20 text-left rounded"> {value.name} </button>
+                                    <button key={key} onClick={() => {setLang(key); setShowLangGrid(false);}} className="p-3 text-xs hover:bg-yellow-900/20 text-left rounded"> {value.name} </button>
                                 ))}
                             </div>
                         )}
                     </div>
                     <button onClick={() => setMusic(!music)} className="text-yellow-600 hover:text-yellow-400">
-                        {music ? <Volume2 size={22} /> : <VolumeX size={22} />}
+                        {music ? <Volume2 size={24} /> : <VolumeX size={24} />}
                     </button>
                 </div>
-                {view !== 'landing' && <button onClick={() => setView('landing')} className="text-red-900/40 hover:text-red-500"><LogOut size={22} /></button>}
+                {view !== 'landing' && <button onClick={() => setView('landing')} className="text-red-900/40 hover:text-red-500"><LogOut size={24} /></button>}
             </header>
 
             <main className="flex-1 flex flex-col relative z-20">
                 {view === 'landing' && (
-                    <div className="flex-1 flex flex-col items-center justify-start pt-12 space-y-12">
+                    <div className="flex-1 flex flex-col items-center justify-start pt-12 space-y-14">
                         <div className="text-center space-y-2 gold-glow">
                             <h1 className="text-[11rem] font-black tracking-tighter bg-gradient-to-b from-yellow-100 via-yellow-500 to-yellow-900 bg-clip-text text-transparent leading-none">2in</h1>
-                            <p className="text-[10px] tracking-[1.2em] text-yellow-700 uppercase font-sans font-bold ml-[1.2em]">twin</p>
+                            <p className="text-[14px] tracking-[1.4em] text-yellow-700 uppercase font-sans font-bold ml-[1.4em]">twin</p>
                         </div>
 
-                        <div className="max-w-2xl text-center px-10 h-20 flex items-center justify-center">
-                            <p className="text-lg text-yellow-500/60 italic leading-relaxed">{QUOTES[quoteIdx]}</p>
+                        <div className="max-w-3xl text-center px-10 h-24 flex items-center justify-center">
+                            <p className="text-xl text-yellow-500/60 italic leading-relaxed quote-fade">{QUOTES[quoteIdx]}</p>
                         </div>
 
-                        <button onClick={() => setView('onboarding')} className="mt-8 px-12 py-4 border border-yellow-600/30 rounded-full text-yellow-500 hover:bg-yellow-600/10 transition-all tracking-widest uppercase text-sm">
+                        <button onClick={() => setView('onboarding')} className="mt-8 px-14 py-5 border border-yellow-600/30 rounded-full text-yellow-500 hover:bg-yellow-600/10 transition-all tracking-[0.2em] uppercase text-md font-bold shadow-[0_0_20px_rgba(212,175,55,0.05)]">
                             {LANGUAGES[lang].start}
                         </button>
                     </div>
@@ -139,16 +147,16 @@ export default function TwoIn() {
                     <div className="flex-1 flex items-center justify-center p-6">
                         <div className="max-w-xl w-full bg-black/60 border border-yellow-900/20 p-10 rounded-[3rem] backdrop-blur-xl shadow-2xl">
                             <h3 className="text-2xl text-yellow-500 mb-6 flex items-center gap-3"><ShieldCheck className="text-yellow-600"/> {LANGUAGES[lang].promptTitle}</h3>
-                            <div className="bg-yellow-900/10 p-4 rounded-xl border border-yellow-600/20 mb-6 group relative overflow-hidden">
-                                <pre className="text-[9px] text-yellow-700 whitespace-pre-wrap font-sans leading-tight h-32 overflow-y-auto custom-scrollbar">
+                            <div className="bg-yellow-900/10 p-5 rounded-xl border border-yellow-600/20 mb-6 group relative overflow-hidden">
+                                <pre className="text-[10px] text-yellow-700 whitespace-pre-wrap font-sans leading-tight h-36 overflow-y-auto custom-scrollbar">
                                     {PROMPT_TEXT}
                                 </pre>
-                                <button onClick={() => navigator.clipboard.writeText(PROMPT_TEXT)} className="absolute top-2 right-2 p-2 bg-yellow-600/20 rounded-lg text-yellow-500 hover:bg-yellow-500 hover:text-black transition-all">
-                                    <Copy size={14} />
+                                <button onClick={() => navigator.clipboard.writeText(PROMPT_TEXT)} className="absolute top-3 right-3 p-2 bg-yellow-600/20 rounded-lg text-yellow-500 hover:bg-yellow-500 hover:text-black transition-all">
+                                    <Copy size={16} />
                                 </button>
                             </div>
-                            <textarea value={userInput} onChange={(e) => setUserInput(e.target.value)} placeholder={LANGUAGES[lang].paste} className="w-full h-40 bg-black/40 border border-yellow-900/30 rounded-2xl p-5 text-yellow-100 font-mono text-xs focus:ring-1 focus:ring-yellow-500 outline-none" />
-                            <button onClick={handleMatch} className="w-full mt-6 py-5 bg-gradient-to-r from-yellow-700 via-yellow-500 to-yellow-800 text-black font-black rounded-2xl tracking-widest uppercase">
+                            <textarea value={userInput} onChange={(e) => setUserInput(e.target.value)} placeholder={LANGUAGES[lang].paste} className="w-full h-44 bg-black/40 border border-yellow-900/30 rounded-2xl p-6 text-yellow-100 font-mono text-sm focus:ring-1 focus:ring-yellow-500 outline-none" />
+                            <button onClick={handleMatch} className="w-full mt-6 py-5 bg-gradient-to-r from-yellow-700 via-yellow-500 to-yellow-800 text-black font-black rounded-2xl tracking-widest uppercase text-lg">
                                 {loading ? "..." : LANGUAGES[lang].find}
                             </button>
                         </div>
@@ -157,34 +165,34 @@ export default function TwoIn() {
 
                 {view === 'matches' && (
                     <div className="flex-1 max-w-6xl w-full mx-auto p-6 grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div className="md:col-span-1 space-y-4 overflow-y-auto max-h-[70vh] pr-2">
+                        <div className="md:col-span-1 space-y-4 overflow-y-auto max-h-[70vh] pr-2 custom-scrollbar">
                             {results.map(u => (
-                                <div key={u.id} onClick={() => setActiveChat(u)} className={`p-6 rounded-3xl border transition-all cursor-pointer ${activeChat?.id === u.id ? 'bg-yellow-900/20 border-yellow-500' : 'bg-white/5 border-white/5 hover:border-yellow-900/30'}`} >
-                                    <div className="flex justify-between items-center mb-2">
-                                        <span className="font-bold text-gray-300">{u.name}</span>
-                                        <span className="text-[10px] bg-yellow-600/20 text-yellow-500 px-2 py-1 rounded-full">{u.score}%</span>
+                                <div key={u.id} onClick={() => setActiveChat(u)} className={`p-7 rounded-3xl border transition-all cursor-pointer ${activeChat?.id === u.id ? 'bg-yellow-900/20 border-yellow-500 shadow-lg' : 'bg-white/5 border-white/5 hover:border-yellow-900/30'}`} >
+                                    <div className="flex justify-between items-center mb-3">
+                                        <span className="font-bold text-lg text-gray-300">{u.name}</span>
+                                        <span className="text-xs bg-yellow-600/20 text-yellow-500 px-3 py-1 rounded-full font-bold">{u.score}%</span>
                                     </div>
-                                    <div className="w-full bg-black/40 h-1 rounded-full overflow-hidden">
+                                    <div className="w-full bg-black/40 h-1.5 rounded-full overflow-hidden">
                                         <div className="bg-yellow-600 h-full transition-all duration-1000" style={{width: `${u.score}%`}}></div>
                                     </div>
                                 </div>
                             ))}
                         </div>
-                        <div className="md:col-span-2 bg-black/40 border border-yellow-900/10 rounded-[3rem] flex flex-col relative">
+                        <div className="md:col-span-2 bg-black/40 border border-yellow-900/10 rounded-[3rem] flex flex-col relative shadow-inner">
                             {activeChat ? (
                                 <div className="flex-1 flex flex-col h-full">
-                                    <div className="p-6 border-b border-yellow-900/10 flex items-center gap-4 bg-yellow-900/5">
-                                        <div className="w-10 h-10 rounded-full bg-yellow-700 flex items-center justify-center text-black font-bold">{activeChat.name[0]}</div>
-                                        <div><p className="text-yellow-500 font-bold">{activeChat.name}</p><p className="text-[10px] text-green-700 animate-pulse uppercase tracking-tighter">Active Connection</p></div>
+                                    <div className="p-7 border-b border-yellow-900/10 flex items-center gap-5 bg-yellow-900/5">
+                                        <div className="w-12 h-12 rounded-full bg-yellow-700 flex items-center justify-center text-black font-bold text-xl">{activeChat.name[0]}</div>
+                                        <div><p className="text-yellow-500 font-bold text-lg">{activeChat.name}</p><p className="text-xs text-green-700 animate-pulse uppercase tracking-tighter">Active Connection</p></div>
                                     </div>
-                                    <div className="flex-1 flex items-center justify-center p-12 text-center text-gray-600 italic">"الصمت لغة الأرواح."</div>
-                                    <div className="p-6 bg-black/60 flex gap-4">
-                                        <input type="text" placeholder="اكتب رسالتك الوجودية..." className="flex-1 bg-white/5 border border-yellow-900/20 rounded-full px-6 py-3 text-sm outline-none" />
-                                        <button className="w-12 h-12 bg-yellow-600 rounded-full flex items-center justify-center text-black hover:bg-yellow-400 transition-all"><Send size={18} /></button>
+                                    <div className="flex-1 flex items-center justify-center p-12 text-center text-gray-600 italic text-xl">"الصمت لغة الأرواح."</div>
+                                    <div className="p-7 bg-black/60 flex gap-4">
+                                        <input type="text" placeholder="اكتب رسالتك الوجودية..." className="flex-1 bg-white/5 border border-yellow-900/20 rounded-full px-7 py-4 text-md outline-none" />
+                                        <button className="w-14 h-14 bg-yellow-600 rounded-full flex items-center justify-center text-black hover:bg-yellow-400 transition-all shadow-lg"><Send size={22} /></button>
                                     </div>
                                 </div>
                             ) : (
-                                <div className="flex-1 flex items-center justify-center text-gray-700 uppercase tracking-widest text-xs">اختر كياناً لتبدأ الحوار</div>
+                                <div className="flex-1 flex items-center justify-center text-gray-700 uppercase tracking-[0.3em] text-sm">اختر كياناً لتبدأ الحوار</div>
                             )}
                         </div>
                     </div>
