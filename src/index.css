@@ -1,3 +1,40 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html, body {
+    background-color: #000000 !important;
+    @apply text-white antialiased;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  .main-layout {
+    @apply flex flex-col items-center justify-start min-h-screen pt-20 px-6;
+  }
+
+  .existential-echo-title {
+    @apply text-2xl font-bold text-center;
+    margin-bottom: 5rem; 
+    letter-spacing: 0.1em;
+  }
+
+  .results-container {
+    @apply w-full max-w-md mx-auto bg-transparent;
+    margin-top: 2rem;
+  }
+
+  .result-row {
+    @apply flex justify-between items-center py-5 border-b border-gray-900;
+  }
+}
+
+/* لمنع أي وميض أبيض أثناء تحميل الخطوط أو تغيير اللغة */
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
