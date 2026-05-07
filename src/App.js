@@ -127,22 +127,22 @@ export default function TwoIn() {
 
             <main className="flex-1 flex flex-col relative z-20">
                 {view === 'landing' && (
-                    <div className="flex-1 flex flex-col items-center justify-between py-20 px-6">
-                        {/* العنوان: زيادة 40% (من 12rem إلى حوالي 17rem) */}
-                        <div className="text-center space-y-6 gold-glow mt-10">
+                    <div className="flex-1 flex flex-col items-center justify-between py-10 px-6">
+                        {/* العنوان */}
+                        <div className="text-center space-y-6 gold-glow mt-4">
                             <h1 className="text-[17rem] font-black tracking-tighter bg-gradient-to-b from-yellow-100 via-yellow-500 to-yellow-900 bg-clip-text text-transparent leading-none select-none">2in</h1>
                             <p className="text-[32px] tracking-[2em] text-yellow-700 uppercase font-sans font-bold ml-[2em]">twin</p>
                         </div>
 
-                        {/* زر الدخول: زيادة 50% في الحجم والبروز */}
-                        <div className="w-full flex justify-center">
+                        {/* زر الدخول: مرفوع بنسبة 10% من إجمالي الارتفاع (mb-[10vh]) */}
+                        <div className="w-full flex justify-center mb-[10vh]">
                             <button onClick={() => setView('onboarding')} className="px-32 py-12 border-2 border-yellow-600/40 rounded-full text-yellow-500 hover:bg-yellow-600/10 transition-all tracking-[0.4em] uppercase text-4xl font-black shadow-[0_0_70px_rgba(212,175,55,0.2)] hover:scale-105 active:scale-95">
                                 {LANGUAGES[lang].start}
                             </button>
                         </div>
 
-                        {/* الحكم في الجزء السفلي مع Fade أبطأ وأعمق */}
-                        <div className="max-w-6xl text-center px-10 h-32 flex items-center justify-center mb-10">
+                        {/* الحكم: مرفوعة بنسبة 15% من الارتفاع الإجمالي */}
+                        <div className="max-w-6xl text-center px-10 h-32 flex items-center justify-center mb-[15vh]">
                             <p className="text-3xl md:text-5xl text-yellow-600/40 italic leading-snug quote-fade font-light">
                                 {QUOTES[quoteIdx]}
                             </p>
@@ -150,7 +150,7 @@ export default function TwoIn() {
                     </div>
                 )}
 
-                {/* بقية الواجهات تحافظ على نفس فلسفة الأحجام الجديدة */}
+                {/* باقي الواجهات */}
                 {view === 'onboarding' && (
                     <div className="flex-1 flex items-center justify-center p-6">
                         <div className="max-w-3xl w-full bg-black/80 border border-yellow-900/20 p-16 rounded-[5rem] backdrop-blur-3xl shadow-2xl">
