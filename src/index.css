@@ -2,39 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  html, body {
-    background-color: #000000 !important;
-    @apply text-white antialiased;
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-  }
+/* ضبط الهيكل العام دون فرض قيود تعيق الجافاسكريبت */
+body {
+  @apply bg-black text-white;
+  margin: 0;
 }
 
 @layer components {
-  .main-layout {
-    @apply flex flex-col items-center justify-start min-h-screen pt-20 px-6;
+  /* هذه الحاوية تضمن أن العناصر مرتبة عمودياً وبينهما مسافات كافية */
+  .layout-wrapper {
+    @apply flex flex-col items-center w-full;
+    padding-top: 5rem; /* مساحة علوية لـ "صدى الوجود" */
   }
 
-  .existential-echo-title {
-    @apply text-2xl font-bold text-center;
-    margin-bottom: 5rem; 
-    letter-spacing: 0.1em;
+  /* حل مشكلة التشوه: إعطاء العنوان مساحة خاصة به ومنع تداخله */
+  .main-title {
+    @apply text-center font-bold text-2xl w-full;
+    margin-bottom: 6rem; /* هذه الفجوة تمنع الجدول من القفز فوق العنوان */
+    min-height: 3rem;   /* يمنع اختفاء المساحة في حال تأخر تحميل النص */
   }
 
-  .results-container {
-    @apply w-full max-w-md mx-auto bg-transparent;
-    margin-top: 2rem;
+  /* الجدول: نجعله مستقلاً ومنظماً */
+  .data-table {
+    @apply w-full max-w-sm px-4 mx-auto;
   }
 
-  .result-row {
-    @apply flex justify-between items-center py-5 border-b border-gray-900;
+  .data-row {
+    @apply flex justify-between items-center py-4 border-b border-gray-800;
   }
-}
-
-/* لمنع أي وميض أبيض أثناء تحميل الخطوط أو تغيير اللغة */
-* {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
 }
