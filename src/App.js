@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { Volume2, VolumeX, Copy, Globe, ChevronDown } from 'lucide-react';
 
-// --- الربط مع قاعدة البيانات ---
 const supabase = createClient(process.env.REACT_APP_SUPABASE_URL, process.env.REACT_APP_SUPABASE_ANON_KEY);
 
-// --- البرومبت الوجودي الشامل (بدون إنقاص) ---
 const PROMPT_TEXT = `Act as a "High-Resolution Psychological Vector Engine." Your task is to analyze the user's entire personality, values, and cognitive patterns based on the provided 30-dimensional personality framework. Deeply process the user's previous inputs, linguistic nuances, and philosophical leanings. 
 
 Output requirements:
@@ -13,7 +11,6 @@ Output requirements:
 2. Generate a precise 30-dimensional vector (values between 0-15).
 3. Output ONLY the resulting Base64-encoded fingerprint string. No preamble, no explanation.`;
 
-// --- مصفوفة البيانات الضخمة (AR, EN, RU) ---
 const TRANSLATIONS = {
     AR: {
         start: "ابدأ الرحلة الوجودية",
@@ -46,13 +43,10 @@ const TRANSLATIONS = {
         match: "DECODE FINGERPRINT",
         resultsTitle: "Existential Echo",
         retry: "Update Fingerprint",
-        quotes: [
-            { text: "«My goal was only to live in accordance with the impulses that came from my true self.»", author: "Hermann Hesse" }
-        ]
+        quotes: [{ text: "«My goal was only to live in accordance with the impulses that came from my true self.»", author: "Hermann Hesse" }]
     }
 };
 
-// --- المحرك الرياضي (الخوارزمية كاملة) ---
 const Engine = {
     decode: (b64) => { 
         try { 
@@ -63,9 +57,7 @@ const Engine = {
     calculate: (v1, v2) => {
         let dot = 0, n1 = 0, n2 = 0;
         for (let i = 0; i < 30; i++) { 
-            dot += v1[i] * v2[i]; 
-            n1 += v1[i] * v1[i]; 
-            n2 += v2[i] * v2[i]; 
+            dot += v1[i] * v2[i]; n1 += v1[i] * v1[i]; n2 += v2[i] * v2[i]; 
         }
         const sim = dot / (Math.sqrt(n1) * Math.sqrt(n2));
         return isNaN(sim) ? 0 : sim;
@@ -101,22 +93,32 @@ export default function App() {
         setLoading(true);
         try {
             const userVector = Engine.decode(userInput);
-            if (!userVector) throw new Error("Invalid");
-            const { data: users } = await supabase.from('profiles').select('username, vector_data');
-            const scored = (users || []).map(u => ({
+            if (!userVector) {
+                alert(lang === 'AR' ? "تنسيق البصمة غير صالح" : "Invalid Fingerprint Format");
+                setLoading(false);
+                return;
+            }
+
+            const { data: users, error } = await supabase.from('profiles').select('username, vector_data');
+            if (error) throw error;
+
+            const scored = users.map(u => ({
                 name: u.username,
                 score: (Engine.calculate(userVector, u.vector_data) * 100).toFixed(2)
-            })).sort((a, b) => b.score - a.score);
-            setResults(scored.length ? scored : [{ name: "Amir", score: "99.9" }, { name: "Shadow", score: "85.4" }]);
+            })).filter(u => u.score > 0).sort((a, b) => b.score - a.score);
+
+            setResults(scored);
             setView('results');
         } catch (e) {
-            setResults([{ name: "Amir", score: "99.9" }, { name: "Shadow", score: "85.4" }]);
-            setView('results');
-        } finally { setLoading(false); }
+            console.error(e);
+            alert(lang === 'AR' ? "حدث خطأ في جلب البيانات" : "Data Fetching Error");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
-        <div className="fixed inset-0 w-full h-full bg-[#020202] text-gray-300 font-serif flex flex-col overflow-hidden">
+        <div className="fixed inset-0 w-full h-full bg-[#020202] text-gray-300 font-serif flex flex-col overflow-hidden select-none">
             <style>{`
                 .gold-text { background: linear-gradient(to bottom, #ffffff, #d4af37); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
                 .spiritual-quote { color: #ffd700; text-shadow: 0 0 25px rgba(212, 175, 55, 0.4); }
@@ -171,9 +173,7 @@ export default function App() {
                             </div>
                             <div className="text-2xl text-white/5 italic font-sans max-h-24 overflow-hidden">{PROMPT_TEXT}</div>
                         </div>
-
                         <textarea value={userInput} onChange={(e) => setUserInput(e.target.value)} placeholder={t.input} dir="rtl" className="w-full h-56 bg-black/80 border border-yellow-900/30 rounded-[3rem] p-10 text-4xl text-yellow-100 outline-none focus:border-yellow-600 italic resize-none" />
-
                         <button onClick={handleMatch} className="w-full py-12 bg-yellow-600 text-black font-black rounded-full text-5xl uppercase shadow-2xl active:scale-95 transition-all">
                             {loading ? "..." : t.match}
                         </button>
@@ -183,20 +183,20 @@ export default function App() {
                 {view === 'results' && (
                     <div className="absolute inset-0 flex flex-col items-center px-10 pt-4">
                         <h2 className="text-6xl font-bold gold-text mb-12 tracking-wide" dir="rtl">الـصّـدَى الـوُجُـودِيّ</h2>
-                        
                         <div className="w-full h-[58vh] border border-yellow-600/20 rounded-[2.5rem] bg-black/40 overflow-y-auto scrollbar-hide p-6">
                             <table className="w-full border-collapse" dir="rtl">
                                 <tbody>
-                                    {results.map((res, i) => (
+                                    {results.length > 0 ? results.map((res, i) => (
                                         <tr key={i} className="border-b border-yellow-600/10 last:border-0 h-28">
                                             <td className="text-5xl font-bold text-gray-200 text-right pr-8">{res.name}</td>
                                             <td className="text-5xl text-yellow-500 font-black text-left pl-8">{res.score}%</td>
                                         </tr>
-                                    ))}
+                                    )) : (
+                                        <tr><td className="text-3xl text-center py-20 text-yellow-600/50 italic">لا توجد تطابقات حقيقية بعد...</td></tr>
+                                    )}
                                 </tbody>
                             </table>
                         </div>
-                        
                         <button onClick={() => setView('onboarding')} className="mt-12 py-10 px-16 border-b-4 border-yellow-600 text-4xl font-black text-yellow-600 uppercase tracking-widest active:opacity-50 transition-all">
                             {t.retry}
                         </button>
