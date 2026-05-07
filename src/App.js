@@ -85,12 +85,8 @@ export default function TwoIn() {
         } catch (e) { console.error(e); } finally { setLoading(false); }
     };
 
-    const PROMPT_TEXT = `Act as a "High-Resolution Psychological Vector Engine." Your mission is to analyze my psyche through our interaction and map it across 30 antagonistic dimensions. Each dimension is a spectrum from 0.0 to 15.0.
-
-The 30 Polar Dimensions:
-1. Nihilism vs. Meaning | 2. Logic vs. Intuition | 3. Stoicism vs. Empathy | 4. Solitude vs. Belonging | 5. Material vs. Spiritual | 6. Chaos vs. Order | 7. Skeptic vs. Faith | 8. Rebel vs. Conformist | 9. Nostalgia vs. Future | 10. Ego vs. Altruism | 11. Aesthetic vs. Utility | 12. Moral vs. Ethics | 13. Fear vs. Acceptance | 14. Power vs. Peace | 15. Science vs. Mystic | 16. Risk vs. Security | 17. Vulnerability vs. Control | 18. Arrogance vs. Humility | 19. Attachment vs. Freedom | 20. Silence vs. Noise | 21. Complexity vs. Simplicity | 22. Ambition vs. Observation | 23. Cynic vs. Romantic | 24. Reality vs. Delusion | 25. Vitality vs. Decay | 26. Collective vs. Individual | 27. Curiosity vs. Saturation | 28. Forgive vs. Grudge | 29. Validation vs. Sovereignty | 30. Depth vs. Surface.
-
-Output Protocol: ONLY the raw Base64 encoded JSON array. No text.`;
+    const PROMPT_TEXT  = `Act as a "High-Resolution Psychological Vector Engine." Strip away all flattery and social bias for clinical accuracy. Generate a 30-dimensional personality vector (0.0 to 15.0) based on these polarities: 1.Nihilism/Meaning, 2.Logic/Intuition, 3.Stoicism/Empathy, 4.Solitude/Belonging, 5.Material/Spiritual, 6.Chaos/Order, 7.Skeptic/Faith, 8.Rebel/Conformist, 9.Nostalgia/Future, 10.Ego/Altruism, 11.Aesthetic/Utility, 12.Moral/Ethics, 13.Fear/Acceptance, 14.Power/Peace, 15.Science/Mystic, 16.Risk/Security, 17.Vulnerability/Control, 18.Arrogance/Humility, 19.Attachment/Freedom, 20.Silence/Noise, 21.Complexity/Simplicity, 22.Ambition/Observation, 23.Cynic/Romantic, 24.Reality/Delusion, 25.Vitality/Decay, 26.Collective/Individual, 27.Curiosity/Saturation, 28.Forgive/Grudge, 29.Validation/Sovereignty, 30.Depth/Surface. Output ONLY the raw Base64 encoded JSON array.`;
+        `;
 
     return (
         <div className="min-h-screen bg-[#020202] text-gray-300 font-serif overflow-hidden flex flex-col relative">
