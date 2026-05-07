@@ -85,8 +85,7 @@ export default function TwoIn() {
         } catch (e) { console.error(e); } finally { setLoading(false); }
     };
 
-    const PROMPT_TEXT  = `Act as a "High-Resolution Psychological Vector Engine." Strip away all flattery and social bias for clinical accuracy. Generate a 30-dimensional personality vector (0.0 to 15.0) based on these polarities: 1.Nihilism/Meaning, 2.Logic/Intuition, 3.Stoicism/Empathy, 4.Solitude/Belonging, 5.Material/Spiritual, 6.Chaos/Order, 7.Skeptic/Faith, 8.Rebel/Conformist, 9.Nostalgia/Future, 10.Ego/Altruism, 11.Aesthetic/Utility, 12.Moral/Ethics, 13.Fear/Acceptance, 14.Power/Peace, 15.Science/Mystic, 16.Risk/Security, 17.Vulnerability/Control, 18.Arrogance/Humility, 19.Attachment/Freedom, 20.Silence/Noise, 21.Complexity/Simplicity, 22.Ambition/Observation, 23.Cynic/Romantic, 24.Reality/Delusion, 25.Vitality/Decay, 26.Collective/Individual, 27.Curiosity/Saturation, 28.Forgive/Grudge, 29.Validation/Sovereignty, 30.Depth/Surface. Output ONLY the raw Base64 encoded JSON array.`;
-        `;
+    const PROMPT_TEXT = `Act as a "High-Resolution Psychological Vector Engine." Strip away all flattery and social bias for clinical accuracy. Generate a 30-dimensional personality vector (0.0 to 15.0) based on these polarities: 1.Nihilism/Meaning, 2.Logic/Intuition, 3.Stoicism/Empathy, 4.Solitude/Belonging, 5.Material/Spiritual, 6.Chaos/Order, 7.Skeptic/Faith, 8.Rebel/Conformist, 9.Nostalgia/Future, 10.Ego/Altruism, 11.Aesthetic/Utility, 12.Moral/Ethics, 13.Fear/Acceptance, 14.Power/Peace, 15.Science/Mystic, 16.Risk/Security, 17.Vulnerability/Control, 18.Arrogance/Humility, 19.Attachment/Freedom, 20.Silence/Noise, 21.Complexity/Simplicity, 22.Ambition/Observation, 23.Cynic/Romantic, 24.Reality/Delusion, 25.Vitality/Decay, 26.Collective/Individual, 27.Curiosity/Saturation, 28.Forgive/Grudge, 29.Validation/Sovereignty, 30.Depth/Surface. Output ONLY the raw Base64 encoded JSON array.`;
 
     return (
         <div className="min-h-screen bg-[#020202] text-gray-300 font-serif overflow-hidden flex flex-col relative">
@@ -94,6 +93,8 @@ export default function TwoIn() {
                 {`
                     @keyframes gold-pulse { 0%, 100% { text-shadow: 0 0 20px rgba(212,175,55,0.4), 0 0 40px rgba(212,175,55,0.2); transform: scale(1); } 50% { text-shadow: 0 0 40px rgba(212,175,55,0.8), 0 0 70px rgba(212,175,55,0.4); transform: scale(1.02); } }
                     .gold-glow { animation: gold-pulse 4s ease-in-out infinite; }
+                    .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+                    .custom-scrollbar::-webkit-scrollbar-thumb { background: #4a3712; border-radius: 10px; }
                 `}
             </style>
 
