@@ -1,13 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { createClient } from '@supabase/supabase-js'; // تأكد من تثبيت الحزمة: npm install @supabase/supabase-js
+import { createClient } from '@supabase/supabase-js';
 import { Globe, Music, Volume2, VolumeX, LogOut, Search, MessageSquare, RefreshCw, User, ShieldCheck, Copy, Check, Send } from 'lucide-react';
 
-/**
- * 2in - Intellectual Twinning Engine
- * الفلسفة: حيث تلتقي الأرواح عبر الرياضيات
- */
-
-// إعداد Supabase باستخدام متغيرات البيئة
+// إعداد Supabase
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
@@ -26,10 +21,7 @@ const LANGUAGES = {
     ar: { name: "العربية", welcome: "مرحباً بك في الفضاء النفسي", start: "ابدأ الرحلة", guest: "دخول كضيف", promptTitle: "برومبت البصمة", copy: "نسخ البرومبت", paste: "أدخل بصمتك هنا", find: "توائمي", back: "عودة", settings: "إعدادات" },
     en: { name: "English", welcome: "Welcome to the Psychic Space", start: "Start Journey", guest: "Guest Login", promptTitle: "Fingerprint Prompt", copy: "Copy Prompt", paste: "Paste your fingerprint", find: "Find Twin", back: "Back", settings: "Settings" },
     fr: { name: "Français", welcome: "Bienvenue dans l'espace psychique", start: "Commencer", guest: "Invité", promptTitle: "Prompt d'empreinte", copy: "Copier", paste: "Collez votre empreinte", find: "Trouver mon jumeau", back: "Retour", settings: "Paramètres" },
-    ru: { name: "Русский", welcome: "Добро пожаловать в психическое пространство", start: "Начать путь", guest: "Гость", promptTitle: "Промпт отпечатка", copy: "Копировать", paste: "Вставьте ваш код", find: "Найти близнеца", back: "Назад", settings: "Настройки" },
-    it: { name: "Italiano", welcome: "Benvenuti nello Spazio Psichico", start: "Inizia il viaggio", guest: "Ospite", promptTitle: "Prompt dell'impronta", copy: "Copia", paste: "Incolla la tua impronta", find: "Trova il mio gemello", back: "Indietro", settings: "Impostazioni" },
-    tr: { name: "Türkçe", welcome: "Psikolojik Alana Hoş Geldiniz", start: "Yolculuğa Başla", guest: "Misafir Girişi", promptTitle: "Parmak İzi İstemi", copy: "Kopyala", paste: "Parmak izinizi yapıştırın", find: "İkizimi Bul", back: "Geri", settings: "Ayarlar" },
-    zh: { name: "中文", welcome: "欢迎来到心理空间", start: "开始旅程", guest: "访客登录", promptTitle: "指纹提示词", copy: "复制", paste: "在此粘贴您的指纹", find: "寻找同胞胎", back: "返回", settings: "设置" }
+    ru: { name: "Русский", welcome: "Добро пожаловать в психическое пространство", start: "Начать путь", guest: "Гость", promptTitle: "Промпт отпечатка", copy: "Копировать", paste: "Вставьте ваш код", find: "Найти близнеца", back: "Назад", settings: "Настройки" }
 };
 
 const Engine = {
@@ -75,7 +67,11 @@ export default function TwoIn() {
     }, []);
 
     useEffect(() => {
-        music ? audioRef.current.play().catch(() => {}) : audioRef.current.pause();
+        if (music) {
+            audioRef.current.play().catch(() => {});
+        } else {
+            audioRef.current.pause();
+        }
         audioRef.current.loop = true;
         audioRef.current.volume = 0.2;
     }, [music]);
@@ -89,9 +85,8 @@ export default function TwoIn() {
         setView('matches');
 
         try {
-            // جلب المستخدمين الحقيقيين من سوبابايس
             const { data: users, error } = await supabase
-                .from('profiles') // اسم الجدول في سوبابايس
+                .from('profiles')
                 .select('id, username, vector_data');
 
             if (error) throw error;
@@ -102,7 +97,7 @@ export default function TwoIn() {
                     name: u.username,
                     score: (Engine.calculateSimilarity(vec, u.vector_data) * 100).toFixed(2)
                 }))
-                .filter(u => u.score > 0) // تصفية النتائج غير المتطابقة
+                .filter(u => u.score > 0)
                 .sort((a, b) => b.score - a.score);
 
             setResults(scoredMatches);
@@ -115,6 +110,19 @@ export default function TwoIn() {
 
     return (
         <div className="min-h-screen bg-[#050505] text-gray-300 font-serif overflow-hidden flex flex-col relative">
+            {/* CSS Animations */}
+            <style>
+                {`
+                    @keyframes fade { 0% { opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { opacity: 0; } }
+                    @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+                    @keyframes pulse { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.8; } }
+                    .animate-spin-slow { animation: spin-slow 20s linear infinite; }
+                    .animate-fade { animation: fade 10s infinite; }
+                    .custom-scrollbar::-webkit-scrollbar { width: 2px; }
+                    .custom-scrollbar::-webkit-scrollbar-thumb { background: #4a3712; border-radius: 10px; }
+                `}
+            </style>
+
             <div className="absolute inset-0 pointer-events-none opacity-20">
                 {[...Array(50)].map((_, i) => (
                     <div key={i} className="absolute bg-white rounded-full" style={{ width: Math.random() * 3 + 'px', height: Math.random() * 3 + 'px', top: Math.random() * 100 + '%', left: Math.random() * 100 + '%', animation: `pulse ${Math.random() * 5 + 2}s infinite` }} />
@@ -152,7 +160,7 @@ export default function TwoIn() {
 
             <main className="flex-1 relative flex flex-col items-center justify-center p-6 z-20">
                 {view === 'landing' && (
-                    <div className="max-w-md w-full text-center space-y-12 animate-in fade-in zoom-in duration-1000">
+                    <div className="max-w-md w-full text-center space-y-12">
                         <div className="space-y-4">
                             <h2 className="text-5xl font-light text-white leading-tight">{LANGUAGES[lang].welcome}</h2>
                             <p className="text-gray-500 font-sans tracking-widest text-xs uppercase">Decentralized Soul Matching</p>
@@ -167,13 +175,16 @@ export default function TwoIn() {
                 )}
 
                 {view === 'onboarding' && (
-                    <div className="max-w-2xl w-full bg-black/60 border border-yellow-900/20 p-8 rounded-[2rem] backdrop-blur-md shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-in slide-in-from-bottom duration-700">
+                    <div className="max-w-2xl w-full bg-black/60 border border-yellow-900/20 p-8 rounded-[2rem] backdrop-blur-md shadow-[0_0_50px_rgba(0,0,0,0.5)]">
                         <h3 className="text-2xl text-yellow-500 mb-6 flex items-center gap-3"><ShieldCheck className="text-yellow-600"/> {LANGUAGES[lang].promptTitle}</h3>
                         <div className="bg-yellow-900/10 p-4 rounded-xl border border-yellow-600/20 mb-6 group relative">
                             <pre className="text-[10px] text-yellow-700 whitespace-pre-wrap font-sans leading-relaxed">
-                                You are a "Psychological Vector Engine"... (Copy this to Gemini)
+                                {`You are a "Psychological Vector Engine". 
+                                Based on our conversation, generate a 30-dimensional personality vector.
+                                Represent each dimension from 0.0 to 15.0. 
+                                Output only the Base64 encoded JSON array.`}
                             </pre>
-                            <button className="absolute top-4 right-4 p-2 bg-yellow-600/20 rounded-lg text-yellow-500 hover:bg-yellow-500 hover:text-black transition-all">
+                            <button onClick={() => navigator.clipboard.writeText("Generate my 30D personality vector as a Base64 encoded JSON array.")} className="absolute top-4 right-4 p-2 bg-yellow-600/20 rounded-lg text-yellow-500 hover:bg-yellow-500 hover:text-black transition-all">
                                 <Copy size={14} />
                             </button>
                         </div>
@@ -185,13 +196,13 @@ export default function TwoIn() {
                 )}
 
                 {view === 'matches' && (
-                    <div className="w-full max-w-6xl h-[70vh] grid grid-cols-12 gap-6 animate-in fade-in duration-1000">
+                    <div className="w-full max-w-6xl h-[70vh] grid grid-cols-12 gap-6">
                         <div className="col-span-12 md:col-span-4 flex flex-col gap-4 overflow-y-auto pr-2 custom-scrollbar">
                             <div className="p-4 flex justify-between items-center border-b border-yellow-900/20">
                                 <h4 className="text-xs font-bold text-yellow-600 uppercase tracking-widest">المتطابقون</h4>
                                 <button onClick={handleMatch} className="text-gray-500 hover:text-yellow-500 transition-colors"><RefreshCw size={16} /></button>
                             </div>
-                            {results.map(u => (
+                            {results.length > 0 ? results.map(u => (
                                 <div key={u.id} onClick={() => setActiveChat(u)} className={`p-6 rounded-2xl border transition-all cursor-pointer group ${activeChat?.id === u.id ? 'bg-yellow-900/20 border-yellow-500 shadow-[0_0_15px_rgba(212,175,55,0.1)]' : 'bg-white/5 border-white/5 hover:border-yellow-900/40 hover:bg-white/10'}`} >
                                     <div className="flex justify-between items-center mb-2">
                                         <span className={`font-bold ${activeChat?.id === u.id ? 'text-yellow-400' : 'text-gray-300'}`}>{u.name}</span>
@@ -201,7 +212,7 @@ export default function TwoIn() {
                                         <div className="bg-gradient-to-r from-yellow-900 to-yellow-500 h-full transition-all duration-1000" style={{width: `${u.score}%`}}></div>
                                     </div>
                                 </div>
-                            ))}
+                            )) : <p className="text-center text-gray-600 py-10">لا يوجد متطابقون حالياً</p>}
                         </div>
 
                         <div className="col-span-12 md:col-span-8 bg-black/40 border border-yellow-900/10 rounded-[2.5rem] flex flex-col relative overflow-hidden shadow-2xl">
@@ -255,15 +266,6 @@ export default function TwoIn() {
                     </button>
                 </footer>
             )}
-
-            <style jsx>{`
-                @keyframes fade { 0% { opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { opacity: 0; } }
-                @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-                .animate-spin-slow { animation: spin-slow 20s linear infinite; }
-                .custom-scrollbar::-webkit-scrollbar { width: 2px; }
-                .custom-scrollbar::-webkit-scrollbar-thumb { background: #4a3712; border-radius: 10px; }
-                .animate-fade { animation: fade 10s infinite; }
-            `}</style>
         </div>
     );
 }
