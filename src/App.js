@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createClient } from '@supabase/supabase-js';
-import { Globe, Music, Volume2, VolumeX, LogOut, ShieldCheck, Copy, Send } from 'lucide-react';
+import { Globe, Volume2, VolumeX, LogOut, ShieldCheck, Copy, Send } from 'lucide-react';
 
 // إعداد Supabase
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
@@ -21,7 +21,7 @@ const LANGUAGES = {
     ar: { name: "العربية", welcome: "مرحباً بك في الفضاء النفسي", start: "ابدأ الرحلة الوجودية", guest: "دخول كضيف", promptTitle: "برومبت البصمة", copy: "نسخ البرومبت", paste: "أدخل بصمتك هنا", find: "توائمي", back: "عودة", settings: "إعدادات" },
     en: { name: "English", welcome: "Welcome to the Psychic Space", start: "Begin Journey", guest: "Guest Login", promptTitle: "Fingerprint Prompt", copy: "Copy Prompt", paste: "Paste your fingerprint", find: "Find Twin", back: "Back", settings: "Settings" },
     fr: { name: "Français", welcome: "Bienvenue dans l'espace psychique", start: "Commencer", guest: "Invité", promptTitle: "Prompt d'empreinte", copy: "Copier", paste: "Collez votre empreinte", find: "Trouver mon jumeau", back: "Retour", settings: "Paramètres" },
-    ru: { name: "Русский", welcome: "Добро пожаловать في العالم النفسي", start: "Начать путь", guest: "Гость", promptTitle: "Промпт отпечатка", copy: "Коبيровать", paste: "Вставьте ваш код", find: "Найти близнеца", back: "Назад", settings: "Настройки" }
+    ru: { name: "Русский", welcome: "Добро пожаловать في العالم النفسي", start: "Начать путь", guest: "Гость", promptTitle: "Промпт отпечатка", copy: "Копировать", paste: "Вставьте ваш код", find: "Найти близнеца", back: "Назад", settings: "Настройки" }
 };
 
 const Engine = {
@@ -98,71 +98,73 @@ export default function TwoIn() {
         <div className="min-h-screen bg-[#020202] text-gray-300 font-serif overflow-hidden flex flex-col relative">
             <style>
                 {`
-                    @keyframes gold-pulse { 0%, 100% { text-shadow: 0 0 30px rgba(212,175,55,0.5), 0 0 60px rgba(212,175,55,0.2); transform: scale(1); } 50% { text-shadow: 0 0 50px rgba(212,175,55,0.8), 0 0 90px rgba(212,175,55,0.4); transform: scale(1.02); } }
+                    @keyframes gold-pulse { 0%, 100% { text-shadow: 0 0 40px rgba(212,175,55,0.6), 0 0 80px rgba(212,175,55,0.3); transform: scale(1); } 50% { text-shadow: 0 0 60px rgba(212,175,55,0.9), 0 0 110px rgba(212,175,55,0.5); transform: scale(1.02); } }
                     .gold-glow { animation: gold-pulse 4s ease-in-out infinite; }
-                    .quote-fade { transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out; opacity: ${fade ? 1 : 0}; transform: translateY(${fade ? '0' : '10px'}); }
+                    .quote-fade { transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out; opacity: ${fade ? 0.7 : 0}; transform: translateY(${fade ? '0' : '20px'}); }
                     .custom-scrollbar::-webkit-scrollbar { width: 4px; }
                     .custom-scrollbar::-webkit-scrollbar-thumb { background: #4a3712; border-radius: 10px; }
                 `}
             </style>
 
-            <header className="z-50 p-8 flex justify-between items-center">
-                <div className="flex items-center gap-8">
+            <header className="z-50 p-8 flex justify-between items-center relative">
+                <div className="flex items-center gap-10">
                     <div className="relative">
-                        <button onClick={() => setShowLangGrid(!showLangGrid)} className="text-yellow-600 hover:text-yellow-400 transition-all"><Globe size={28} /></button>
+                        <button onClick={() => setShowLangGrid(!showLangGrid)} className="text-yellow-600 hover:text-yellow-400 transition-all"><Globe size={32} /></button>
                         {showLangGrid && (
-                            <div className="absolute top-12 left-0 bg-[#0a0a0a] border border-yellow-900/40 rounded-xl p-3 grid grid-cols-1 w-40 z-[60] shadow-2xl">
+                            <div className="absolute top-12 left-0 bg-[#0a0a0a] border border-yellow-900/40 rounded-xl p-4 grid grid-cols-1 w-48 z-[60] shadow-2xl">
                                 {Object.entries(LANGUAGES).map(([key, value]) => (
-                                    <button key={key} onClick={() => {setLang(key); setShowLangGrid(false);}} className="p-3 text-sm hover:bg-yellow-900/20 text-left rounded"> {value.name} </button>
+                                    <button key={key} onClick={() => {setLang(key); setShowLangGrid(false);}} className="p-3 text-md hover:bg-yellow-900/20 text-left rounded"> {value.name} </button>
                                 ))}
                             </div>
                         )}
                     </div>
                     <button onClick={() => setMusic(!music)} className="text-yellow-600 hover:text-yellow-400">
-                        {music ? <Volume2 size={28} /> : <VolumeX size={28} />}
+                        {music ? <Volume2 size={32} /> : <VolumeX size={32} />}
                     </button>
                 </div>
-                {view !== 'landing' && <button onClick={() => setView('landing')} className="text-red-900/40 hover:text-red-500"><LogOut size={28} /></button>}
+                {view !== 'landing' && <button onClick={() => setView('landing')} className="text-red-900/40 hover:text-red-500"><LogOut size={32} /></button>}
             </header>
 
             <main className="flex-1 flex flex-col relative z-20">
                 {view === 'landing' && (
-                    <div className="flex-1 flex flex-col items-center justify-start pt-16 space-y-16">
-                        <div className="text-center space-y-4 gold-glow">
-                            {/* زيادة حجم العنوان بنسبة 25% من 12rem إلى 15rem */}
-                            <h1 className="text-[15rem] font-black tracking-tighter bg-gradient-to-b from-yellow-100 via-yellow-500 to-yellow-900 bg-clip-text text-transparent leading-none">2in</h1>
-                            {/* زيادة حجم twin بنسبة 25% من 20px إلى 25px */}
-                            <p className="text-[25px] tracking-[1.6em] text-yellow-700 uppercase font-sans font-bold ml-[1.6em]">twin</p>
+                    <div className="flex-1 flex flex-col items-center justify-between py-20 px-6">
+                        {/* العنوان: زيادة 40% (من 12rem إلى حوالي 17rem) */}
+                        <div className="text-center space-y-6 gold-glow mt-10">
+                            <h1 className="text-[17rem] font-black tracking-tighter bg-gradient-to-b from-yellow-100 via-yellow-500 to-yellow-900 bg-clip-text text-transparent leading-none select-none">2in</h1>
+                            <p className="text-[32px] tracking-[2em] text-yellow-700 uppercase font-sans font-bold ml-[2em]">twin</p>
                         </div>
 
-                        <div className="max-w-5xl text-center px-12 h-32 flex items-center justify-center mt-10">
-                            <p className="text-3xl md:text-4xl text-yellow-500/70 italic leading-snug quote-fade font-medium">
+                        {/* زر الدخول: زيادة 50% في الحجم والبروز */}
+                        <div className="w-full flex justify-center">
+                            <button onClick={() => setView('onboarding')} className="px-32 py-12 border-2 border-yellow-600/40 rounded-full text-yellow-500 hover:bg-yellow-600/10 transition-all tracking-[0.4em] uppercase text-4xl font-black shadow-[0_0_70px_rgba(212,175,55,0.2)] hover:scale-105 active:scale-95">
+                                {LANGUAGES[lang].start}
+                            </button>
+                        </div>
+
+                        {/* الحكم في الجزء السفلي مع Fade أبطأ وأعمق */}
+                        <div className="max-w-6xl text-center px-10 h-32 flex items-center justify-center mb-10">
+                            <p className="text-3xl md:text-5xl text-yellow-600/40 italic leading-snug quote-fade font-light">
                                 {QUOTES[quoteIdx]}
                             </p>
                         </div>
-
-                        {/* زيادة حجم زر الدخول بنسبة 25% (زيادة الـ padding والخط) */}
-                        <button onClick={() => setView('onboarding')} className="mt-12 px-24 py-8 border-2 border-yellow-600/30 rounded-full text-yellow-500 hover:bg-yellow-600/10 transition-all tracking-[0.3em] uppercase text-2xl font-black shadow-[0_0_50px_rgba(212,175,55,0.15)]">
-                            {LANGUAGES[lang].start}
-                        </button>
                     </div>
                 )}
 
-                {/* باقي الكود كما هو للحفاظ على حجم الحكم وبقية العناصر */}
+                {/* بقية الواجهات تحافظ على نفس فلسفة الأحجام الجديدة */}
                 {view === 'onboarding' && (
                     <div className="flex-1 flex items-center justify-center p-6">
-                        <div className="max-w-2xl w-full bg-black/70 border border-yellow-900/20 p-12 rounded-[4rem] backdrop-blur-2xl shadow-2xl">
-                            <h3 className="text-3xl text-yellow-500 mb-8 flex items-center gap-4 font-bold"><ShieldCheck size={32} className="text-yellow-600"/> {LANGUAGES[lang].promptTitle}</h3>
-                            <div className="bg-yellow-900/10 p-6 rounded-2xl border border-yellow-600/20 mb-8 group relative overflow-hidden">
-                                <pre className="text-xs text-yellow-700 whitespace-pre-wrap font-sans leading-relaxed h-40 overflow-y-auto custom-scrollbar">
+                        <div className="max-w-3xl w-full bg-black/80 border border-yellow-900/20 p-16 rounded-[5rem] backdrop-blur-3xl shadow-2xl">
+                            <h3 className="text-4xl text-yellow-500 mb-10 flex items-center gap-6 font-bold"><ShieldCheck size={40} className="text-yellow-600"/> {LANGUAGES[lang].promptTitle}</h3>
+                            <div className="bg-yellow-900/10 p-8 rounded-3xl border border-yellow-600/20 mb-10 group relative overflow-hidden">
+                                <pre className="text-sm text-yellow-700 whitespace-pre-wrap font-sans leading-relaxed h-48 overflow-y-auto custom-scrollbar">
                                     {PROMPT_TEXT}
                                 </pre>
-                                <button onClick={() => navigator.clipboard.writeText(PROMPT_TEXT)} className="absolute top-4 right-4 p-3 bg-yellow-600/20 rounded-xl text-yellow-500 hover:bg-yellow-500 hover:text-black transition-all">
-                                    <Copy size={20} />
+                                <button onClick={() => navigator.clipboard.writeText(PROMPT_TEXT)} className="absolute top-6 right-6 p-4 bg-yellow-600/20 rounded-2xl text-yellow-500 hover:bg-yellow-500 hover:text-black transition-all">
+                                    <Copy size={24} />
                                 </button>
                             </div>
-                            <textarea value={userInput} onChange={(e) => setUserInput(e.target.value)} placeholder={LANGUAGES[lang].paste} className="w-full h-52 bg-black/40 border border-yellow-900/30 rounded-3xl p-8 text-yellow-100 font-mono text-lg focus:ring-2 focus:ring-yellow-500 outline-none" />
-                            <button onClick={handleMatch} className="w-full mt-8 py-6 bg-gradient-to-r from-yellow-700 via-yellow-500 to-yellow-800 text-black font-black rounded-3xl tracking-[0.2em] uppercase text-2xl shadow-xl">
+                            <textarea value={userInput} onChange={(e) => setUserInput(e.target.value)} placeholder={LANGUAGES[lang].paste} className="w-full h-64 bg-black/40 border border-yellow-900/30 rounded-[3rem] p-10 text-yellow-100 font-mono text-xl focus:ring-2 focus:ring-yellow-500 outline-none shadow-inner" />
+                            <button onClick={handleMatch} className="w-full mt-10 py-8 bg-gradient-to-r from-yellow-700 via-yellow-500 to-yellow-800 text-black font-black rounded-[2.5rem] tracking-[0.3em] uppercase text-3xl shadow-2xl">
                                 {loading ? "..." : LANGUAGES[lang].find}
                             </button>
                         </div>
@@ -170,35 +172,35 @@ export default function TwoIn() {
                 )}
 
                 {view === 'matches' && (
-                    <div className="flex-1 max-w-7xl w-full mx-auto p-8 grid grid-cols-1 md:grid-cols-3 gap-10">
-                        <div className="md:col-span-1 space-y-6 overflow-y-auto max-h-[75vh] pr-4 custom-scrollbar">
+                    <div className="flex-1 max-w-[90rem] w-full mx-auto p-12 grid grid-cols-1 md:grid-cols-3 gap-14">
+                        <div className="md:col-span-1 space-y-8 overflow-y-auto max-h-[75vh] pr-6 custom-scrollbar">
                             {results.map(u => (
-                                <div key={u.id} onClick={() => setActiveChat(u)} className={`p-8 rounded-[2.5rem] border transition-all cursor-pointer ${activeChat?.id === u.id ? 'bg-yellow-900/20 border-yellow-500 shadow-2xl' : 'bg-white/5 border-white/5 hover:border-yellow-900/30'}`} >
-                                    <div className="flex justify-between items-center mb-4">
-                                        <span className="font-bold text-2xl text-gray-300">{u.name}</span>
-                                        <span className="text-sm bg-yellow-600/20 text-yellow-500 px-4 py-1.5 rounded-full font-black">{u.score}%</span>
+                                <div key={u.id} onClick={() => setActiveChat(u)} className={`p-10 rounded-[3rem] border transition-all cursor-pointer ${activeChat?.id === u.id ? 'bg-yellow-900/30 border-yellow-500 shadow-2xl scale-105' : 'bg-white/5 border-white/5 hover:border-yellow-900/40'}`} >
+                                    <div className="flex justify-between items-center mb-6">
+                                        <span className="font-bold text-3xl text-gray-200">{u.name}</span>
+                                        <span className="text-lg bg-yellow-600/20 text-yellow-500 px-5 py-2 rounded-full font-black">{u.score}%</span>
                                     </div>
-                                    <div className="w-full bg-black/40 h-2.5 rounded-full overflow-hidden">
-                                        <div className="bg-yellow-600 h-full transition-all duration-1000" style={{width: `${u.score}%`}}></div>
+                                    <div className="w-full bg-black/60 h-3 rounded-full overflow-hidden">
+                                        <div className="bg-yellow-600 h-full transition-all duration-1000 shadow-[0_0_15px_rgba(212,175,55,0.5)]" style={{width: `${u.score}%`}}></div>
                                     </div>
                                 </div>
                             ))}
                         </div>
-                        <div className="md:col-span-2 bg-black/40 border border-yellow-900/10 rounded-[4rem] flex flex-col relative shadow-2xl">
+                        <div className="md:col-span-2 bg-black/50 border border-yellow-900/10 rounded-[5rem] flex flex-col relative shadow-[inset_0_0_50px_rgba(0,0,0,0.8)]">
                             {activeChat ? (
                                 <div className="flex-1 flex flex-col h-full">
-                                    <div className="p-8 border-b border-yellow-900/10 flex items-center gap-6 bg-yellow-900/5">
-                                        <div className="w-16 h-16 rounded-full bg-yellow-700 flex items-center justify-center text-black font-black text-2xl">{activeChat.name[0]}</div>
-                                        <div><p className="text-yellow-500 font-black text-2xl">{activeChat.name}</p><p className="text-sm text-green-700 animate-pulse uppercase tracking-widest font-bold">Connection Established</p></div>
+                                    <div className="p-10 border-b border-yellow-900/10 flex items-center gap-8 bg-yellow-900/5">
+                                        <div className="w-20 h-20 rounded-full bg-yellow-700 flex items-center justify-center text-black font-black text-3xl shadow-lg">{activeChat.name[0]}</div>
+                                        <div><p className="text-yellow-500 font-black text-4xl mb-1">{activeChat.name}</p><p className="text-md text-green-700 animate-pulse uppercase tracking-[0.3em] font-bold">Synchronizing Souls</p></div>
                                     </div>
-                                    <div className="flex-1 flex items-center justify-center p-16 text-center text-gray-500 italic text-3xl font-light">"الصمت لغة الأرواح."</div>
-                                    <div className="p-8 bg-black/60 flex gap-6">
-                                        <input type="text" placeholder="اكتب رسالتك الوجودية..." className="flex-1 bg-white/5 border border-yellow-900/20 rounded-full px-8 py-5 text-lg outline-none focus:border-yellow-500 transition-all" />
-                                        <button className="w-16 h-16 bg-yellow-600 rounded-full flex items-center justify-center text-black hover:bg-yellow-400 transition-all shadow-2xl"><Send size={28} /></button>
+                                    <div className="flex-1 flex items-center justify-center p-20 text-center text-gray-500 italic text-4xl font-extralight leading-relaxed tracking-wide">"الصمت لغة الأرواح."</div>
+                                    <div className="p-10 bg-black/70 flex gap-8">
+                                        <input type="text" placeholder="اكتب رسالتك الوجودية..." className="flex-1 bg-white/5 border border-yellow-900/20 rounded-full px-10 py-6 text-xl outline-none focus:border-yellow-500 transition-all shadow-inner" />
+                                        <button className="w-20 h-20 bg-yellow-600 rounded-full flex items-center justify-center text-black hover:bg-yellow-400 transition-all shadow-2xl active:scale-90"><Send size={36} /></button>
                                     </div>
                                 </div>
                             ) : (
-                                <div className="flex-1 flex items-center justify-center text-gray-700 uppercase tracking-[0.4em] text-lg font-bold">اختر كياناً لتبدأ الحوار</div>
+                                <div className="flex-1 flex items-center justify-center text-gray-800 uppercase tracking-[0.5em] text-2xl font-black opacity-40">اختر كياناً لتبدأ الحوار</div>
                             )}
                         </div>
                     </div>
