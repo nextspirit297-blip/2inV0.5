@@ -22,8 +22,6 @@ export default function App() {
     const [quoteIdx, setQuoteIdx] = useState(0);
     const [fade, setFade] = useState(true);
     const [userInput, setUserInput] = useState('');
-    const [results, setResults] = useState([]);
-    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const qInterval = setInterval(() => {
@@ -32,7 +30,7 @@ export default function App() {
                 setQuoteIdx(p => (p + 1) % QUOTES.length);
                 setFade(true);
             }, 1000);
-        }, 10000);
+        }, 12000);
         return () => clearInterval(qInterval);
     }, []);
 
@@ -40,123 +38,122 @@ export default function App() {
         <div className="h-[100dvh] w-full bg-[#020202] text-gray-300 font-serif flex flex-col relative overflow-hidden select-none">
             
             <style>{`
-                .gold-text { background: linear-gradient(to bottom, #ffffff 0%, #d4af37 50%, #4a3712 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-                .quote-layer { transition: opacity 2s ease-in-out; opacity: ${fade ? 0.4 : 0}; }
-                .custom-blur { backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); }
+                /* تمييز الرقم 2 عن كلمة in بوضوح تام */
+                .digit-2 { 
+                    background: linear-gradient(to bottom, #ffffff, #d4af37); 
+                    -webkit-background-clip: text; 
+                    -webkit-text-fill-color: transparent;
+                }
+                .text-in { 
+                    color: rgba(212, 175, 55, 0.6); 
+                    font-weight: 200;
+                }
+                
+                .spiritual-quote {
+                    color: #ffd700;
+                    text-shadow: 0 0 15px rgba(255, 215, 0, 0.6), 0 0 30px rgba(212, 175, 55, 0.4);
+                    filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.6));
+                    line-height: 1.8;
+                }
+                .quote-container { transition: opacity 1.5s ease-in-out; opacity: ${fade ? 1 : 0}; }
+                .custom-blur { backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); }
             `}</style>
 
-            {/* سطر الحكم: طبقة مستقلة خلفية تظهر دائماً */}
-            <div className="absolute top-[75%] left-0 w-full px-10 pointer-events-none z-0 text-center">
-                <p className="text-xl md:text-3xl text-yellow-600/50 italic leading-snug quote-layer font-light">
+            {/* سطر الحكم: التوهج الذهبي الأقصى */}
+            <div className="absolute top-[72%] left-0 w-full px-10 pointer-events-none z-10 text-center quote-container">
+                <p className="text-3xl md:text-5xl spiritual-quote italic font-medium">
                     {QUOTES[quoteIdx]}
                 </p>
             </div>
 
-            {/* Header */}
             <header className="h-20 flex justify-between items-center px-8 z-[100] relative">
-                <div className="flex flex-col leading-none">
-                    {view !== 'landing' && (
-                        <>
-                            <span className="text-4xl font-black text-yellow-500 tracking-tighter">2in</span>
-                            <span className="text-[8px] text-yellow-700 tracking-[0.4em] uppercase font-sans">twin</span>
-                        </>
-                    )}
-                </div>
-                <button onClick={() => setMusic(!music)} className="text-yellow-600/40">
+                {view !== 'landing' && (
+                    <div className="flex items-baseline gap-1">
+                        <span className="text-4xl font-black text-white">2</span>
+                        <span className="text-2xl font-light text-yellow-600">in</span>
+                    </div>
+                )}
+                <button onClick={() => setMusic(!music)} className="text-yellow-600/40 ml-auto">
                     {music ? <Volume2 size={24} /> : <VolumeX size={24} />}
                 </button>
             </header>
 
-            {/* Main Area */}
             <main className="flex-1 relative z-50 flex flex-col overflow-hidden">
                 
-                {/* 1. Landing View */}
                 {view === 'landing' && (
                     <div className="flex-1 flex flex-col items-center relative h-full">
-                        {/* العنوان: رُفع بنسبة 35% */}
-                        <div className="absolute top-[15%] transform -translate-y-1/2 text-center w-full">
-                            <h1 className="text-[12rem] font-black tracking-tighter gold-text leading-none drop-shadow-[0_0_50px_rgba(212,175,55,0.3)]">2in</h1>
-                            <p className="text-2xl tracking-[1.5em] text-yellow-700 uppercase font-bold ml-6">twin</p>
+                        {/* هندسة الشعار لمنع قراءة sin */}
+                        <div className="absolute top-[20%] text-center w-full">
+                            <div className="flex justify-center items-baseline gap-4">
+                                <span className="text-[14rem] font-black digit-2 leading-none drop-shadow-[0_0_40px_rgba(255,255,255,0.2)]">2</span>
+                                <span className="text-[10rem] font-thin text-in leading-none tracking-tighter">in</span>
+                            </div>
+                            <p className="text-4xl tracking-[1.2em] text-yellow-500 uppercase font-black mt-6 opacity-90">
+                                twin
+                            </p>
                         </div>
 
-                        {/* زر الدخول: ضُخم بنسبة 70% ورُفع بنسبة 20% من موضعه الأصلي */}
-                        <div className="absolute top-[55%] w-full flex justify-center">
+                        {/* زر الدخول الضخم */}
+                        <div className="absolute top-[52%] w-full flex justify-center">
                             <button 
                                 onClick={() => setView('onboarding')}
-                                className="scale-[1.7] px-10 py-10 border border-yellow-600/30 rounded-full text-yellow-500 text-sm font-black uppercase tracking-[0.2em] bg-yellow-900/5 custom-blur shadow-[0_0_80px_rgba(212,175,55,0.1)] active:scale-[1.6] transition-transform"
+                                className="w-[88%] py-12 border-2 border-yellow-600/50 rounded-full bg-yellow-900/10 custom-blur shadow-[0_0_120px_rgba(212,175,55,0.2)] active:scale-95 transition-all"
                             >
-                                ابدأ الرحلة
+                                <span className="text-5xl font-black text-yellow-500 uppercase tracking-[0.2em] drop-shadow-2xl">
+                                    ابدأ الرحلة
+                                </span>
                             </button>
                         </div>
                     </div>
                 )}
 
-                {/* 2. Onboarding View */}
+                {/* Onboarding View */}
                 {view === 'onboarding' && (
-                    <div className="flex-1 flex flex-col px-8 py-4 space-y-6 overflow-y-auto pb-40 relative z-[60]">
-                        <div className="bg-white/5 border border-yellow-900/10 rounded-[2.5rem] p-6">
-                            <div className="flex justify-between items-center mb-4">
-                                <span className="text-yellow-600 font-bold">برومبت البصمة</span>
-                                <button onClick={() => navigator.clipboard.writeText(PROMPT_TEXT)} className="p-2 text-yellow-700"><Copy size={18}/></button>
+                    <div className="flex-1 flex flex-col px-8 py-4 space-y-6 overflow-y-auto pb-44 relative z-[60]">
+                        <div className="bg-white/5 border border-yellow-900/10 rounded-[3rem] p-8 shadow-2xl">
+                            <div className="flex justify-between items-center mb-6 text-yellow-500">
+                                <span className="text-2xl font-bold">برومبت البصمة الوجودية</span>
+                                <button onClick={() => navigator.clipboard.writeText(PROMPT_TEXT)} className="p-3 bg-yellow-600/10 rounded-2xl"><Copy size={24}/></button>
                             </div>
-                            <div className="text-[10px] text-yellow-900/40 leading-relaxed font-sans max-h-20 overflow-y-auto border-t border-yellow-900/10 pt-4">
+                            <div className="text-sm text-yellow-800/40 leading-relaxed font-sans max-h-24 overflow-y-auto no-scrollbar border-t border-yellow-900/10 pt-4">
                                 {PROMPT_TEXT}
                             </div>
                         </div>
                         <textarea 
                             value={userInput} 
                             onChange={(e) => setUserInput(e.target.value)}
-                            placeholder="أدخل بصمتك هنا..."
-                            className="w-full flex-1 min-h-[200px] bg-black/60 border border-yellow-900/20 rounded-[2.5rem] p-8 text-yellow-100 text-xl outline-none focus:border-yellow-600 resize-none shadow-inner"
+                            placeholder="أدخل شفرتك هنا..."
+                            className="w-full flex-1 min-h-[250px] bg-black/60 border border-yellow-900/20 rounded-[3.5rem] p-10 text-yellow-100 text-3xl outline-none focus:border-yellow-600 resize-none shadow-inner italic"
                         />
                         <button 
                             onClick={() => setView('main')}
-                            className="w-full py-8 bg-yellow-600 text-black font-black rounded-full text-2xl uppercase tracking-widest shadow-2xl active:scale-95 transition-transform"
+                            className="w-full py-12 bg-yellow-600 text-black font-black rounded-full text-4xl uppercase tracking-widest shadow-2xl active:scale-95 transition-all"
                         >
-                            {loading ? "..." : "توائمي"}
+                            توائمي
                         </button>
                     </div>
                 )}
 
-                {/* 3. Main View (Results) */}
+                {/* Main View (Radar) */}
                 {view === 'main' && (
                     <div className="flex-1 flex flex-col px-6 overflow-hidden relative">
-                        <div className="flex-1 overflow-y-auto space-y-4 pb-60 pr-1">
+                        <div className="flex-1 overflow-y-auto no-scrollbar space-y-6 pb-64 pr-1">
                             {[...Array(10)].map((_, i) => (
-                                <div key={i} className="bg-white/5 border border-yellow-900/10 p-7 rounded-[2.5rem] flex justify-between items-center backdrop-blur-sm">
+                                <div key={i} className="bg-white/5 border border-yellow-900/10 p-10 rounded-[3.5rem] flex justify-between items-center backdrop-blur-md active:bg-yellow-600/10 transition-all shadow-xl">
                                     <div>
-                                        <h4 className="text-2xl font-bold text-gray-100 italic">كيان وجودي #{i+1}</h4>
-                                        <p className="text-[10px] text-yellow-800 tracking-[0.3em] uppercase mt-1">تطابق: {99-i}%</p>
+                                        <h4 className="text-4xl font-bold text-gray-100 italic">كيان {i+1}</h4>
+                                        <p className="text-[14px] text-yellow-700 tracking-[0.5em] uppercase mt-3 font-black">تطابق: {99-i}%</p>
                                     </div>
-                                    <div className="w-12 h-12 rounded-full border border-yellow-900/20 flex items-center justify-center text-yellow-700">?</div>
+                                    <div className="w-16 h-16 rounded-full border-2 border-yellow-900/40 flex items-center justify-center text-yellow-600 font-black text-2xl">?</div>
                                 </div>
                             ))}
                         </div>
                         <button 
                             onClick={() => setView('messages')}
-                            className="fixed bottom-32 right-8 w-20 h-20 bg-yellow-600 text-black rounded-full flex items-center justify-center shadow-2xl z-[100] active:scale-90 transition-transform"
+                            className="fixed bottom-36 right-8 w-28 h-28 bg-yellow-600 text-black rounded-full flex items-center justify-center shadow-[0_0_60px_rgba(212,175,55,0.4)] z-[100] active:scale-90"
                         >
-                            <MessageSquare size={32} />
+                            <MessageSquare size={44} />
                         </button>
-                    </div>
-                )}
-
-                {/* 4. Messages View */}
-                {view === 'messages' && (
-                    <div className="flex-1 flex flex-col px-6 pb-40 overflow-hidden relative z-[70]">
-                        <div className="flex items-center gap-4 h-16 mb-4">
-                            <button onClick={() => setView('main')} className="text-yellow-600"><ChevronLeft size={40}/></button>
-                            <h2 className="text-2xl font-black text-yellow-500 uppercase tracking-widest">المحادثات</h2>
-                        </div>
-                        <div className="flex-1 bg-white/5 border border-yellow-900/10 rounded-[3.5rem] p-8 flex flex-col overflow-hidden">
-                            <div className="flex-1 flex items-center justify-center text-gray-800 italic text-2xl opacity-10 text-center">تحدث مع توأمك الروحي</div>
-                            <div className="mt-4 flex items-center gap-3 bg-black border border-yellow-900/30 rounded-full p-3 pl-6 shadow-2xl">
-                                <button className="text-yellow-700"><ImageIcon size={24}/></button>
-                                <input type="text" placeholder="تحدث..." className="flex-1 bg-transparent border-none outline-none text-xl text-yellow-100" />
-                                <button className="text-yellow-700"><Mic size={24}/></button>
-                                <button className="w-14 h-14 bg-yellow-600 text-black rounded-full flex items-center justify-center active:scale-90"><Send size={20}/></button>
-                            </div>
-                        </div>
                     </div>
                 )}
             </main>
