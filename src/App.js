@@ -39,11 +39,11 @@ export default function App() {
                 .gold-text { background: linear-gradient(to bottom, #ffffff, #d4af37); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
                 .spiritual-quote { color: #ffd700; text-shadow: 0 0 20px rgba(212, 175, 55, 0.3); line-height: 1.6; }
                 .scrollbar-hide::-webkit-scrollbar { display: none; }
+                .results-container { width: 100%; display: flex; flex-direction: column; items: center; padding-top: 4rem; }
             `}</style>
             
             {music && <audio autoPlay loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3" />}
 
-            {/* Header - ثابت لا يتغير */}
             <header className="h-24 flex justify-between items-center px-8 z-[100]">
                 <div className="flex items-center gap-10 scale-[1.5]">
                     <div className="relative">
@@ -65,7 +65,6 @@ export default function App() {
             <main className="flex-1 flex flex-col items-center relative w-full h-full">
                 {view === 'landing' && (
                     <div className="absolute inset-0 flex flex-col items-center justify-start pt-[10vh] animate-in fade-in duration-700">
-                        {/* تصحيح الانعكاس: محاذاة يسارية إجبارية للشعار */}
                         <div className="flex flex-col items-center" dir="ltr">
                             <div className="flex items-baseline gap-6">
                                 <span className="text-[14rem] font-black gold-text leading-none">2</span>
@@ -106,11 +105,13 @@ export default function App() {
                 )}
 
                 {view === 'results' && (
-                    <div className="absolute inset-0 flex flex-col items-center px-8 pt-4 animate-in fade-in duration-1000">
-                        <h2 className="text-5xl font-bold gold-text mb-8 tracking-wide" dir="rtl">الـصّـدَى الـوُجُـودِيّ</h2>
+                    <div className="w-full flex flex-col items-center px-8 animate-in fade-in duration-1000">
+                        {/* العنوان مع هامش علوي وسفلي كبير لمنع التشوه */}
+                        <h2 className="text-5xl font-bold gold-text mt-12 mb-16 tracking-wide text-center" dir="rtl">
+                            {t.resultsTitle}
+                        </h2>
                         
-                        {/* الجدول المستطيل الرفيع بنسبة 60% */}
-                        <div className="w-full h-[55vh] border border-yellow-600/20 rounded-[1.5rem] bg-black/40 overflow-y-auto scrollbar-hide p-4">
+                        <div className="w-full h-[50vh] border border-yellow-600/20 rounded-[1.5rem] bg-black/40 overflow-y-auto scrollbar-hide p-4">
                             <table className="w-full border-collapse" dir="rtl">
                                 <tbody>
                                     {[ { name: "Amir", score: "99.8" }, { name: "Shadow", score: "84.2" }].map((res, i) => (
@@ -123,13 +124,12 @@ export default function App() {
                             </table>
                         </div>
                         
-                        <button onClick={() => setView('onboarding')} className="mt-8 py-6 px-12 border-b-2 border-yellow-600 text-2xl font-black text-yellow-600 uppercase tracking-widest active:opacity-50">
+                        <button onClick={() => setView('onboarding')} className="mt-10 py-6 px-12 border-b-2 border-yellow-600 text-2xl font-black text-yellow-600 uppercase tracking-widest active:opacity-50">
                             {t.retry}
                         </button>
                     </div>
                 )}
 
-                {/* الحكمة السفلية - ثابتة ومحسنة لغوياً */}
                 <div className="absolute bottom-16 w-full px-10 text-center pointer-events-none transition-opacity duration-1000">
                     <p className="spiritual-quote italic mb-3 text-2xl md:text-4xl font-medium" dir="rtl">
                         {t.quotes[0].text}
