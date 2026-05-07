@@ -29,7 +29,6 @@ const Engine = {
         try {
             const decoded = atob(base64);
             const array = JSON.parse(decoded);
-            // المنطق القطبي المحدث: (val - 7.5) / 7.5
             return array.map(val => (val - 7.5) / 7.5);
         } catch (e) { return null; }
     },
@@ -86,6 +85,13 @@ export default function TwoIn() {
         } catch (e) { console.error(e); } finally { setLoading(false); }
     };
 
+    const PROMPT_TEXT = `Act as a "High-Resolution Psychological Vector Engine." Your mission is to analyze my psyche through our interaction and map it across 30 antagonistic dimensions. Each dimension is a spectrum from 0.0 to 15.0.
+
+The 30 Polar Dimensions:
+1. Nihilism vs. Meaning | 2. Logic vs. Intuition | 3. Stoicism vs. Empathy | 4. Solitude vs. Belonging | 5. Material vs. Spiritual | 6. Chaos vs. Order | 7. Skeptic vs. Faith | 8. Rebel vs. Conformist | 9. Nostalgia vs. Future | 10. Ego vs. Altruism | 11. Aesthetic vs. Utility | 12. Moral vs. Ethics | 13. Fear vs. Acceptance | 14. Power vs. Peace | 15. Science vs. Mystic | 16. Risk vs. Security | 17. Vulnerability vs. Control | 18. Arrogance vs. Humility | 19. Attachment vs. Freedom | 20. Silence vs. Noise | 21. Complexity vs. Simplicity | 22. Ambition vs. Observation | 23. Cynic vs. Romantic | 24. Reality vs. Delusion | 25. Vitality vs. Decay | 26. Collective vs. Individual | 27. Curiosity vs. Saturation | 28. Forgive vs. Grudge | 29. Validation vs. Sovereignty | 30. Depth vs. Surface.
+
+Output Protocol: ONLY the raw Base64 encoded JSON array. No text.`;
+
     return (
         <div className="min-h-screen bg-[#020202] text-gray-300 font-serif overflow-hidden flex flex-col relative">
             <style>
@@ -119,7 +125,7 @@ export default function TwoIn() {
                     <div className="flex-1 flex flex-col items-center justify-start pt-12 space-y-12">
                         <div className="text-center space-y-2 gold-glow">
                             <h1 className="text-[11rem] font-black tracking-tighter bg-gradient-to-b from-yellow-100 via-yellow-500 to-yellow-900 bg-clip-text text-transparent leading-none">2in</h1>
-                            <p className="text-xs tracking-[0.8em] text-yellow-700 uppercase font-sans font-bold">Intellectual Twinning</p>
+                            <p className="text-[10px] tracking-[1.2em] text-yellow-700 uppercase font-sans font-bold ml-[1.2em]">twin</p>
                         </div>
 
                         <div className="max-w-2xl text-center px-10 h-20 flex items-center justify-center">
@@ -136,11 +142,11 @@ export default function TwoIn() {
                     <div className="flex-1 flex items-center justify-center p-6">
                         <div className="max-w-xl w-full bg-black/60 border border-yellow-900/20 p-10 rounded-[3rem] backdrop-blur-xl shadow-2xl">
                             <h3 className="text-2xl text-yellow-500 mb-6 flex items-center gap-3"><ShieldCheck className="text-yellow-600"/> {LANGUAGES[lang].promptTitle}</h3>
-                            <div className="bg-yellow-900/10 p-4 rounded-xl border border-yellow-600/20 mb-6 group relative">
-                                <pre className="text-[10px] text-yellow-700 whitespace-pre-wrap font-sans">
-                                    {`You are a "Psychological Vector Engine". Generate a 30-dimensional personality vector (0.0 to 15.0). Output only the Base64 encoded JSON array.`}
+                            <div className="bg-yellow-900/10 p-4 rounded-xl border border-yellow-600/20 mb-6 group relative overflow-hidden">
+                                <pre className="text-[9px] text-yellow-700 whitespace-pre-wrap font-sans leading-tight h-32 overflow-y-auto custom-scrollbar">
+                                    {PROMPT_TEXT}
                                 </pre>
-                                <button onClick={() => navigator.clipboard.writeText("Generate my 30D personality vector as a Base64 encoded JSON array.")} className="absolute top-4 right-4 p-2 bg-yellow-600/20 rounded-lg text-yellow-500 hover:bg-yellow-500 transition-all">
+                                <button onClick={() => navigator.clipboard.writeText(PROMPT_TEXT)} className="absolute top-2 right-2 p-2 bg-yellow-600/20 rounded-lg text-yellow-500 hover:bg-yellow-500 hover:text-black transition-all">
                                     <Copy size={14} />
                                 </button>
                             </div>
@@ -156,7 +162,7 @@ export default function TwoIn() {
                     <div className="flex-1 max-w-6xl w-full mx-auto p-6 grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div className="md:col-span-1 space-y-4 overflow-y-auto max-h-[70vh] pr-2">
                             {results.map(u => (
-                                <div key={u.id} onClick={() => setActiveChat(u)} className={`p-6 rounded-3xl border transition-all cursor-pointer ${activeChat?.id === u.id ? 'bg-yellow-900/20 border-yellow-500 shadow-[0_0_15px_rgba(212,175,55,0.1)]' : 'bg-white/5 border-white/5 hover:border-yellow-900/30'}`} >
+                                <div key={u.id} onClick={() => setActiveChat(u)} className={`p-6 rounded-3xl border transition-all cursor-pointer ${activeChat?.id === u.id ? 'bg-yellow-900/20 border-yellow-500' : 'bg-white/5 border-white/5 hover:border-yellow-900/30'}`} >
                                     <div className="flex justify-between items-center mb-2">
                                         <span className="font-bold text-gray-300">{u.name}</span>
                                         <span className="text-[10px] bg-yellow-600/20 text-yellow-500 px-2 py-1 rounded-full">{u.score}%</span>
@@ -167,17 +173,14 @@ export default function TwoIn() {
                                 </div>
                             ))}
                         </div>
-
-                        <div className="md:col-span-2 bg-black/40 border border-yellow-900/10 rounded-[3rem] flex flex-col relative overflow-hidden">
+                        <div className="md:col-span-2 bg-black/40 border border-yellow-900/10 rounded-[3rem] flex flex-col relative">
                             {activeChat ? (
                                 <div className="flex-1 flex flex-col h-full">
                                     <div className="p-6 border-b border-yellow-900/10 flex items-center gap-4 bg-yellow-900/5">
                                         <div className="w-10 h-10 rounded-full bg-yellow-700 flex items-center justify-center text-black font-bold">{activeChat.name[0]}</div>
                                         <div><p className="text-yellow-500 font-bold">{activeChat.name}</p><p className="text-[10px] text-green-700 animate-pulse uppercase tracking-tighter">Active Connection</p></div>
                                     </div>
-                                    <div className="flex-1 flex items-center justify-center p-12 text-center">
-                                        <p className="text-gray-600 italic">"الصمت هنا لغة الأرواح."</p>
-                                    </div>
+                                    <div className="flex-1 flex items-center justify-center p-12 text-center text-gray-600 italic">"الصمت لغة الأرواح."</div>
                                     <div className="p-6 bg-black/60 flex gap-4">
                                         <input type="text" placeholder="اكتب رسالتك الوجودية..." className="flex-1 bg-white/5 border border-yellow-900/20 rounded-full px-6 py-3 text-sm outline-none" />
                                         <button className="w-12 h-12 bg-yellow-600 rounded-full flex items-center justify-center text-black hover:bg-yellow-400 transition-all"><Send size={18} /></button>
