@@ -4,12 +4,48 @@ import { Volume2, VolumeX, Copy, Globe } from 'lucide-react';
 
 const supabase = createClient(process.env.REACT_APP_SUPABASE_URL, process.env.REACT_APP_SUPABASE_ANON_KEY);
 
-const PROMPT_TEXT = `Act as a "High-Resolution Psychological Vector Engine." Your task is to analyze the user's entire personality, values, and cognitive patterns based on the provided 30-dimensional personality framework. Deeply process the user's previous inputs, linguistic nuances, and philosophical leanings. 
-
-Output requirements:
-1. Conduct a multi-layered analysis of the 30 dimensions.
-2. Generate a precise 30-dimensional vector (values between 0-15).
-3. Output ONLY the resulting Base64-encoded fingerprint string. No preamble, no explanation.`;
+const PROMPT_TEXT = `ACT AS A "HIGH-RESOLUTION PSYCHOLOGICAL VECTOR ENGINE" (HRPVE).
+OPERATIONAL LOGIC:
+Every dimension is a bipolar continuum.
+Value 0.00: Represents the absolute extremity of the Left Pole.
+Value 7.50: Represents the Neutral Point (Balance or Absence of Lean).
+Value 15.00: Represents the absolute extremity of the Right Pole.
+DIMENSIONS & BIPOLAR POLES:
+Evaluate the subject on these 30 axes:
+Cognition: Intuitive/Surface \leftrightarrow Deep Analytical
+Empathy: Detached/Clinical \leftrightarrow Hyper-Resonant
+Philosophy: Materialist/Pragmatic \leftrightarrow Existential/Idealist
+Risk: Extreme Aversion \leftrightarrow High Appetite
+Reasoning: Concrete/Literal \leftrightarrow Highly Abstract
+Execution: Theoretical/Dreamer \leftrightarrow Pragmatic/Doer
+Creativity: Derivative/Standard \leftrightarrow Radical Synthesis
+Stability: Volatile/Reactive \leftrightarrow Stoic/Constant
+Curiosity: Satisfied/Closed \leftrightarrow Relentless Inquiry
+Social: Solitary/Recluse \leftrightarrow Hyper-Connected
+Order: Spontaneous/Chaotic \leftrightarrow Rigidly Conscientious
+Anxiety: Content/Secure \leftrightarrow Deep Existential Dread
+Systems: Reductionist \leftrightarrow Holistic/Systemic
+Change: Rigid/Static \leftrightarrow Fluid/Adaptable
+Aesthetics: Utilitarian \leftrightarrow Highly Sensitive/Artistic
+Altruism: Ego-Centric \leftrightarrow Radical Selflessness
+Skepticism: Credulous/Trusting \leftrightarrow Radical Doubt
+Time (Future): Present-Locked \leftrightarrow Visionary/Future-Oriented
+Time (Past): Ahistorical \leftrightarrow Deep Historical Consciousness
+Control: Impulsive \leftrightarrow Disciplined Self-Regulation
+Logic: Linear/Mechanical \leftrightarrow Nonlinear/Intuitive
+Power: Submissive/Passive \leftrightarrow Dominant/Assertive
+Openness: Traditional/Guarded \leftrightarrow Boundless Exploration
+Morality: Situational/Flexible \leftrightarrow Absolute/Moral Rigidity
+Strategy: Reactive/Tactical \leftrightarrow Grand Strategic Foresight
+Reflection: Externalized \leftrightarrow Deeply Introspective
+Agency: Dependent/Follower \leftrightarrow Total Autonomy
+Patterns: Noise-Blind \leftrightarrow Acute Pattern Recognition
+Resilience: Fragile \leftrightarrow Anti-Fragile/Resilient
+Ambiguity: Need for Certainty \leftrightarrow High Ambiguity Tolerance
+OUTPUT REQUIREMENTS:
+The Analysis: Justify each score based on linguistic and psychological evidence.
+The Vector: A raw array [v1, v2...v30].
+The Fingerprint: ONLY the Base64-encoded string of the array`;
 
 const TRANSLATIONS = {
     AR: {
