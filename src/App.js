@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
-import { Volume2, VolumeX, Copy, Globe } from 'lucide-react';
+import { Volume2, VolumeX, Copy, Globe, Scan } from 'lucide-react';
 
 const supabase = createClient(process.env.REACT_APP_SUPABASE_URL, process.env.REACT_APP_SUPABASE_ANON_KEY);
 
@@ -215,9 +215,9 @@ export default function App() {
                 )}
 
                 {view === 'results' && (
-                    <div className="absolute inset-0 flex flex-col items-center px-10 pt-[10vh]">
-                        <h2 className="text-6xl font-bold gold-text mb-12 tracking-wide" dir={lang === 'AR' ? "rtl" : "ltr"}>{t.resultsTitle}</h2>
-                        <div className="w-[90%] h-[58vh] border border-amber-300/20 rounded-[2.5rem] bg-black/40 overflow-y-auto p-6">
+                    <div className="absolute inset-0 flex flex-col items-center px-10 pt-[5vh]">
+                        <h2 className="text-6xl font-bold gold-text mb-6 tracking-wide py-2 leading-relaxed" dir={lang === 'AR' ? "rtl" : "ltr"}>{t.resultsTitle}</h2>
+                        <div className="w-[90%] h-[50vh] border border-amber-300/20 rounded-[2.5rem] bg-black/40 overflow-y-auto p-6">
                             <table className="w-full border-collapse" dir={lang === 'AR' ? "rtl" : "ltr"}>
                                 <tbody>
                                     {results.length > 0 ? results.map((res, i) => (
@@ -229,7 +229,10 @@ export default function App() {
                                 </tbody>
                             </table>
                         </div>
-                        <button onClick={() => setView('onboarding')} className="mt-[10vh] py-10 px-16 border-b-4 border-amber-300 text-4xl font-black text-amber-300 uppercase">{t.retry}</button>
+                        <button onClick={() => setView('onboarding')} className="mt-8 flex flex-col items-center gap-2 py-6 px-16 border-2 border-amber-300 rounded-full text-amber-300 active:scale-95">
+                            <Scan size={42} />
+                            <span className="text-2xl font-black uppercase">{t.retry}</span>
+                        </button>
                     </div>
                 )}
 
