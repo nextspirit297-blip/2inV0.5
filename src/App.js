@@ -106,7 +106,7 @@ const Engine = {
             try {
                 parsed = JSON.parse(decoded);
             } catch {
-                // Not JSON, try CSV: "13.12, 12.45, ..."
+                // Not JSON, try CSV: "13.42, 12.35, ..."
                 parsed = decoded.split(',').map(s => Number(s.trim()));
             }
             const values = Array.isArray(parsed) ? parsed : Object.values(parsed);
