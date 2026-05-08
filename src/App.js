@@ -102,7 +102,7 @@ const Engine = {
                 clean = codeBlockMatch[1].trim();
             }
             const parsed = JSON.parse(atob(clean));
-            const values = Object.values(parsed);
+            const values = Array.isArray(parsed) ? parsed : Object.values(parsed);
             if (values.length > 0 && typeof values[0] === 'object' && 'C' in values[0]) {
                 // New spectral format: merge C, S, V via weighted formula
                 return values.map(dim => (dim.C * 0.6) + (dim.S * 0.3) + (dim.V * 0.1));
