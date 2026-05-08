@@ -46,7 +46,7 @@ STRICT OUTPUT PROTOCOL:
 SILENT INTERNAL PROCESSING: Perform all psychological mapping and calculations internally. Do not display any analysis or justification.
 ZERO PROSE: Do not include any introductory text, greetings, explanations, or concluding remarks.
 OUTPUT TYPE: Only provide the Base64-encoded string of the numerical array [v1, v2...v30].
-FORMATTING: Wrap the Base64 string in a standard markdown code block.
+FORMATTING: Output the raw Base64 string directly. Do NOT wrap it in any markdown, code blocks, quotes, or backticks.
 EXECUTE VECTOR GENERATION NOW`;
 
 const TRANSLATIONS = {
