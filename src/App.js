@@ -4,50 +4,32 @@ import { Volume2, VolumeX, Copy, Globe } from 'lucide-react';
 
 const supabase = createClient(process.env.REACT_APP_SUPABASE_URL, process.env.REACT_APP_SUPABASE_ANON_KEY);
 
-const PROMPT_TEXT = `ACT AS A "HIGH-RESOLUTION PSYCHOLOGICAL VECTOR ENGINE" (HRPVE).
+const PROMPT_TEXT = `ACT AS AN "ULTRA-HIGH RESOLUTION PSYCHOLOGICAL SPECTRAL ENGINE" (U-HRPSE).
+
 OPERATIONAL LOGIC:
-Every dimension is a bipolar continuum.
-Value 0.00: Represents the absolute extremity of the Left Pole.
-Value 7.50: Represents the Neutral Point (Balance or Absence of Lean).
-Value 15.00: Represents the absolute extremity of the Right Pole.
-DIMENSIONS & BIPOLAR POLES:
-Evaluate the subject on these 30 axes:
-Cognition: Intuitive/Surface ↔ Deep Analytical
-Empathy: Detached/Clinical ↔ Hyper-Resonant
-Philosophy: Materialist/Pragmatic ↔ Existential/Idealist
-Risk: Extreme Aversion ↔ High Appetite
-Reasoning: Concrete/Literal ↔ Highly Abstract
-Execution: Theoretical/Dreamer ↔ Pragmatic/Doer
-Creativity: Derivative/Standard ↔ Radical Synthesis
-Stability: Volatile/Reactive ↔ Stoic/Constant
-Curiosity: Satisfied/Closed ↔ Relentless Inquiry
-Social: Solitary/Recluse ↔ Hyper-Connected
-Order: Spontaneous/Chaotic ↔ Rigidly Conscientious
-Anxiety: Content/Secure ↔ Deep Existential Dread
-Systems: Reductionist ↔ Holistic/Systemic
-Change: Rigid/Static ↔ Fluid/Adaptable
-Aesthetics: Utilitarian ↔ Highly Sensitive/Artistic
-Altruism: Ego-Centric ↔ Radical Selflessness
-Skepticism: Credulous/Trusting ↔ Radical Doubt
-Time (Future): Present-Locked ↔ Visionary/Future-Oriented
-Time (Past): Ahistorical ↔ Deep Historical Consciousness
-Control: Impulsive ↔ Disciplined Self-Regulation
-Logic: Linear/Mechanical ↔ Nonlinear/Intuitive
-Power: Submissive/Passive ↔ Dominant/Assertive
-Openness: Traditional/Guarded ↔ Boundless Exploration
-Morality: Situational/Flexible ↔ Absolute/Moral Rigidity
-Strategy: Reactive/Tactical ↔ Grand Strategic Foresight
-Reflection: Externalized ↔ Deeply Introspective
-Agency: Dependent/Follower ↔ Total Autonomy
-Patterns: Noise-Blind ↔ Acute Pattern Recognition
-Resilience: Fragile ↔ Anti-Fragile/Resilient
-Ambiguity: Need for Certainty ↔ High Ambiguity Tolerance
+Each dimension is analyzed through three distinct layers:
+1. CORE (C): The baseline trait / Conscious identity (0.00 - 15.00).
+2. SHADOW (S): The suppressed/latent counter-trait or volatility under stress (0.00 - 15.00).
+3. VELOCITY (V): The rate of change or growth potential in this dimension (-1.00 to +1.00).
+
+DIMENSIONS & ARCHETYPES:
+1. Cognitive Architecture: [Linear/Mechanical ↔ Nonlinear/Quantum]
+2. Existential Weight: [Materialist/Pragmatic ↔ Metaphysical/Transcendental]
+3. Emotional Processing: [Clinical/Dissociated ↔ Hyper-Somatic/Resonant]
+4. Volition/Agency: [Deterministic/Passive ↔ Radical Autonomy]
+5. Pattern Intelligence: [Noise-Blind ↔ Archetypal Recognition]
+6. Social Matrix: [Solitary/Sovereign ↔ Collective/Interdependent]
+7. Temporal Anchor: [Past-Locked/Traumatic ↔ Future-Oriented/Prophetic]
+8. Moral Flux: [Rigid/Absolute ↔ Situational/Fluid]
+9. Resilience Topology: [Fragile/Static ↔ Anti-Fragile/Adaptive]
+10. Creative Impulse: [Derivative/Refining ↔ Radical Synthesis/Chaos]
+
 STRICT OUTPUT PROTOCOL:
-SILENT INTERNAL PROCESSING: Perform all psychological mapping and calculations internally. Do not display any analysis or justification.
-ZERO PROSE: Do not include any introductory text, greetings, explanations, or concluding remarks.
-OUTPUT TYPE: Only provide the Base64-encoded string of the numerical array [v1, v2...v30].
-FORMATTING: Output the raw Base64 string directly. Do NOT wrap it in any markdown, code blocks, quotes, or backticks.
-EXECUTE VECTOR GENERATION NOW`;
+- SILENT PROCESSING: No preamble, no justifications.
+- FORMAT: Output a Base64 encoded JSON object containing the matrix [Dimension: {C, S, V}].
+- NO PROSE: Only the raw Base64 string inside a markdown code block.
+
+EXECUTE FULL SPECTRAL MAPPING NOW.`;
 
 const TRANSLATIONS = {
     AR: {
@@ -98,12 +80,45 @@ const TRANSLATIONS = {
 };
 
 const Engine = {
-    decode: (b64) => { 
-        try { return JSON.parse(atob(b64.trim())).map(v => (v - 7.5) / 7.5); } catch { return null; } 
+    // Normalize any vector (old 30 or new 10) to length 10
+    normalizeTo10: (vec) => {
+        if (vec.length === 10) return vec;
+        if (vec.length === 30) {
+            const result = [];
+            for (let i = 0; i < 30; i += 3) {
+                result.push((vec[i] + vec[i + 1] + vec[i + 2]) / 3);
+            }
+            return result;
+        }
+        return vec; // fallback
     },
+
+    decode: (b64) => {
+        try {
+            let clean = b64.trim();
+            // Remove markdown code block if present
+            const codeBlockMatch = clean.match(/```(?:[a-zA-Z]*\n)?([\s\S]*?)```/);
+            if (codeBlockMatch) {
+                clean = codeBlockMatch[1].trim();
+            }
+            const parsed = JSON.parse(atob(clean));
+            const values = Object.values(parsed);
+            if (values.length > 0 && typeof values[0] === 'object' && 'C' in values[0]) {
+                // New spectral format: merge C, S, V via weighted formula
+                return values.map(dim => (dim.C * 0.6) + (dim.S * 0.3) + (dim.V * 0.1));
+            } else {
+                // Old format: plain array of numbers
+                return values.map(v => Number(v));
+            }
+        } catch { return null; }
+    },
+
     calculate: (v1, v2) => {
+        // Normalize both vectors to length 10
+        const a = Engine.normalizeTo10(v1);
+        const b = Engine.normalizeTo10(v2);
         let dot = 0, n1 = 0, n2 = 0;
-        for (let i = 0; i < 30; i++) { dot += v1[i] * v2[i]; n1 += v1[i] * v1[i]; n2 += v2[i] * v2[i]; }
+        for (let i = 0; i < a.length; i++) { dot += a[i] * b[i]; n1 += a[i] * a[i]; n2 += b[i] * b[i]; }
         const sim = dot / (Math.sqrt(n1) * Math.sqrt(n2));
         return isNaN(sim) ? 0 : sim;
     }
