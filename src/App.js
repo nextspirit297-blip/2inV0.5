@@ -101,7 +101,14 @@ const Engine = {
             if (codeBlockMatch) {
                 clean = codeBlockMatch[1].trim();
             }
-            const parsed = JSON.parse(atob(clean));
+            const decoded = atob(clean);
+            let parsed;
+            try {
+                parsed = JSON.parse(decoded);
+            } catch {
+                // Not JSON, try CSV: "13.12, 12.45, ..."
+                parsed = decoded.split(',').map(s => Number(s.trim()));
+            }
             const values = Array.isArray(parsed) ? parsed : Object.values(parsed);
             if (values.length > 0 && typeof values[0] === 'object' && 'C' in values[0]) {
                 // New spectral format: merge C, S, V via weighted formula
