@@ -137,7 +137,7 @@ export default function App() {
 
     return (
         <div className="fixed inset-0 w-full h-full bg-[#020202] text-gray-300 font-serif flex flex-col overflow-hidden select-none">
-            <style>{`.gold-text { background: linear-gradient(to bottom, #ffffff, #d4af37); -webkit-background-clip: text; -webkit-text-fill-color: transparent; } .spiritual-quote { color: #ffd700; text-shadow: 0 0 25px rgba(212, 175, 55, 0.4); }`}</style>
+            <style>{`.gold-text { background: linear-gradient(to bottom, #ffffff, #d4af37); -webkit-background-clip: text; -webkit-text-fill-color: transparent; } .spiritual-quote { color: #ffd700; text-shadow: 0 0 35px rgba(255, 215, 0, 0.8), 0 0 70px rgba(212, 175, 55, 0.6), 0 0 100px rgba(255, 200, 0, 0.4); }`}</style>
             
             {music && <audio autoPlay loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3" />}
 
@@ -191,7 +191,7 @@ export default function App() {
                 )}
 
                 {view === 'results' && (
-                    <div className="absolute inset-0 flex flex-col items-center px-10 pt-4">
+                    <div className="absolute inset-0 flex flex-col items-center px-10 pt-[10vh]">
                         <h2 className="text-6xl font-bold gold-text mb-12 tracking-wide" dir={lang === 'AR' ? "rtl" : "ltr"}>{t.resultsTitle}</h2>
                         <div className="w-[90%] h-[58vh] border border-yellow-600/20 rounded-[2.5rem] bg-black/40 overflow-y-auto p-6">
                             <table className="w-full border-collapse" dir={lang === 'AR' ? "rtl" : "ltr"}>
@@ -205,7 +205,7 @@ export default function App() {
                                 </tbody>
                             </table>
                         </div>
-                        <button onClick={() => setView('onboarding')} className="mt-12 py-10 px-16 border-b-4 border-yellow-600 text-4xl font-black text-yellow-600 uppercase">{t.retry}</button>
+                        <button onClick={() => setView('onboarding')} className="mt-[10vh] py-10 px-16 border-b-4 border-yellow-600 text-4xl font-black text-yellow-600 uppercase">{t.retry}</button>
                     </div>
                 )}
 
