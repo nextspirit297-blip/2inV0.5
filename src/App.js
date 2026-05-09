@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
-import { Volume2, VolumeX, Copy, Globe, Scan } from 'lucide-react';
+import { Volume2, VolumeX, Copy, Globe, Scan, LogIn, UserPlus, Eye, EyeOff } from 'lucide-react';
 
 const supabase = createClient(process.env.REACT_APP_SUPABASE_URL, process.env.REACT_APP_SUPABASE_ANON_KEY);
 
@@ -45,6 +45,25 @@ const TRANSLATIONS = {
         match: "فك تشفير البصمة",
         resultsTitle: "الـصّـدَى الـوُجُـودِيّ",
         retry: "تحديث البصمة",
+        // Auth page translations
+        authTitle: "مدخل الوجود",
+        authSubtitle: "اختر بوابتك إلى الرحلة",
+        googleLogin: "الدخول عبر جوجل",
+        createAccount: "إنشاء حساب",
+        guestLogin: "الدخول كضيف",
+        guestWarning: "ملاحظة: الدخول كضيف لا يسمح باسترجاع بياناتك أو رسائلك مستقبلاً بعد تسجيل الخروج.",
+        usernameLabel: "اسم المستخدم",
+        emailLabel: "البريد الإلكتروني",
+        passwordLabel: "كلمة المرور",
+        confirmSignup: "تأكيد إنشاء الحساب",
+        confirmGuest: "تأكيد الدخول كضيف",
+        back: "رجوع",
+        googleNameQuestion: "هل تريد استخدام اسمك من جوجل أم اختيار اسم مخصص؟",
+        useGoogleName: "استخدام اسم جوجل",
+        chooseCustomName: "اختيار اسم مخصص",
+        enterCustomName: "أدخل اسمك المخصص",
+        confirmName: "تأكيد",
+        signupSuccess: "تم إنشاء الحساب بنجاح",
         quotes: [
             { text: "«الحقيقة لا توجد خارج المرء، بل هي كامنة في داخله.»", author: "كارل يونغ" },
             { text: "«من يمتلك سبباً يعيش من أجله، يمكنه تحمل أي شيء تقريباً.»", author: "فريدريك نيتشه" },
@@ -77,6 +96,25 @@ const TRANSLATIONS = {
         match: "DECODE FINGERPRINT",
         resultsTitle: "Existential Echo",
         retry: "Update Fingerprint",
+        // Auth page translations
+        authTitle: "Gateway of Being",
+        authSubtitle: "Choose your path",
+        googleLogin: "Sign in with Google",
+        createAccount: "Create Account",
+        guestLogin: "Continue as Guest",
+        guestWarning: "Note: Guest mode does not allow data recovery after logout.",
+        usernameLabel: "Username",
+        emailLabel: "Email",
+        passwordLabel: "Password",
+        confirmSignup: "Confirm Sign Up",
+        confirmGuest: "Confirm Guest Entry",
+        back: "Back",
+        googleNameQuestion: "Use your Google name or choose a custom one?",
+        useGoogleName: "Use Google Name",
+        chooseCustomName: "Choose Custom Name",
+        enterCustomName: "Enter your custom name",
+        confirmName: "Confirm",
+        signupSuccess: "Account created successfully",
         quotes: [
             { text: "«Truth does not exist outside the person, but lies dormant within.»", author: "Carl Jung" },
             { text: "«He who has a why to live can bear almost any how.»", author: "Friedrich Nietzsche" },
@@ -109,6 +147,25 @@ const TRANSLATIONS = {
         match: "РАСШИФРОВАТЬ ОТПЕЧАТОК",
         resultsTitle: "Экзистенциальное Эхо",
         retry: "Обновить отпечаток",
+        // Auth page translations
+        authTitle: "Врата Бытия",
+        authSubtitle: "Выберите свой путь",
+        googleLogin: "Войти через Google",
+        createAccount: "Создать аккаунт",
+        guestLogin: "Продолжить как гость",
+        guestWarning: "Примечание: Гостевой режим не позволяет восстановить данные после выхода.",
+        usernameLabel: "Имя пользователя",
+        emailLabel: "Эл. почта",
+        passwordLabel: "Пароль",
+        confirmSignup: "Подтвердить регистрацию",
+        confirmGuest: "Подтвердить вход как гость",
+        back: "Назад",
+        googleNameQuestion: "Использовать имя из Google или выбрать своё?",
+        useGoogleName: "Использовать имя Google",
+        chooseCustomName: "Выбрать своё имя",
+        enterCustomName: "Введите своё имя",
+        confirmName: "Подтвердить",
+        signupSuccess: "Аккаунт успешно создан",
         quotes: [
             { text: '«Истина не существует вне человека, она дремлет внутри него.»', author: 'Карл Юнг' },
             { text: '«Тот, у кого есть "зачем" жить, может выдержать почти любое "как".»', author: 'Фридрих Ницше' },
@@ -192,8 +249,30 @@ export default function App() {
     const [results, setResults] = useState([]);
     const [quoteIndex, setQuoteIndex] = useState(0);
     const [fade, setFade] = useState(true);
+    
+    // Auth states
+    const [authMode, setAuthMode] = useState(null); // 'signup' | 'guest' | 'google-name'
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [googleName, setGoogleName] = useState('');
+    const [customName, setCustomName] = useState('');
+    const [session, setSession] = useState(null);
+    const [authError, setAuthError] = useState('');
 
     const t = TRANSLATIONS[lang];
+
+    // Check existing session on mount
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            setSession(session);
+        });
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            setSession(session);
+        });
+        return () => subscription.unsubscribe();
+    }, []);
 
     // Rotate quotes with slow fade
     useEffect(() => {
@@ -213,6 +292,70 @@ export default function App() {
         setFade(true);
     }, [lang]);
 
+    // Google OAuth login
+    const handleGoogleLogin = async () => {
+        setAuthError('');
+        const { data, error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: { redirectTo: window.location.origin }
+        });
+        if (error) setAuthError(error.message);
+        // After redirect, session will be set by onAuthStateChange
+    };
+
+    // Show google name modal after google login
+    useEffect(() => {
+        if (session && !username && authMode !== 'google-name') {
+            const name = session.user?.user_metadata?.full_name || session.user?.email?.split('@')[0] || '';
+            setGoogleName(name);
+            setAuthMode('google-name');
+        }
+    }, [session]);
+
+    // Handle google name choice
+    const handleGoogleNameChoice = (useGoogle) => {
+        if (useGoogle) {
+            setUsername(googleName);
+            setAuthMode(null);
+            setView('onboarding');
+        } else {
+            setAuthMode('google-name-custom');
+        }
+    };
+
+    const confirmCustomName = () => {
+        if (customName.trim()) {
+            setUsername(customName.trim());
+            setAuthMode(null);
+            setView('onboarding');
+        }
+    };
+
+    // Email/Password Signup
+    const handleSignup = async () => {
+        setAuthError('');
+        if (!email.trim() || !password.trim() || !username.trim()) {
+            setAuthError('All fields are required');
+            return;
+        }
+        const { data, error } = await supabase.auth.signUp({ email, password });
+        if (error) { setAuthError(error.message); return; }
+        // Insert username into profiles table
+        await supabase.from('profiles').upsert({ id: data.user.id, username: username.trim() });
+        setAuthMode(null);
+        setView('onboarding');
+    };
+
+    // Guest login
+    const handleGuestLogin = () => {
+        if (!username.trim()) {
+            setAuthError('Username is required');
+            return;
+        }
+        setAuthMode(null);
+        setView('onboarding');
+    };
+
     const handleMatch = async () => {
         if (!userInput.trim()) return;
         setLoading(true);
@@ -231,7 +374,7 @@ export default function App() {
     };
 
     return (
-        <div className="fixed inset-0 w-full h-full bg-[#1a0a2e] text-gray-300 flex flex-col overflow-hidden select-none" style={{ fontFamily: "'Cairo', serif" }}>
+        <div className="fixed inset-0 w-full h-full bg-[#1a0a2e] text-gray-300 font-serif flex flex-col overflow-hidden select-none">
             <style>{`
                 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap');
                 .gold-text { background: linear-gradient(to bottom, #ffffff, #f0c850); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -261,7 +404,7 @@ export default function App() {
                 </div>
             </header>
 
-            <main className="flex-1 relative flex flex-col items-center w-full h-full">
+            <main className="flex-1 relative flex flex-col items-center w-full h-full" style={{ fontFamily: "'Cairo', serif" }}>
                 {view === 'landing' && (
                     <div className="absolute inset-0 flex flex-col items-center pt-[10vh]">
                         <div className="flex flex-col items-center logo-glow" dir="ltr">
@@ -271,7 +414,84 @@ export default function App() {
                             </div>
                             <p className="text-6xl tracking-[1.6em] text-amber-300 uppercase font-black mr-[-1.6em]">twin</p>
                         </div>
-                        <button onClick={() => setView('onboarding')} className="mt-[15vh] w-[88%] py-14 border-2 border-amber-300/40 rounded-full text-5xl font-black text-amber-300 uppercase">{t.start}</button>
+                        <button onClick={() => setView('auth')} className="mt-[15vh] w-[88%] py-14 border-2 border-amber-300/40 rounded-full text-5xl font-black text-amber-300 uppercase">{t.start}</button>
+                    </div>
+                )}
+
+                {/* AUTH PAGE */}
+                {view === 'auth' && (
+                    <div className="absolute inset-0 flex flex-col items-center pt-[8vh] px-10">
+                        <h2 className="text-5xl font-bold gold-text mb-2">{t.authTitle}</h2>
+                        <p className="text-xl text-amber-300/50 mb-10">{t.authSubtitle}</p>
+                        
+                        {authError && <p className="text-red-400 text-xl mb-4">{authError}</p>}
+
+                        {/* Google Login Button */}
+                        <button onClick={handleGoogleLogin} className="w-full max-w-md py-8 bg-white text-gray-900 font-black rounded-full text-3xl flex items-center justify-center gap-4 mb-6 active:scale-95">
+                            <svg viewBox="0 0 24 24" width="32" height="32"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                            {t.googleLogin}
+                        </button>
+
+                        {/* Create Account Button */}
+                        <button onClick={() => { setAuthMode('signup'); setAuthError(''); }} className="w-full max-w-md py-8 border-2 border-amber-300/40 rounded-full text-3xl font-black text-amber-300 flex items-center justify-center gap-4 mb-6 active:scale-95">
+                            <UserPlus size={32} /> {t.createAccount}
+                        </button>
+
+                        {/* Guest Login Button */}
+                        <button onClick={() => { setAuthMode('guest'); setAuthError(''); }} className="w-full max-w-md py-8 border-2 border-amber-300/20 rounded-full text-3xl font-black text-amber-300/70 flex items-center justify-center gap-4 active:scale-95">
+                            <LogIn size={32} /> {t.guestLogin}
+                        </button>
+                    </div>
+                )}
+
+                {/* SIGNUP MODAL */}
+                {view === 'auth' && authMode === 'signup' && (
+                    <div className="absolute inset-0 z-[300] bg-[#1a0a2e]/95 flex flex-col items-center justify-center px-10">
+                        <div className="w-full max-w-md space-y-6">
+                            <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder={t.usernameLabel} className="w-full bg-black border border-amber-300/30 rounded-2xl p-6 text-2xl text-amber-100 outline-none focus:border-amber-400" />
+                            <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder={t.emailLabel} type="email" className="w-full bg-black border border-amber-300/30 rounded-2xl p-6 text-2xl text-amber-100 outline-none focus:border-amber-400" />
+                            <div className="relative">
+                                <input value={password} onChange={(e) => setPassword(e.target.value)} placeholder={t.passwordLabel} type={showPassword ? "text" : "password"} className="w-full bg-black border border-amber-300/30 rounded-2xl p-6 text-2xl text-amber-100 outline-none focus:border-amber-400 pr-16" />
+                                <button onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-amber-300/60">{showPassword ? <EyeOff size={28} /> : <Eye size={28} />}</button>
+                            </div>
+                            <button onClick={handleSignup} className="w-full py-8 bg-amber-400 text-black font-black rounded-full text-3xl">{t.confirmSignup}</button>
+                            <button onClick={() => setAuthMode(null)} className="w-full text-amber-300/50 text-xl">{t.back}</button>
+                        </div>
+                    </div>
+                )}
+
+                {/* GUEST MODAL */}
+                {view === 'auth' && authMode === 'guest' && (
+                    <div className="absolute inset-0 z-[300] bg-[#1a0a2e]/95 flex flex-col items-center justify-center px-10">
+                        <div className="w-full max-w-md space-y-6">
+                            <p className="text-amber-300/50 text-xl text-center mb-4">{t.guestWarning}</p>
+                            <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder={t.usernameLabel} className="w-full bg-black border border-amber-300/30 rounded-2xl p-6 text-2xl text-amber-100 outline-none focus:border-amber-400" />
+                            <button onClick={handleGuestLogin} className="w-full py-8 border-2 border-amber-300/50 text-amber-300 font-black rounded-full text-3xl">{t.confirmGuest}</button>
+                            <button onClick={() => setAuthMode(null)} className="w-full text-amber-300/50 text-xl">{t.back}</button>
+                        </div>
+                    </div>
+                )}
+
+                {/* GOOGLE NAME CHOICE MODAL */}
+                {authMode === 'google-name' && (
+                    <div className="absolute inset-0 z-[300] bg-[#1a0a2e]/95 flex flex-col items-center justify-center px-10">
+                        <div className="w-full max-w-md space-y-6 text-center">
+                            <p className="text-2xl text-amber-300 mb-4">{t.googleNameQuestion}</p>
+                            <p className="text-3xl text-amber-100 font-bold">{googleName}</p>
+                            <button onClick={() => handleGoogleNameChoice(true)} className="w-full py-8 bg-amber-400 text-black font-black rounded-full text-3xl">{t.useGoogleName}</button>
+                            <button onClick={() => handleGoogleNameChoice(false)} className="w-full py-8 border-2 border-amber-300/50 text-amber-300 font-black rounded-full text-3xl">{t.chooseCustomName}</button>
+                        </div>
+                    </div>
+                )}
+
+                {/* GOOGLE CUSTOM NAME MODAL */}
+                {authMode === 'google-name-custom' && (
+                    <div className="absolute inset-0 z-[300] bg-[#1a0a2e]/95 flex flex-col items-center justify-center px-10">
+                        <div className="w-full max-w-md space-y-6">
+                            <input value={customName} onChange={(e) => setCustomName(e.target.value)} placeholder={t.enterCustomName} className="w-full bg-black border border-amber-300/30 rounded-2xl p-6 text-2xl text-amber-100 outline-none focus:border-amber-400" />
+                            <button onClick={confirmCustomName} className="w-full py-8 bg-amber-400 text-black font-black rounded-full text-3xl">{t.confirmName}</button>
+                            <button onClick={() => setAuthMode('google-name')} className="w-full text-amber-300/50 text-xl">{t.back}</button>
+                        </div>
                     </div>
                 )}
 
