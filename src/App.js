@@ -203,7 +203,7 @@ export default function App() {
                 setQuoteIndex(prev => (prev + 1) % t.quotes.length);
                 setFade(true);
             }, 1500);
-        }, 5500);
+        }, 8500);
         return () => clearInterval(interval);
     }, [t.quotes.length]);
 
