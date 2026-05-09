@@ -280,7 +280,7 @@ export default function App() {
 };
 
     useEffect(() => {
-        if (session && !username && authMode !== 'google-name') {
+        if (session?.user) {
             const name = session.user?.user_metadata?.full_name || session.user?.email?.split('@')[0] || '';
             setGoogleName(name);
             setAuthMode('google-name');
