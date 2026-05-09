@@ -298,21 +298,33 @@ const handleLogout = async () => {
     setSession(null);
     setUsername('');
     setView('landing');
-};const handleMatch = async () => {
+};
+    const handleMatch = async () => {
     if (!userInput.trim()) return;
     setLoading(true);
     try {
         const userVector = Engine.decode(userInput);
         if (!userVector) { alert("Format Error"); setLoading(false); return; }
+        
+        // Save user's vector if logged in
+        if (session?.user) {
+            await supabase.from('profiles').upsert({ 
+                id: session.user.id, 
+                username: username,
+                vector_data: userVector 
+            });
+        }
+        
         const { data: users, error } = await supabase.from('profiles').select('username, vector_data');
         if (error) throw error;
-        const scored = (users || []).map(u => ({
+        const scored = (users || []).filter(u => u.vector_data).map(u => ({
             name: u.username,
             score: (Engine.calculate(userVector, u.vector_data) * 100).toFixed(2)
         })).filter(u => u.score > 0).sort((a, b) => b.score - a.score);
         setResults(scored);
         setView('results');
     } catch (e) { alert("Database Error"); } finally { setLoading(false); }
+};
 };
 
 return (
