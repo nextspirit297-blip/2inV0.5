@@ -227,71 +227,6 @@ export default function App() {
     const [authError, setAuthError] = useState('');
 
     const t = TRANSLATIONS[lang];
-    const Engine = {
-    normalizeTo10: (vec) => {
-        if (vec.length === 10) return vec;
-        if (vec.length === 30) {
-            const result = [];
-            for (let i = 0; i < 30; i += 3) {
-                result.push((vec[i] + vec[i + 1] + vec[i + 2]) / 3);
-            }
-            return result;
-        }
-        return vec;
-    },
-
-    decode: (b64) => {
-        try {
-            let clean = b64.trim();
-            const codeBlockMatch = clean.match(/```(?:[a-zA-Z]*\n)?([\s\S]*?)```/);
-            if (codeBlockMatch) {
-                clean = codeBlockMatch[1].trim();
-            }
-            const decoded = atob(clean);
-            let parsed;
-            try {
-                parsed = JSON.parse(decoded);
-            } catch {
-                parsed = decoded.split(',').map(s => Number(s.trim()));
-            }
-            const values = Array.isArray(parsed) ? parsed : Object.values(parsed);
-            if (values.length > 0 && typeof values[0] === 'object' && 'C' in values[0]) {
-                return values.map(dim => (dim.C * 0.6) + (dim.S * 0.3) + (dim.V * 0.1));
-            } else {
-                return values.map(v => Number(v));
-            }
-        } catch { return null; }
-    },
-
-    calculate: (v1, v2) => {
-        const a = Engine.normalizeTo10(v1);
-        const b = Engine.normalizeTo10(v2);
-        let dot = 0, n1 = 0, n2 = 0;
-        for (let i = 0; i < a.length; i++) { dot += a[i] * b[i]; n1 += a[i] * a[i]; n2 += b[i] * b[i]; }
-        const sim = dot / (Math.sqrt(n1) * Math.sqrt(n2));
-        return isNaN(sim) ? 0 : sim;
-    }
-};
-
-export default function App() {
-    const [view, setView] = useState('landing');
-    const [lang, setLang] = useState('AR');
-    const [music, setMusic] = useState(false);
-    const [userInput, setUserInput] = useState('');
-    const [showLang, setShowLang] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [results, setResults] = useState([]);
-    const [quoteIndex, setQuoteIndex] = useState(0);
-    const [fade, setFade] = useState(true);
-    
-    const [authMode, setAuthMode] = useState(null);
-    const [password, setPassword] = useState('');
-    const [username, setUsername] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
-    const [session, setSession] = useState(null);
-    const [authError, setAuthError] = useState('');
-
-    const t = TRANSLATIONS[lang];
     useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
         setSession(session);
@@ -363,8 +298,7 @@ const handleLogout = async () => {
     setSession(null);
     setUsername('');
     setView('landing');
-};
-    const handleMatch = async () => {
+};const handleMatch = async () => {
     if (!userInput.trim()) return;
     setLoading(true);
     try {
