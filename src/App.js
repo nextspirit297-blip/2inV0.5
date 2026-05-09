@@ -45,7 +45,6 @@ const TRANSLATIONS = {
         match: "فك تشفير البصمة",
         resultsTitle: "الـصّـدَى الـوُجُـودِيّ",
         retry: "تحديث البصمة",
-        googleLogin: "الدخول عبر جوجل",
         createAccount: "إنشاء حساب",
         guestLogin: "الدخول كضيف",
         guestWarning: "ملاحظة: الدخول كضيف لا يسمح باسترجاع بياناتك أو رسائلك مستقبلاً بعد تسجيل الخروج.",
@@ -55,11 +54,6 @@ const TRANSLATIONS = {
         confirmSignup: "تأكيد إنشاء الحساب",
         confirmGuest: "تأكيد الدخول كضيف",
         back: "رجوع",
-        googleNameQuestion: "هل تريد استخدام اسمك من جوجل أم اختيار اسم مخصص؟",
-        useGoogleName: "استخدام اسم جوجل",
-        chooseCustomName: "اختيار اسم مخصص",
-        enterCustomName: "أدخل اسمك المخصص",
-        confirmName: "تأكيد",
         signupSuccess: "تم إنشاء الحساب بنجاح",
         quotes: [
             { text: "«الحقيقة لا توجد خارج المرء، بل هي كامنة في داخله.»", author: "كارل يونغ" },
@@ -79,56 +73,50 @@ const TRANSLATIONS = {
             { text: "«المعرفة الحقيقية هي أن تدرك مدى جهلك بنفسك أولاً.»", author: "سقراط" },
             { text: "«الاستقامة مع الذات هي أصعب أنواع الأمانة وأندرها.»", author: "فريدريك نيتشه" }
         ]
-    },
+    },    
     EN: {
-    start: "START EXISTENTIAL JOURNEY",
-    promptTitle: "Psychological Vector Prompt",
-    guide: [
-        "1. Copy the full prompt from the box below.",
-        "2. Provide it to your AI companion.",
-        "3. Deep interaction results in a more accurate fingerprint.",
-        "4. Paste the Base64 code here."
-    ],
-    input: "Paste your existential code here...",
-    match: "DECODE FINGERPRINT",
-    resultsTitle: "Existential Echo",
-    retry: "Update Fingerprint",
-    googleLogin: "Sign in with Google",
-    createAccount: "Create Account",
-    guestLogin: "Continue as Guest",
-    guestWarning: "Note: Guest mode does not allow data recovery after logout.",
-    usernameLabel: "Username",
-    passwordLabel: "Password",
-    usernameTaken: "Username already taken",
-    confirmSignup: "Confirm Sign Up",
-    confirmGuest: "Confirm Guest Entry",
-    back: "Back",
-    googleNameQuestion: "Use your Google name or choose a custom one?",
-    useGoogleName: "Use Google Name",
-    chooseCustomName: "Choose Custom Name",
-    enterCustomName: "Enter your custom name",
-    confirmName: "Confirm",
-    signupSuccess: "Account created successfully",
-    quotes: [
-        { text: "«Truth does not exist outside the person, but lies dormant within.»", author: "Carl Jung" },
-        { text: "«He who has a why to live can bear almost any how.»", author: "Friedrich Nietzsche" },
-        { text: "«Vision becomes clear only when you look into your heart.»", author: "Carl Jung" },
-        { text: "«Who looks outside dreams; who looks inside awakens.»", author: "Carl Jung" },
-        { text: "«Hell is other people, when we fail to understand ourselves beyond their judgment.»", author: "Jean-Paul Sartre" },
-        { text: "«The hardest thing in life is to know yourself; the easiest is to give advice to others.»", author: "Søren Kierkegaard" },
-        { text: "«Consciousness is the greatest suffering, yet the only path to freedom.»", author: "Fyodor Dostoevsky" },
-        { text: "«Every person has memories shared only with themselves, and others they dare not reveal even to themselves.»", author: "Fyodor Dostoevsky" },
-        { text: "«Happiness lies in the ability to know oneself without fear.»", author: "Plato" },
-        { text: "«You cannot change anything unless you first accept it.»", author: "Carl Jung" },
-        { text: "«We do not grow older through years, but renew ourselves daily through understanding ourselves.»", author: "Hermann Hesse" },
-        { text: "«Man is the being who always decides what he is.»", author: "Jean-Paul Sartre" },
-        { text: "«Fleeing from oneself is the shortest path to losing oneself in the crowd.»", author: "Søren Kierkegaard" },
-        { text: "«What we do not face within ourselves, we will meet in the outer world as fate.»", author: "Carl Jung" },
-        { text: "«True knowledge is realizing how ignorant you are of yourself first.»", author: "Socrates" },
-        { text: "«Integrity with oneself is the hardest and rarest form of honesty.»", author: "Friedrich Nietzsche" }
-    ]
-},   
-RU: {
+        start: "START EXISTENTIAL JOURNEY",
+        promptTitle: "Psychological Vector Prompt",
+        guide: [
+            "1. Copy the full prompt from the box below.",
+            "2. Provide it to your AI companion.",
+            "3. Deep interaction results in a more accurate fingerprint.",
+            "4. Paste the Base64 code here."
+        ],
+        input: "Paste your existential code here...",
+        match: "DECODE FINGERPRINT",
+        resultsTitle: "Existential Echo",
+        retry: "Update Fingerprint",
+        createAccount: "Create Account",
+        guestLogin: "Continue as Guest",
+        guestWarning: "Note: Guest mode does not allow data recovery after logout.",
+        usernameLabel: "Username",
+        passwordLabel: "Password",
+        usernameTaken: "Username already taken",
+        confirmSignup: "Confirm Sign Up",
+        confirmGuest: "Confirm Guest Entry",
+        back: "Back",
+        signupSuccess: "Account created successfully",
+        quotes: [
+            { text: "«Truth does not exist outside the person, but lies dormant within.»", author: "Carl Jung" },
+            { text: "«He who has a why to live can bear almost any how.»", author: "Friedrich Nietzsche" },
+            { text: "«Vision becomes clear only when you look into your heart.»", author: "Carl Jung" },
+            { text: "«Who looks outside dreams; who looks inside awakens.»", author: "Carl Jung" },
+            { text: "«Hell is other people, when we fail to understand ourselves beyond their judgment.»", author: "Jean-Paul Sartre" },
+            { text: "«The hardest thing in life is to know yourself; the easiest is to give advice to others.»", author: "Søren Kierkegaard" },
+            { text: "«Consciousness is the greatest suffering, yet the only path to freedom.»", author: "Fyodor Dostoevsky" },
+            { text: "«Every person has memories shared only with themselves, and others they dare not reveal even to themselves.»", author: "Fyodor Dostoevsky" },
+            { text: "«Happiness lies in the ability to know oneself without fear.»", author: "Plato" },
+            { text: "«You cannot change anything unless you first accept it.»", author: "Carl Jung" },
+            { text: "«We do not grow older through years, but renew ourselves daily through understanding ourselves.»", author: "Hermann Hesse" },
+            { text: "«Man is the being who always decides what he is.»", author: "Jean-Paul Sartre" },
+            { text: "«Fleeing from oneself is the shortest path to losing oneself in the crowd.»", author: "Søren Kierkegaard" },
+            { text: "«What we do not face within ourselves, we will meet in the outer world as fate.»", author: "Carl Jung" },
+            { text: "«True knowledge is realizing how ignorant you are of yourself first.»", author: "Socrates" },
+            { text: "«Integrity with oneself is the hardest and rarest form of honesty.»", author: "Friedrich Nietzsche" }
+        ]
+    },
+    RU: {
         start: "НАЧАТЬ ПУТЕШЕСТВИЕ",
         promptTitle: "Экзистенциальный запрос",
         guide: [
@@ -141,7 +129,6 @@ RU: {
         match: "РАСШИФРОВАТЬ ОТПЕЧАТОК",
         resultsTitle: "Экзистенциальное Эхо",
         retry: "Обновить отпечаток",
-        googleLogin: "Войти через Google",
         createAccount: "Создать аккаунт",
         guestLogin: "Продолжить как гость",
         guestWarning: "Примечание: Гостевой режим не позволяет восстановить данные после выхода.",
@@ -151,11 +138,6 @@ RU: {
         confirmSignup: "Подтвердить регистрацию",
         confirmGuest: "Подтвердить вход как гость",
         back: "Назад",
-        googleNameQuestion: "Использовать имя из Google или выбрать своё?",
-        useGoogleName: "Использовать имя Google",
-        chooseCustomName: "Выбрать своё имя",
-        enterCustomName: "Введите своё имя",
-        confirmName: "Подтвердить",
         signupSuccess: "Аккаунт успешно создан",
         quotes: [
             { text: '«Истина не существует вне человека, она дремлет внутри него.»', author: 'Карл Юнг' },
@@ -176,6 +158,7 @@ RU: {
             { text: '«Честность с самим собой — самая трудная и редкая форма честности.»', author: 'Фридрих Ницше' }
         ]
     }
+
 };
 const Engine = {
     normalizeTo10: (vec) => {
@@ -238,126 +221,88 @@ export default function App() {
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [googleName, setGoogleName] = useState('');
-    const [customName, setCustomName] = useState('');
     const [session, setSession] = useState(null);
     const [authError, setAuthError] = useState('');
 
-    const t = TRANSLATIONS[lang];  
+    const t = TRANSLATIONS[lang];
     useEffect(() => {
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            setSession(session);
-        });
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-            setSession(session);
-        });
-        return () => subscription.unsubscribe();
-    }, []);
-    useEffect(() => {
-    const checkSession = async () => {
-        const { data: { session: currentSession } } = await supabase.auth.getSession();
-        if (currentSession?.user) {
-            setSession(currentSession);
-            const name = currentSession.user?.user_metadata?.full_name || currentSession.user?.email?.split('@')[0] || '';
-            setGoogleName(name);
-            setAuthMode('google-name');
-            setView('auth');
-        }
-    };
-    checkSession();
-    }, []);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setFade(false);
-            setTimeout(() => {
-                setQuoteIndex(prev => (prev + 1) % t.quotes.length);
-                setFade(true);
-            }, 1500);
-        }, 8500);
-        return () => clearInterval(interval);
-    }, [t.quotes.length]);
-
-    useEffect(() => {
-        setQuoteIndex(0);
-        setFade(true);
-    }, [lang]);
-
-    const handleGoogleLogin = async () => {
-    setAuthError('');
-    const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: { 
-            redirectTo: 'https://2in-v0-5.vercel.app',
-            queryParams: { access_type: 'offline', prompt: 'consent' }
-        }
+    supabase.auth.getSession().then(({ data: { session } }) => {
+        setSession(session);
     });
-    if (error) setAuthError(error.message);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+        setSession(session);
+    });
+    return () => subscription.unsubscribe();
+}, []);
+
+useEffect(() => {
+    const interval = setInterval(() => {
+        setFade(false);
+        setTimeout(() => {
+            setQuoteIndex(prev => (prev + 1) % t.quotes.length);
+            setFade(true);
+        }, 1500);
+    }, 8500);
+    return () => clearInterval(interval);
+}, [t.quotes.length]);
+
+useEffect(() => {
+    setQuoteIndex(0);
+    setFade(true);
+}, [lang]);
+
+const handleLogin = async () => {
+    setAuthError('');
+    if (!username.trim() || !password.trim()) return;
+    
+    const fakeEmail = `${username.trim()}@2in.internal`;
+    const { data, error } = await supabase.auth.signInWithPassword({ email: fakeEmail, password });
+    if (error) { setAuthError(t.usernameTaken); return; }
+    
+    if (data.user) {
+        setUsername(username.trim());
+    }
+    
+    setAuthMode(null);
+    setView('onboarding');
 };
 
-    useEffect(() => {
-        if (session?.user) {
-            const name = session.user?.user_metadata?.full_name || session.user?.email?.split('@')[0] || '';
-            setGoogleName(name);
-            setAuthMode('google-name');
-        }
-    }, [session]);
+const handleSignup = async () => {
+    setAuthError('');
+    if (!username.trim() || !password.trim()) return;
+    
+    const fakeEmail = `${username.trim()}@2in.internal`;
+    
+    const { data: existing } = await supabase.from('profiles').select('username').eq('username', username.trim()).single();
+    if (existing) {
+        setAuthError(t.usernameTaken);
+        return;
+    }
+    
+    const { data, error } = await supabase.auth.signUp({ email: fakeEmail, password });
+    if (error) { setAuthError(error.message); return; }
+    
+    if (data.user) {
+        await supabase.from('profiles').upsert({ id: data.user.id, username: username.trim() });
+    }
+    
+    setAuthMode(null);
+    setView('onboarding');
+};
 
-    const handleGoogleNameChoice = (useGoogle) => {
-        if (useGoogle) {
-            setUsername(googleName);
-            setAuthMode(null);
-            setView('onboarding');
-        } else {
-            setAuthMode('google-name-custom');
-        }
-    };
+const handleGuestLogin = () => {
+    if (!username.trim()) return;
+    setAuthMode(null);
+    setView('onboarding');
+};
 
-    const confirmCustomName = () => {
-        if (customName.trim()) {
-            setUsername(customName.trim());
-            setAuthMode(null);
-            setView('onboarding');
-        }
-    };
-
-    const handleSignup = async () => {
-        setAuthError('');
-        if (!username.trim() || !password.trim()) return;
-        
-        const fakeEmail = `${username.trim()}@2in.internal`;
-        
-        const { data: existing } = await supabase.from('profiles').select('username').eq('username', username.trim()).single();
-        if (existing) {
-            setAuthError(t.usernameTaken);
-            return;
-        }
-        
-        const { data, error } = await supabase.auth.signUp({ email: fakeEmail, password });
-        if (error) { setAuthError(error.message); return; }
-        
-        if (data.user) {
-            await supabase.from('profiles').upsert({ id: data.user.id, username: username.trim() });
-        }
-        
-        setAuthMode(null);
-        setView('onboarding');
-    };
-
-    const handleGuestLogin = () => {
-        if (!username.trim()) return;
-        setAuthMode(null);
-        setView('onboarding');
-    };
-
-    const handleLogout = async () => {
-        await supabase.auth.signOut();
-        setSession(null);
-        setUsername('');
-        setView('landing');
-    };
-
-    const handleMatch = async () => {
+const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setSession(null);
+    setUsername('');
+    setView('landing');
+};
+        const handleMatch = async () => {
         if (!userInput.trim()) return;
         setLoading(true);
         try {
@@ -426,9 +371,8 @@ export default function App() {
                     <div className="absolute inset-0 flex flex-col items-center justify-center px-10 gap-8">
                         {authError && <p className="text-red-400 text-xl">{authError}</p>}
 
-                        <button onClick={handleGoogleLogin} className="w-full max-w-md py-8 bg-white text-gray-900 font-black rounded-full text-3xl flex items-center justify-center gap-4 active:scale-95">
-                            <svg viewBox="0 0 24 24" width="32" height="32"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-                            {t.googleLogin}
+                        <button onClick={() => { setAuthMode('login'); setAuthError(''); }} className="w-full max-w-md py-8 border-2 border-amber-300/40 rounded-full text-3xl font-black text-amber-300 flex items-center justify-center gap-4 active:scale-95">
+                            <LogIn size={32} /> {t.login}
                         </button>
 
                         <button onClick={() => { setAuthMode('signup'); setAuthError(''); }} className="w-full max-w-md py-8 border-2 border-amber-300/40 rounded-full text-3xl font-black text-amber-300 flex items-center justify-center gap-4 active:scale-95">
@@ -438,6 +382,20 @@ export default function App() {
                         <button onClick={() => { setAuthMode('guest'); setAuthError(''); }} className="w-full max-w-md py-8 border-2 border-amber-300/20 rounded-full text-3xl font-black text-amber-300/70 flex items-center justify-center gap-4 active:scale-95">
                             <LogIn size={32} /> {t.guestLogin}
                         </button>
+                    </div>
+                )}
+
+                {view === 'auth' && authMode === 'login' && (
+                    <div className="absolute inset-0 z-[300] bg-[#1a0a2e]/95 flex flex-col items-center justify-center px-10">
+                        <div className="w-full max-w-md space-y-6">
+                            <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder={t.usernameLabel} className="w-full bg-black border border-amber-300/30 rounded-2xl p-6 text-2xl text-amber-100 outline-none focus:border-amber-400" />
+                            <div className="relative">
+                                <input value={password} onChange={(e) => setPassword(e.target.value)} placeholder={t.passwordLabel} type={showPassword ? "text" : "password"} className="w-full bg-black border border-amber-300/30 rounded-2xl p-6 text-2xl text-amber-100 outline-none focus:border-amber-400 pr-16" />
+                                <button onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-amber-300/60">{showPassword ? <EyeOff size={28} /> : <Eye size={28} />}</button>
+                            </div>
+                            <button onClick={handleLogin} className="w-full py-8 bg-amber-400 text-black font-black rounded-full text-3xl">{t.confirmLogin}</button>
+                            <button onClick={() => setAuthMode(null)} className="w-full text-amber-300/50 text-xl">{t.back}</button>
+                        </div>
                     </div>
                 )}
 
@@ -462,27 +420,6 @@ export default function App() {
                             <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder={t.usernameLabel} className="w-full bg-black border border-amber-300/30 rounded-2xl p-6 text-2xl text-amber-100 outline-none focus:border-amber-400" />
                             <button onClick={handleGuestLogin} className="w-full py-8 border-2 border-amber-300/50 text-amber-300 font-black rounded-full text-3xl">{t.confirmGuest}</button>
                             <button onClick={() => setAuthMode(null)} className="w-full text-amber-300/50 text-xl">{t.back}</button>
-                        </div>
-                    </div>
-                )}
-
-                {authMode === 'google-name' && (
-                    <div className="absolute inset-0 z-[300] bg-[#1a0a2e]/95 flex flex-col items-center justify-center px-10">
-                        <div className="w-full max-w-md space-y-6 text-center">
-                            <p className="text-2xl text-amber-300 mb-4">{t.googleNameQuestion}</p>
-                            <p className="text-3xl text-amber-100 font-bold">{googleName}</p>
-                            <button onClick={() => handleGoogleNameChoice(true)} className="w-full py-8 bg-amber-400 text-black font-black rounded-full text-3xl">{t.useGoogleName}</button>
-                            <button onClick={() => handleGoogleNameChoice(false)} className="w-full py-8 border-2 border-amber-300/50 text-amber-300 font-black rounded-full text-3xl">{t.chooseCustomName}</button>
-                        </div>
-                    </div>
-                )}
-
-                {authMode === 'google-name-custom' && (
-                    <div className="absolute inset-0 z-[300] bg-[#1a0a2e]/95 flex flex-col items-center justify-center px-10">
-                        <div className="w-full max-w-md space-y-6">
-                            <input value={customName} onChange={(e) => setCustomName(e.target.value)} placeholder={t.enterCustomName} className="w-full bg-black border border-amber-300/30 rounded-2xl p-6 text-2xl text-amber-100 outline-none focus:border-amber-400" />
-                            <button onClick={confirmCustomName} className="w-full py-8 bg-amber-400 text-black font-black rounded-full text-3xl">{t.confirmName}</button>
-                            <button onClick={() => setAuthMode('google-name')} className="w-full text-amber-300/50 text-xl">{t.back}</button>
                         </div>
                     </div>
                 )}
