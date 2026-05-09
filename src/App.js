@@ -271,13 +271,13 @@ export default function App() {
     }, [lang]);
 
     const handleGoogleLogin = async () => {
-        setAuthError('');
-        const { error } = await supabase.auth.signInWithOAuth({
-            provider: 'google',
-            options: { redirectTo: window.location.origin }
-        });
-        if (error) setAuthError(error.message);
-    };
+    setAuthError('');
+    const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: { redirectTo: 'https://2in-v0-5.vercel.app' }
+    });
+    if (error) setAuthError(error.message);
+};
 
     useEffect(() => {
         if (session && !username && authMode !== 'google-name') {
