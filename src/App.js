@@ -287,7 +287,10 @@ export default function App() {
     setAuthError('');
     const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
-        options: { redirectTo: 'https://2in-v0-5.vercel.app' }
+        options: { 
+            redirectTo: 'https://2in-v0-5.vercel.app',
+            queryParams: { access_type: 'offline', prompt: 'consent' }
+        }
     });
     if (error) setAuthError(error.message);
 };
