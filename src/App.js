@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
-import { Volume2, VolumeX, Copy, Globe, Scan, LogIn, UserPlus, Eye, EyeOff } from 'lucide-react';
+import { Volume2, VolumeX, Copy, Globe, Scan, LogIn, UserPlus, Eye, EyeOff, LogOut, ArrowLeft } from 'lucide-react';
 
 const supabase = createClient(process.env.REACT_APP_SUPABASE_URL, process.env.REACT_APP_SUPABASE_ANON_KEY);
 
@@ -45,7 +45,6 @@ const TRANSLATIONS = {
         match: "فك تشفير البصمة",
         resultsTitle: "الـصّـدَى الـوُجُـودِيّ",
         retry: "تحديث البصمة",
-        // Auth page translations
         googleLogin: "الدخول عبر جوجل",
         createAccount: "إنشاء حساب",
         guestLogin: "الدخول كضيف",
@@ -82,55 +81,54 @@ const TRANSLATIONS = {
         ]
     },
     EN: {
-        start: "START EXISTENTIAL JOURNEY",
-        promptTitle: "Psychological Vector Prompt",
-        guide: [
-            "1. Copy the full prompt from the box below.",
-            "2. Provide it to your AI companion.",
-            "3. Deep interaction results in a more accurate fingerprint.",
-            "4. Paste the Base64 code here."
-        ],
-        input: "Paste your existential code here...",
-        match: "DECODE FINGERPRINT",
-        resultsTitle: "Existential Echo",
-        retry: "Update Fingerprint",
-        // Auth page translations
-        googleLogin: "Sign in with Google",
-        createAccount: "Create Account",
-        guestLogin: "Continue as Guest",
-        guestWarning: "Note: Guest mode does not allow data recovery after logout.",
-        usernameLabel: "Username",
-        passwordLabel: "Password",
-        usernameTaken: "Username already taken",
-        confirmSignup: "Confirm Sign Up",
-        confirmGuest: "Confirm Guest Entry",
-        back: "Back",
-        googleNameQuestion: "Use your Google name or choose a custom one?",
-        useGoogleName: "Use Google Name",
-        chooseCustomName: "Choose Custom Name",
-        enterCustomName: "Enter your custom name",
-        confirmName: "Confirm",
-        signupSuccess: "Account created successfully",
-        quotes: [
-            { text: "«Truth does not exist outside the person, but lies dormant within.»", author: "Carl Jung" },
-            { text: "«He who has a why to live can bear almost any how.»", author: "Friedrich Nietzsche" },
-            { text: "«Vision becomes clear only when you look into your heart.»", author: "Carl Jung" },
-            { text: "«Who looks outside dreams; who looks inside awakens.»", author: "Carl Jung" },
-            { text: "«Hell is other people, when we fail to understand ourselves beyond their judgment.»", author: "Jean-Paul Sartre" },
-            { text: "«The hardest thing in life is to know yourself; the easiest is to give advice to others.»", author: "Søren Kierkegaard" },
-            { text: "«Consciousness is the greatest suffering, yet the only path to freedom.»", author: "Fyodor Dostoevsky" },
-            { text: "«Every person has memories shared only with themselves, and others they dare not reveal even to themselves.»", author: "Fyodor Dostoevsky" },
-            { text: "«Happiness lies in the ability to know oneself without fear.»", author: "Plato" },
-            { text: "«You cannot change anything unless you first accept it.»", author: "Carl Jung" },
-            { text: "«We do not grow older through years, but renew ourselves daily through understanding ourselves.»", author: "Hermann Hesse" },
-            { text: "«Man is the being who always decides what he is.»", author: "Jean-Paul Sartre" },
-            { text: "«Fleeing from oneself is the shortest path to losing oneself in the crowd.»", author: "Søren Kierkegaard" },
-            { text: "«What we do not face within ourselves, we will meet in the outer world as fate.»", author: "Carl Jung" },
-            { text: "«True knowledge is realizing how ignorant you are of yourself first.»", author: "Socrates" },
-            { text: "«Integrity with oneself is the hardest and rarest form of honesty.»", author: "Friedrich Nietzsche" }
-        ]
-    },
-    RU: {
+    start: "START EXISTENTIAL JOURNEY",
+    promptTitle: "Psychological Vector Prompt",
+    guide: [
+        "1. Copy the full prompt from the box below.",
+        "2. Provide it to your AI companion.",
+        "3. Deep interaction results in a more accurate fingerprint.",
+        "4. Paste the Base64 code here."
+    ],
+    input: "Paste your existential code here...",
+    match: "DECODE FINGERPRINT",
+    resultsTitle: "Existential Echo",
+    retry: "Update Fingerprint",
+    googleLogin: "Sign in with Google",
+    createAccount: "Create Account",
+    guestLogin: "Continue as Guest",
+    guestWarning: "Note: Guest mode does not allow data recovery after logout.",
+    usernameLabel: "Username",
+    passwordLabel: "Password",
+    usernameTaken: "Username already taken",
+    confirmSignup: "Confirm Sign Up",
+    confirmGuest: "Confirm Guest Entry",
+    back: "Back",
+    googleNameQuestion: "Use your Google name or choose a custom one?",
+    useGoogleName: "Use Google Name",
+    chooseCustomName: "Choose Custom Name",
+    enterCustomName: "Enter your custom name",
+    confirmName: "Confirm",
+    signupSuccess: "Account created successfully",
+    quotes: [
+        { text: "«Truth does not exist outside the person, but lies dormant within.»", author: "Carl Jung" },
+        { text: "«He who has a why to live can bear almost any how.»", author: "Friedrich Nietzsche" },
+        { text: "«Vision becomes clear only when you look into your heart.»", author: "Carl Jung" },
+        { text: "«Who looks outside dreams; who looks inside awakens.»", author: "Carl Jung" },
+        { text: "«Hell is other people, when we fail to understand ourselves beyond their judgment.»", author: "Jean-Paul Sartre" },
+        { text: "«The hardest thing in life is to know yourself; the easiest is to give advice to others.»", author: "Søren Kierkegaard" },
+        { text: "«Consciousness is the greatest suffering, yet the only path to freedom.»", author: "Fyodor Dostoevsky" },
+        { text: "«Every person has memories shared only with themselves, and others they dare not reveal even to themselves.»", author: "Fyodor Dostoevsky" },
+        { text: "«Happiness lies in the ability to know oneself without fear.»", author: "Plato" },
+        { text: "«You cannot change anything unless you first accept it.»", author: "Carl Jung" },
+        { text: "«We do not grow older through years, but renew ourselves daily through understanding ourselves.»", author: "Hermann Hesse" },
+        { text: "«Man is the being who always decides what he is.»", author: "Jean-Paul Sartre" },
+        { text: "«Fleeing from oneself is the shortest path to losing oneself in the crowd.»", author: "Søren Kierkegaard" },
+        { text: "«What we do not face within ourselves, we will meet in the outer world as fate.»", author: "Carl Jung" },
+        { text: "«True knowledge is realizing how ignorant you are of yourself first.»", author: "Socrates" },
+        { text: "«Integrity with oneself is the hardest and rarest form of honesty.»", author: "Friedrich Nietzsche" }
+    ]
+},   
+RU: {
         start: "НАЧАТЬ ПУТЕШЕСТВИЕ",
         promptTitle: "Экзистенциальный запрос",
         guide: [
@@ -143,7 +141,6 @@ const TRANSLATIONS = {
         match: "РАСШИФРОВАТЬ ОТПЕЧАТОК",
         resultsTitle: "Экзистенциальное Эхо",
         retry: "Обновить отпечаток",
-        // Auth page translations
         googleLogin: "Войти через Google",
         createAccount: "Создать аккаунт",
         guestLogin: "Продолжить как гость",
@@ -180,9 +177,7 @@ const TRANSLATIONS = {
         ]
     }
 };
-
 const Engine = {
-    // Normalize any vector (old 30 or new 10) to length 10
     normalizeTo10: (vec) => {
         if (vec.length === 10) return vec;
         if (vec.length === 30) {
@@ -192,13 +187,12 @@ const Engine = {
             }
             return result;
         }
-        return vec; // fallback
+        return vec;
     },
 
     decode: (b64) => {
         try {
             let clean = b64.trim();
-            // Remove markdown code block if present
             const codeBlockMatch = clean.match(/```(?:[a-zA-Z]*\n)?([\s\S]*?)```/);
             if (codeBlockMatch) {
                 clean = codeBlockMatch[1].trim();
@@ -208,22 +202,18 @@ const Engine = {
             try {
                 parsed = JSON.parse(decoded);
             } catch {
-                // Not JSON, try CSV: "13.42, 12.35, ..."
                 parsed = decoded.split(',').map(s => Number(s.trim()));
             }
             const values = Array.isArray(parsed) ? parsed : Object.values(parsed);
             if (values.length > 0 && typeof values[0] === 'object' && 'C' in values[0]) {
-                // New spectral format: merge C, S, V via weighted formula
                 return values.map(dim => (dim.C * 0.6) + (dim.S * 0.3) + (dim.V * 0.1));
             } else {
-                // Old format: plain array of numbers
                 return values.map(v => Number(v));
             }
         } catch { return null; }
     },
 
     calculate: (v1, v2) => {
-        // Normalize both vectors to length 10
         const a = Engine.normalizeTo10(v1);
         const b = Engine.normalizeTo10(v2);
         let dot = 0, n1 = 0, n2 = 0;
@@ -244,8 +234,7 @@ export default function App() {
     const [quoteIndex, setQuoteIndex] = useState(0);
     const [fade, setFade] = useState(true);
     
-    // Auth states
-    const [authMode, setAuthMode] = useState(null); // 'signup' | 'guest' | 'google-name'
+    const [authMode, setAuthMode] = useState(null);
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -254,9 +243,7 @@ export default function App() {
     const [session, setSession] = useState(null);
     const [authError, setAuthError] = useState('');
 
-    const t = TRANSLATIONS[lang];
-
-    // Check existing session on mount
+    const t = TRANSLATIONS[lang];  
     useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {
             setSession(session);
@@ -267,7 +254,6 @@ export default function App() {
         return () => subscription.unsubscribe();
     }, []);
 
-    // Rotate quotes with slow fade
     useEffect(() => {
         const interval = setInterval(() => {
             setFade(false);
@@ -279,13 +265,11 @@ export default function App() {
         return () => clearInterval(interval);
     }, [t.quotes.length]);
 
-    // Reset quote index when language changes
     useEffect(() => {
         setQuoteIndex(0);
         setFade(true);
     }, [lang]);
 
-    // Google OAuth login
     const handleGoogleLogin = async () => {
         setAuthError('');
         const { error } = await supabase.auth.signInWithOAuth({
@@ -295,7 +279,6 @@ export default function App() {
         if (error) setAuthError(error.message);
     };
 
-    // Show google name modal after google login
     useEffect(() => {
         if (session && !username && authMode !== 'google-name') {
             const name = session.user?.user_metadata?.full_name || session.user?.email?.split('@')[0] || '';
@@ -304,7 +287,6 @@ export default function App() {
         }
     }, [session]);
 
-    // Handle google name choice
     const handleGoogleNameChoice = (useGoogle) => {
         if (useGoogle) {
             setUsername(googleName);
@@ -323,14 +305,12 @@ export default function App() {
         }
     };
 
-    // Username + Password only Signup (fake email internally)
     const handleSignup = async () => {
         setAuthError('');
         if (!username.trim() || !password.trim()) return;
         
         const fakeEmail = `${username.trim()}@2in.internal`;
         
-        // Check if username already exists in profiles
         const { data: existing } = await supabase.from('profiles').select('username').eq('username', username.trim()).single();
         if (existing) {
             setAuthError(t.usernameTaken);
@@ -348,11 +328,17 @@ export default function App() {
         setView('onboarding');
     };
 
-    // Guest login
     const handleGuestLogin = () => {
         if (!username.trim()) return;
         setAuthMode(null);
         setView('onboarding');
+    };
+
+    const handleLogout = async () => {
+        await supabase.auth.signOut();
+        setSession(null);
+        setUsername('');
+        setView('landing');
     };
 
     const handleMatch = async () => {
@@ -400,6 +386,9 @@ export default function App() {
                         )}
                     </div>
                     <button onClick={() => setMusic(!music)} className="text-amber-300/50">{music ? <Volume2 /> : <VolumeX />}</button>
+                    {session && (
+                        <button onClick={handleLogout} className="text-red-400/50 hover:text-red-400" title="تسجيل خروج"><LogOut size={14} /></button>
+                    )}
                 </div>
             </header>
 
@@ -417,30 +406,25 @@ export default function App() {
                     </div>
                 )}
 
-                {/* AUTH PAGE */}
                 {view === 'auth' && (
                     <div className="absolute inset-0 flex flex-col items-center justify-center px-10 gap-8">
                         {authError && <p className="text-red-400 text-xl">{authError}</p>}
 
-                        {/* Google Login Button */}
                         <button onClick={handleGoogleLogin} className="w-full max-w-md py-8 bg-white text-gray-900 font-black rounded-full text-3xl flex items-center justify-center gap-4 active:scale-95">
                             <svg viewBox="0 0 24 24" width="32" height="32"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
                             {t.googleLogin}
                         </button>
 
-                        {/* Create Account Button */}
                         <button onClick={() => { setAuthMode('signup'); setAuthError(''); }} className="w-full max-w-md py-8 border-2 border-amber-300/40 rounded-full text-3xl font-black text-amber-300 flex items-center justify-center gap-4 active:scale-95">
                             <UserPlus size={32} /> {t.createAccount}
                         </button>
 
-                        {/* Guest Login Button */}
                         <button onClick={() => { setAuthMode('guest'); setAuthError(''); }} className="w-full max-w-md py-8 border-2 border-amber-300/20 rounded-full text-3xl font-black text-amber-300/70 flex items-center justify-center gap-4 active:scale-95">
                             <LogIn size={32} /> {t.guestLogin}
                         </button>
                     </div>
                 )}
 
-                {/* SIGNUP MODAL */}
                 {view === 'auth' && authMode === 'signup' && (
                     <div className="absolute inset-0 z-[300] bg-[#1a0a2e]/95 flex flex-col items-center justify-center px-10">
                         <div className="w-full max-w-md space-y-6">
@@ -455,7 +439,6 @@ export default function App() {
                     </div>
                 )}
 
-                {/* GUEST MODAL */}
                 {view === 'auth' && authMode === 'guest' && (
                     <div className="absolute inset-0 z-[300] bg-[#1a0a2e]/95 flex flex-col items-center justify-center px-10">
                         <div className="w-full max-w-md space-y-6">
@@ -467,7 +450,6 @@ export default function App() {
                     </div>
                 )}
 
-                {/* GOOGLE NAME CHOICE MODAL */}
                 {authMode === 'google-name' && (
                     <div className="absolute inset-0 z-[300] bg-[#1a0a2e]/95 flex flex-col items-center justify-center px-10">
                         <div className="w-full max-w-md space-y-6 text-center">
@@ -479,7 +461,6 @@ export default function App() {
                     </div>
                 )}
 
-                {/* GOOGLE CUSTOM NAME MODAL */}
                 {authMode === 'google-name-custom' && (
                     <div className="absolute inset-0 z-[300] bg-[#1a0a2e]/95 flex flex-col items-center justify-center px-10">
                         <div className="w-full max-w-md space-y-6">
@@ -492,6 +473,7 @@ export default function App() {
 
                 {view === 'onboarding' && (
                     <div className="absolute inset-0 flex flex-col items-center px-10 pt-4 space-y-8 overflow-y-auto pb-60">
+                        <button onClick={() => setView('auth')} className="self-start text-amber-300/50 hover:text-amber-300 flex items-center gap-2 text-xl ml-2"><ArrowLeft size={24} /> {t.back}</button>
                         <div className="w-full bg-white/5 border border-amber-300/20 rounded-[3.5rem] p-10" dir={lang === 'AR' ? "rtl" : "ltr"}>
                             <div className="flex justify-between items-center mb-8 border-b border-amber-300/20 pb-6">
                                 <span className="text-5xl font-bold text-amber-300">{t.promptTitle}</span>
