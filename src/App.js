@@ -299,7 +299,7 @@ const handleLogout = async () => {
     setUsername('');
     setView('landing');
 };
-    const handleMatch = async () => {
+const handleMatch = async () => {
     if (!userInput.trim()) return;
     setLoading(true);
     try {
@@ -325,7 +325,8 @@ const handleLogout = async () => {
         setView('results');
     } catch (e) { alert("Database Error"); } finally { setLoading(false); }
 };
-};
+    
+    
 
 return (
     <div className="fixed inset-0 w-full h-full bg-[#1a0a2e] text-gray-300 font-serif flex flex-col overflow-hidden select-none">
