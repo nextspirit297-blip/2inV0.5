@@ -45,22 +45,24 @@ const TRANSLATIONS = {
         match: "فك تشفير البصمة",
         resultsTitle: "الـصّـدَى الـوُجُـودِيّ",
         retry: "تحديث البصمة",
-        quotes: [{ text: "«لم يكن هدفي سوى محاولة أن أحيا وفقاً للدوافع التي تنبع من ذاتي الحقيقية، فلماذا كان ذلك بتلك الصعوبة؟»", author: "هيرمان هسه" }]
-    },
-    RU: {
-        start: "НАЧАТЬ ПУТЕШЕСТВИЕ",
-        promptTitle: "Экзистенциальный запрос",
-        guide: [
-            "1. Скопируйте полный запрос из поля ниже.",
-            "2. Передайте его любому ИИ (Gemini, ChatGPT и т. д.).",
-            "3. Помните: чем глубже ваш диалог, тем точнее будет ваш отпечаток.",
-            "4. Скопируйте полученный Base64-код и вставьте его здесь."
-        ],
-        input: "Вставьте ваш экзистенциальный код...",
-        match: "РАСШИФРОВАТЬ ОТПЕЧАТОК",
-        resultsTitle: "Экзистенциальное Эхо",
-        retry: "Обновить отпечаток",
-        quotes: [{ text: "«Моей целью было лишь жить в соответствии с импульсами моего истинного я.»", author: "Герман Гессе" }]
+        quotes: [
+            { text: "«الحقيقة لا توجد خارج المرء، بل هي كامنة في داخله.»", author: "كارل يونغ" },
+            { text: "«من يمتلك سبباً يعيش من أجله، يمكنه تحمل أي شيء تقريباً.»", author: "فريدريك نيتشه" },
+            { text: "«لا تصبح الرؤية واضحة إلا حين تنظر إلى قلبك.»", author: "كارل يونغ" },
+            { text: "«من ينظر للخارج يحلم، ومن ينظر للداخل يستيقظ.»", author: "كارل يونغ" },
+            { text: "«الجحيم هو الآخرون، حين نفشل في فهم ذواتنا بعيداً عن أحكامهم.»", author: "جان بول سارتر" },
+            { text: "«أصعب شيء في الحياة هو أن تعرف نفسك، وأسهل شيء هو أن تعطي نصيحة للآخرين.»", author: "سورين كيركغارد" },
+            { text: "«الوعي هو المعاناة الكبرى، لكنه الطريق الوحيد للحرية.»", author: "فيودور دوستويفسكي" },
+            { text: "«كل إنسان لديه ذكريات لا يشاركها إلا مع نفسه، وأخرى لا يجرؤ حتى على كشفها لنفسه.»", author: "فيودور دوستويفسكي" },
+            { text: "«تكمن السعادة في القدرة على التعرف على المرء لذاته دون خوف.»", author: "أفلاطون" },
+            { text: "«لا يمكنك تغيير أي شيء ما لم تتقبله أولاً.»", author: "كارل يونغ" },
+            { text: "«نحن لا نكبر عبر السنين، بل نتجدد كل يوم من خلال فهمنا لذواتنا.»", author: "هرمان هسه" },
+            { text: "«الإنسان هو الكائن الذي يقرر دائماً ما هو عليه.»", author: "جان بول سارتر" },
+            { text: "«الهروب من الذات هو أقصر طريق للضياع في الزحام.»", author: "سورين كيركغارد" },
+            { text: "«ما لا نواجهه في ذواتنا، سنواجهه في العالم الخارجي كقدر.»", author: "كارل يونغ" },
+            { text: "«المعرفة الحقيقية هي أن تدرك مدى جهلك بنفسك أولاً.»", author: "سocrates" },
+            { text: "«الاستقامة مع الذات هي أصعب أنواع الأمانة وأندرها.»", author: "فريدريك نيتشه" }
+        ]
     },
     EN: {
         start: "START EXISTENTIAL JOURNEY",
@@ -75,7 +77,56 @@ const TRANSLATIONS = {
         match: "DECODE FINGERPRINT",
         resultsTitle: "Existential Echo",
         retry: "Update Fingerprint",
-        quotes: [{ text: "«My goal was only to live in accordance with the impulses from my true self.»", author: "Hermann Hesse" }]
+        quotes: [
+            { text: "«Truth does not exist outside the person, but lies dormant within.»", author: "Carl Jung" },
+            { text: "«He who has a why to live can bear almost any how.»", author: "Friedrich Nietzsche" },
+            { text: "«Vision becomes clear only when you look into your heart.»", author: "Carl Jung" },
+            { text: "«Who looks outside dreams; who looks inside awakens.»", author: "Carl Jung" },
+            { text: "«Hell is other people, when we fail to understand ourselves beyond their judgment.»", author: "Jean-Paul Sartre" },
+            { text: "«The hardest thing in life is to know yourself; the easiest is to give advice to others.»", author: "Søren Kierkegaard" },
+            { text: "«Consciousness is the greatest suffering, yet the only path to freedom.»", author: "Fyodor Dostoevsky" },
+            { text: "«Every person has memories shared only with themselves, and others they dare not reveal even to themselves.»", author: "Fyodor Dostoevsky" },
+            { text: "«Happiness lies in the ability to know oneself without fear.»", author: "Plato" },
+            { text: "«You cannot change anything unless you first accept it.»", author: "Carl Jung" },
+            { text: "«We do not grow older through years, but renew ourselves daily through understanding ourselves.»", author: "Hermann Hesse" },
+            { text: "«Man is the being who always decides what he is.»", author: "Jean-Paul Sartre" },
+            { text: "«Fleeing from oneself is the shortest path to losing oneself in the crowd.»", author: "Søren Kierkegaard" },
+            { text: "«What we do not face within ourselves, we will meet in the outer world as fate.»", author: "Carl Jung" },
+            { text: "«True knowledge is realizing how ignorant you are of yourself first.»", author: "Socrates" },
+            { text: "«Integrity with oneself is the hardest and rarest form of honesty.»", author: "Friedrich Nietzsche" }
+        ]
+    },
+    RU: {
+        start: "НАЧАТЬ ПУТЕШЕСТВИЕ",
+        promptTitle: "Экзистенциальный запрос",
+        guide: [
+            "1. Скопируйте полный запрос из поля ниже.",
+            "2. Передайте его любому ИИ (Gemini, ChatGPT и т. д.).",
+            "3. Помните: чем глубже ваш диалог, тем точнее будет ваш отпечаток.",
+            "4. Скопируйте полученный Base64-код и вставьте его здесь."
+        ],
+        input: "Вставьте ваш экзистенциальный код...",
+        match: "РАСШИФРОВАТЬ ОТПЕЧАТОК",
+        resultsTitle: "Экзистенциальное Эхо",
+        retry: "Обновить отпечаток",
+        quotes: [
+            { text: "«Истина не существует вне человека, она дремлет внутри него.»", author: "Карл Юнг" },
+            { text: "«Тот, у кого есть "зачем" жить, может выдержать почти любое "как".»", author: "Фридрих Ницше" },
+            { text: "«Видение становится ясным только тогда, когда смотришь в свое сердце.»", author: "Карл Юнг" },
+            { text: "«Кто смотрит наружу — видит сны; кто смотрит внутрь — пробуждается.»", author: "Карл Юнг" },
+            { text: "«Ад — это другие, когда мы не можем понять себя вне их осуждения.»", author: "Жан-Поль Сартр" },
+            { text: "«Самое трудное в жизни — познать себя; самое легкое — давать советы другим.»", author: "Сёрен Кьеркегор" },
+            { text: "«Сознание — величайшее страдание, но единственный путь к свободе.»", author: "Фёдор Достоевский" },
+            { text: "«У каждого есть воспоминания, которыми он делится только с собой, и другие, которые не смеет раскрыть даже себе.»", author: "Фёдор Достоевский" },
+            { text: "«Счастье заключается в способности познавать себя без страха.»", author: "Платон" },
+            { text: "«Нельзя ничего изменить, пока не примешь это.»", author: "Карл Юнг" },
+            { text: "«Мы не стареем с годами, а обновляемся каждый день через понимание себя.»", author: "Герман Гессе" },
+            { text: "«Человек — это существо, которое всегда решает, чем оно является.»", author: "Жан-Поль Сартр" },
+            { text: "«Бегство от себя — кратчайший путь потеряться в толпе.»", author: "Сёрен Кьеркегор" },
+            { text: "«То, с чем мы не сталкиваемся внутри себя, мы встретим во внешнем мире как судьбу.»", author: "Карл Юнг" },
+            { text: "«Истинное знание — осознать, насколько ты невежественен прежде всего о себе.»", author: "Сократ" },
+            { text: "«Честность с самим собой — самая трудная и редкая форма честности.»", author: "Фридрих Ницше" }
+        ]
     }
 };
 
@@ -139,8 +190,28 @@ export default function App() {
     const [showLang, setShowLang] = useState(false);
     const [loading, setLoading] = useState(false);
     const [results, setResults] = useState([]);
+    const [quoteIndex, setQuoteIndex] = useState(0);
+    const [fade, setFade] = useState(true);
 
     const t = TRANSLATIONS[lang];
+
+    // Rotate quotes with slow fade
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setFade(false);
+            setTimeout(() => {
+                setQuoteIndex(prev => (prev + 1) % t.quotes.length);
+                setFade(true);
+            }, 1500);
+        }, 5500);
+        return () => clearInterval(interval);
+    }, [t.quotes.length]);
+
+    // Reset quote index when language changes
+    useEffect(() => {
+        setQuoteIndex(0);
+        setFade(true);
+    }, [lang]);
 
     const handleMatch = async () => {
         if (!userInput.trim()) return;
@@ -161,7 +232,11 @@ export default function App() {
 
     return (
         <div className="fixed inset-0 w-full h-full bg-[#1a0a2e] text-gray-300 font-serif flex flex-col overflow-hidden select-none">
-            <style>{`.gold-text { background: linear-gradient(to bottom, #ffffff, #f0c850); -webkit-background-clip: text; -webkit-text-fill-color: transparent; } .spiritual-quote { color: #ffd700; text-shadow: 0 0 50px rgba(255, 215, 0, 0.9), 0 0 100px rgba(255, 200, 0, 0.7), 0 0 150px rgba(255, 180, 0, 0.5), 0 0 200px rgba(212, 175, 55, 0.4); }`}</style>
+            <style>{`
+                .gold-text { background: linear-gradient(to bottom, #ffffff, #f0c850); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+                .spiritual-quote { color: #ffdf00; text-shadow: 0 0 40px rgba(255, 223, 0, 0.9), 0 0 80px rgba(255, 215, 0, 0.7), 0 0 120px rgba(255, 200, 0, 0.5), 0 0 180px rgba(212, 175, 55, 0.4); }
+                .quote-fade { transition: opacity 1.5s ease-in-out; }
+            `}</style>
             
             {music && <audio autoPlay loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3" />}
 
@@ -237,8 +312,12 @@ export default function App() {
                 )}
 
                 <div className="absolute bottom-20 w-full px-12 text-center pointer-events-none">
-                    <p className="text-4xl md:text-5xl spiritual-quote italic mb-6 leading-tight font-medium" dir={lang === 'AR' ? "rtl" : "ltr"}>{t.quotes[0].text}</p>
-                    <p className="text-2xl text-amber-300/40">— {t.quotes[0].author}</p>
+                    <p className={`text-4xl md:text-5xl spiritual-quote italic mb-6 leading-tight font-medium quote-fade ${fade ? 'opacity-100' : 'opacity-0'}`} dir={lang === 'AR' ? "rtl" : "ltr"}>
+                        {t.quotes[quoteIndex].text}
+                    </p>
+                    <p className={`text-2xl text-amber-300/40 quote-fade ${fade ? 'opacity-100' : 'opacity-0'}`}>
+                        — {t.quotes[quoteIndex].author}
+                    </p>
                 </div>
             </main>
         </div>
