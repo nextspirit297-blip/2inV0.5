@@ -110,24 +110,23 @@ const TRANSLATIONS = {
         resultsTitle: "Экзистенциальное Эхо",
         retry: "Обновить отпечаток",
         quotes: [
-
-    { text: '«Истина не существует вне человека, она дремлет внутри него.»', author: 'Карл Юнг' },
-    { text: '«Тот, у кого есть "зачем" жить, может выдержать почти любое "как".»', author: 'Фридрих Ницше' },
-    { text: '«Видение становится ясным только тогда, когда смотришь в свое сердце.»', author: 'Карл Юнг' },
-    { text: '«Кто смотрит наружу — видит сны; кто смотрит внутрь — пробуждается.»', author: 'Карл Юнг' },
-    { text: '«Ад — это другие, когда мы не можем понять себя вне их осуждения.»', author: 'Жан-Поль Сартр' },
-    { text: '«Самое трудное в жизни — познать себя; самое легкое — давать советы другим.»', author: 'Сёрен Кьеркегор' },
-    { text: '«Сознание — величайшее страдание, но единственный путь к свободе.»', author: 'Фёдор Достоевский' },
-    { text: '«У каждого есть воспоминания, которыми он делится только с собой, и другие, которые не смеет раскрыть даже себе.»', author: 'Фёдор Достоевский' },
-    { text: '«Счастье заключается в способности познавать себя без страха.»', author: 'Платон' },
-    { text: '«Нельзя ничего изменить, пока не примешь это.»', author: 'Карл Юнг' },
-    { text: '«Мы не стареем с годами, а обновляемся каждый день через понимание себя.»', author: 'Герман Гессе' },
-    { text: '«Человек — это существо, которое всегда решает, чем оно является.»', author: 'Жан-Поль Сартр' },
-    { text: '«Бегство от себя — кратчайший путь потеряться в толпе.»', author: 'Сёрен Кьеркегор' },
-    { text: '«То, с чем мы не сталкиваемся внутри себя, мы встретим во внешнем мире как судьбу.»', author: 'Карл Юнг' },
-    { text: '«Истинное знание — осознать, насколько ты невежественен прежде всего о себе.»', author: 'Сократ' },
-    { text: '«Честность с самим собой — самая трудная и редкая форма честности.»', author: 'Фридрих Ницше' }
-]
+            { text: '«Истина не существует вне человека, она дремлет внутри него.»', author: 'Карл Юнг' },
+            { text: '«Тот, у кого есть "зачем" жить, может выдержать почти любое "как".»', author: 'Фридрих Ницше' },
+            { text: '«Видение становится ясным только тогда, когда смотришь в свое сердце.»', author: 'Карл Юнг' },
+            { text: '«Кто смотрит наружу — видит сны; кто смотрит внутрь — пробуждается.»', author: 'Карл Юнг' },
+            { text: '«Ад — это другие, когда мы не можем понять себя вне их осуждения.»', author: 'Жан-Поль Сартр' },
+            { text: '«Самое трудное в жизни — познать себя; самое легкое — давать советы другим.»', author: 'Сёрен Кьеркегор' },
+            { text: '«Сознание — величайшее страдание, но единственный путь к свободе.»', author: 'Фёдор Достоевский' },
+            { text: '«У каждого есть воспоминания, которыми он делится только с собой, и другие, которые не смеет раскрыть даже себе.»', author: 'Фёдор Достоевский' },
+            { text: '«Счастье заключается в способности познавать себя без страха.»', author: 'Платон' },
+            { text: '«Нельзя ничего изменить, пока не примешь это.»', author: 'Карл Юнг' },
+            { text: '«Мы не стареем с годами, а обновляемся каждый день через понимание себя.»', author: 'Герман Гессе' },
+            { text: '«Человек — это существо, которое всегда решает, чем оно является.»', author: 'Жан-Поль Сартр' },
+            { text: '«Бегство от себя — кратчайший путь потеряться в толпе.»', author: 'Сёрен Кьеркегор' },
+            { text: '«То, с чем мы не сталкиваемся внутри себя, мы встретим во внешнем мире как судьбу.»', author: 'Карл Юнг' },
+            { text: '«Истинное знание — осознать, насколько ты невежественен прежде всего о себе.»', author: 'Сократ' },
+            { text: '«Честность с самим собой — самая трудная и редкая форма честности.»', author: 'Фридрих Ницше' }
+        ]
     }
 };
 
@@ -232,11 +231,14 @@ export default function App() {
     };
 
     return (
-        <div className="fixed inset-0 w-full h-full bg-[#1a0a2e] text-gray-300 font-serif flex flex-col overflow-hidden select-none">
+        <div className="fixed inset-0 w-full h-full bg-[#1a0a2e] text-gray-300 flex flex-col overflow-hidden select-none" style={{ fontFamily: "'Cairo', serif" }}>
             <style>{`
+                @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap');
                 .gold-text { background: linear-gradient(to bottom, #ffffff, #f0c850); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
                 .spiritual-quote { color: #ffdf00; text-shadow: 0 0 40px rgba(255, 223, 0, 0.9), 0 0 80px rgba(255, 215, 0, 0.7), 0 0 120px rgba(255, 200, 0, 0.5), 0 0 180px rgba(212, 175, 55, 0.4); }
                 .quote-fade { transition: opacity 1.5s ease-in-out; }
+                @keyframes logoGlow { 0%, 100% { filter: drop-shadow(0 0 30px rgba(255, 200, 0, 0.3)); } 50% { filter: drop-shadow(0 0 60px rgba(255, 200, 0, 0.7)); } }
+                .logo-glow { animation: logoGlow 3s ease-in-out infinite; }
             `}</style>
             
             {music && <audio autoPlay loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3" />}
@@ -262,7 +264,7 @@ export default function App() {
             <main className="flex-1 relative flex flex-col items-center w-full h-full">
                 {view === 'landing' && (
                     <div className="absolute inset-0 flex flex-col items-center pt-[10vh]">
-                        <div className="flex flex-col items-center" dir="ltr">
+                        <div className="flex flex-col items-center logo-glow" dir="ltr">
                             <div className="flex items-baseline gap-8">
                                 <span className="text-[16rem] font-black gold-text leading-none">2</span>
                                 <span className="text-[11rem] font-thin text-amber-300/30 leading-none">in</span>
