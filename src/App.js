@@ -253,6 +253,19 @@ export default function App() {
         });
         return () => subscription.unsubscribe();
     }, []);
+    useEffect(() => {
+    const checkSession = async () => {
+        const { data: { session: currentSession } } = await supabase.auth.getSession();
+        if (currentSession?.user) {
+            setSession(currentSession);
+            const name = currentSession.user?.user_metadata?.full_name || currentSession.user?.email?.split('@')[0] || '';
+            setGoogleName(name);
+            setAuthMode('google-name');
+            setView('auth');
+        }
+    };
+    checkSession();
+    }, []);
 
     useEffect(() => {
         const interval = setInterval(() => {
