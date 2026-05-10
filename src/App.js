@@ -315,9 +315,9 @@ const handleMatch = async () => {
     setLoading(true);
     try {
         const userVector = Engine.decode(userInput);
-        if (!userVector) { alert("Format Error"); setLoading(false); return; }
+        if (!userVector) { alert("فشل فك التشفير"); setLoading(false); return; }
         
-        // Save user's vector if logged in
+        // حفظ البصمة إذا مسجل دخول
         if (session?.user) {
             await supabase.from('profiles').upsert({ 
                 id: session.user.id, 
@@ -326,15 +326,28 @@ const handleMatch = async () => {
             });
         }
         
-        const { data: users, error } = await supabase.from('profiles').select('username, vector_data');
+        // جلب الجميع
+        const { data: allUsers, error } = await supabase.from('profiles').select('id, username, vector_data');
         if (error) throw error;
-        const scored = (users || []).filter(u => u.vector_data).map(u => ({
-            name: u.username,
-            score: (Engine.calculate(userVector, u.vector_data) * 100).toFixed(2)
-        })).filter(u => u.score > 0).sort((a, b) => b.score - a.score);
-        setResults(scored);
+
+        let message = `بصمتك (${userVector.length} أبعاد): ${JSON.stringify(userVector.slice(0, 3))}...\n\n`;
+        
+        const others = (allUsers || []).filter(u => u.vector_data && u.id !== session?.user?.id);
+        
+        if (others.length === 0) {
+            message += "لا يوجد مستخدمين آخرين للمقارنة.";
+        } else {
+            for (let u of others) {
+                const v = u.vector_data;
+                const score = (Engine.calculate(userVector, v) * 100).toFixed(2);
+                message += `${u.username}: ${v.length} أبعاد, تطابق ${score}%\n`;
+            }
+        }
+        
+        alert(message);
+        setResults([]);
         setView('results');
-    } catch (e) { alert("Database Error"); } finally { setLoading(false); }
+    } catch (e) { alert("خطأ: " + e.message); } finally { setLoading(false); }
 };
     
     
