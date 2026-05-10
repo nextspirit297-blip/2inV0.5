@@ -177,43 +177,42 @@ const TRANSLATIONS = {
         ]
     }
 };
-const Engine = {
-
-  decode: (b64) => {
-    try {
-        let clean = b64.trim();
-        // Extract from markdown if present
-        const m = clean.match(/```[\s\S]*?\n([\s\S]*?)```/);
-        if (m) clean = m[1].trim();
-        // Decode Base64
-        const json = JSON.parse(atob(clean));
-        const dims = Object.values(json);
-        if (dims.length > 0 && typeof dims[0] === 'object') {
-            return dims.map(d => {
-                const C = d.C || 7.5;
-                const S = d.S || 7.5;
-                const V = d.V || d.v || 0;
-                return (C * 0.6) + (S * 0.3) + (V * 0.1);
-            });
-        }
-        if (Array.isArray(dims) && dims.length > 0 && typeof dims[0] === 'number') {
-            return dims;
-        }
-        return null;
-    } catch { return null; }
-},
+  const Engine = {
+    normalizeTo10: (vec) => vec,
+    
+    decode: (b64) => {
+        try {
+            let clean = b64.trim();
+            const m = clean.match(/```[\s\S]*?\n([\s\S]*?)```/);
+            if (m) clean = m[1].trim();
+            const json = JSON.parse(atob(clean));
+            const dims = Object.values(json);
+            if (dims.length > 0 && typeof dims[0] === 'object') {
+                return dims.map(d => {
+                    const C = d.C || 7.5;
+                    const S = d.S || 7.5;
+                    const V = d.V || d.v || 0;
+                    return (C * 0.6) + (S * 0.3) + (V * 0.1);
+                });
+            }
+            if (Array.isArray(dims) && dims.length > 0 && typeof dims[0] === 'number') {
+                return dims;
+            }
+            return null;
+        } catch { return null; }
+    },
 
     calculate: (a, b) => {
-    if (!a || !b || a.length !== b.length) return 0;
-    let dot = 0, na = 0, nb = 0;
-    for (let i = 0; i < a.length; i++) {
-        dot += a[i] * b[i];
-        na += a[i] * a[i];
-        nb += b[i] * b[i];
+        if (!a || !b || a.length !== b.length) return 0;
+        let dot = 0, na = 0, nb = 0;
+        for (let i = 0; i < a.length; i++) {
+            dot += a[i] * b[i];
+            na += a[i] * a[i];
+            nb += b[i] * b[i];
+        }
+        const sim = dot / (Math.sqrt(na) * Math.sqrt(nb));
+        return isNaN(sim) ? 0 : sim;
     }
-    const sim = dot / (Math.sqrt(na) * Math.sqrt(nb));
-    return isNaN(sim) ? 0 : sim;
-}
 };
 
 export default function App() {
