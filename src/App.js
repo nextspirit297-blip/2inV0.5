@@ -259,11 +259,13 @@ const handleLogin = async () => {
     const fakeEmail = `${username.trim()}@2in.internal`;
     const { data, error } = await supabase.auth.signInWithPassword({ email: fakeEmail, password });
     if (error) { setAuthError("خطأ في اسم المستخدم أو كلمة المرور"); return; }
-    if (data.user) setUsername(username.trim());
-    setAuthMode(null);
-    setView('onboarding');
+    if (data.user) {
+        setUsername(username.trim());
+        const { data: profile } = await supabase.from('profiles').select('vector_data').eq('id', data.user.id).single();
+        setAuthMode(null);
+        setView(profile?.vector_data ? 'results' : 'onboarding');
+    }
 };
-
 const handleSignup = async () => {
     setAuthError('');
     if (!username.trim() || !password.trim()) return;
