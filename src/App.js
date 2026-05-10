@@ -178,19 +178,8 @@ const TRANSLATIONS = {
     }
 };
 const Engine = {
-    normalizeTo10: (vec) => {
-        if (vec.length === 10) return vec;
-        if (vec.length === 30) {
-            const result = [];
-            for (let i = 0; i < 30; i += 3) {
-                result.push((vec[i] + vec[i + 1] + vec[i + 2]) / 3);
-            }
-            return result;
-        }
-        return vec;
-    },
 
-    decode: (b64) => {
+  decode: (b64) => {
     try {
         let clean = b64.trim();
         // Extract from markdown if present
