@@ -193,45 +193,38 @@ const Engine = {
     decode: (b64) => {
     try {
         let clean = b64.trim();
-        const codeBlockMatch = clean.match(/```(?:[a-zA-Z]*\n)?([\s\S]*?)```/);
-        if (codeBlockMatch) {
-            clean = codeBlockMatch[1].trim();
-        }
-        const decoded = atob(clean);
-        let parsed;
-        try {
-            parsed = JSON.parse(decoded);
-        } catch {
-            parsed = decoded.split(',').map(s => Number(s.trim()));
-        }
-        // If parsed is a single object with C,S,V, wrap it in array
-        if (parsed && typeof parsed === 'object' && !Array.isArray(parsed) && 'C' in parsed) {
-            parsed = [parsed];
-        }
-        const values = Array.isArray(parsed) ? parsed : Object.values(parsed);
-        if (values.length > 0 && typeof values[0] === 'object' && 'C' in values[0]) {
-            return values.map(dim => {
-                const c = dim.C;
-                const s = dim.S ?? dim.s;
-                const v = dim.V ?? dim.v ?? dim.V_;
-                return (c * 0.6) + (s * 0.3) + (v * 0.1);
+        // Extract from markdown if present
+        const m = clean.match(/```[\s\S]*?\n([\s\S]*?)```/);
+        if (m) clean = m[1].trim();
+        // Decode Base64
+        const json = JSON.parse(atob(clean));
+        const dims = Object.values(json);
+        if (dims.length > 0 && typeof dims[0] === 'object') {
+            return dims.map(d => {
+                const C = d.C || 7.5;
+                const S = d.S || 7.5;
+                const V = d.V || d.v || 0;
+                return (C * 0.6) + (S * 0.3) + (V * 0.1);
             });
-        } else {
-            return values.map(v => Number(v));
         }
+        if (Array.isArray(dims) && dims.length > 0 && typeof dims[0] === 'number') {
+            return dims;
+        }
+        return null;
     } catch { return null; }
 },
 
-    calculate: (v1, v2) => {
-        const a = Engine.normalizeTo10(v1);
-        const b = Engine.normalizeTo10(v2);
-        const len = Math.min(a.length, b.length);
-        if (len === 0) return 0;
-        let dot = 0, n1 = 0, n2 = 0;
-        for (let i = 0; i < len; i++) { dot += a[i] * b[i]; n1 += a[i] * a[i]; n2 += b[i] * b[i]; }
-        const sim = dot / (Math.sqrt(n1) * Math.sqrt(n2));
-        return isNaN(sim) ? 0 : sim;
+    calculate: (a, b) => {
+    if (!a || !b || a.length !== b.length) return 0;
+    let dot = 0, na = 0, nb = 0;
+    for (let i = 0; i < a.length; i++) {
+        dot += a[i] * b[i];
+        na += a[i] * a[i];
+        nb += b[i] * b[i];
     }
+    const sim = dot / (Math.sqrt(na) * Math.sqrt(nb));
+    return isNaN(sim) ? 0 : sim;
+}
 };
 
 export default function App() {
