@@ -4,32 +4,47 @@ import { Volume2, VolumeX, Copy, Globe, Scan, LogIn, UserPlus, Eye, EyeOff, LogO
 
 const supabase = createClient(process.env.REACT_APP_SUPABASE_URL, process.env.REACT_APP_SUPABASE_ANON_KEY);
 
-const PROMPT_TEXT = `ACT AS AN "ULTRA-HIGH RESOLUTION PSYCHOLOGICAL SPECTRAL ENGINE" (U-HRPSE).
+const PROMPT_TEXT = `ACT AS A "DEEP PSYCHOLOGICAL SPECTRAL ENGINE" (DPSE).
 
-OPERATIONAL LOGIC:
-Each dimension is analyzed through three distinct layers:
-1. CORE (C): The baseline trait / Conscious identity (0.00 - 15.00).
-2. SHADOW (S): The suppressed/latent counter-trait or volatility under stress (0.00 - 15.00).
-3. VELOCITY (V): The rate of change or growth potential in this dimension (-1.00 to +1.00).
+You are analyzing a human being through 16 fundamental psychological dimensions mapped to established personality theories (Five-Factor Model, HEXACO, Self-Determination Theory, Existential Psychology, and Ego Development theory). Each dimension has three layers:
+- CORE (C): Conscious identity / baseline trait (0.00 - 15.00)
+- SHADOW (S): Suppressed/latent counter-trait or stress response (0.00 - 15.00)
+- VELOCITY (V): Growth direction and rate (-1.00 to +1.00)
 
-DIMENSIONS & ARCHETYPES:
-1. Cognitive Architecture: [Linear/Mechanical ↔ Nonlinear/Quantum]
-2. Existential Weight: [Materialist/Pragmatic ↔ Metaphysical/Transcendental]
-3. Emotional Processing: [Clinical/Dissociated ↔ Hyper-Somatic/Resonant]
-4. Volition/Agency: [Deterministic/Passive ↔ Radical Autonomy]
-5. Pattern Intelligence: [Noise-Blind ↔ Archetypal Recognition]
-6. Social Matrix: [Solitary/Sovereign ↔ Collective/Interdependent]
-7. Temporal Anchor: [Past-Locked/Traumatic ↔ Future-Oriented/Prophetic]
-8. Moral Flux: [Rigid/Absolute ↔ Situational/Fluid]
-9. Resilience Topology: [Fragile/Static ↔ Anti-Fragile/Adaptive]
-10. Creative Impulse: [Derivative/Refining ↔ Radical Synthesis/Chaos]
+DIMENSIONS TO ANALYZE:
+1. Openness to Experience - C: intellectual curiosity, S: fear of unknown, V: cognitive flexibility
+2. Conscientiousness - C: self-discipline, S: rigidity/obsessiveness, V: adaptation capacity
+3. Extraversion - C: social energy, S: attention-seeking/emptiness, V: social flexibility
+4. Agreeableness - C: empathy/cooperation, S: conflict avoidance/resentment, V: assertiveness growth
+5. Neuroticism - C: emotional sensitivity, S: anxiety/dread, V: emotional regulation
+6. Honesty-Humility - C: sincerity/fairness, S: hidden selfishness, V: ethical development
+7. Cognitive Processing - C: analytical depth, S: overthinking/paralysis, V: thinking flexibility
+8. Emotional Processing - C: emotional awareness, S: emotional overwhelm, V: emotional intelligence
+9. Temporal Orientation - C: future-planning, S: past-rumination, V: presence-development
+10. Meaning-Making - C: existential depth, S: nihilistic despair, V: wisdom growth
+11. Self-Concept Clarity - C: self-knowledge, S: self-deception, V: self-actualization
+12. Resilience - C: coping ability, S: fragile defenses, V: anti-fragility development
+13. Creativity - C: original thinking, S: chaos/disorganization, V: creative evolution
+14. Social Cognition - C: understanding others, S: paranoia/mistrust, V: social wisdom
+15. Motivation Structure - C: intrinsic drive, S: fear-based motivation, V: autonomy development
+16. Integration/Synthesis - C: psychological wholeness, S: fragmentation, V: integration growth
 
-STRICT OUTPUT PROTOCOL:
-- SILENT PROCESSING: No preamble, no justifications.
-- FORMAT: Output a Base64 encoded JSON object containing the matrix [Dimension: {C, S, V}].
-- NO PROSE: Only the raw Base64 string inside a markdown code block.
+STRICT OUTPUT RULES - FOLLOW EXACTLY:
+1. NO introduction, NO explanation, NO analysis, NO summary
+2. NO greetings, NO comments, NO notes, NO markdown (except the code block)
+3. Output ONLY a JSON object with keys "1" through "16", each containing {"C":X,"S":X,"V":X}
+4. Base64 encode that JSON object
+5. Place ONLY the Base64 string inside a markdown code block
+6. The code block must contain the Base64 string and NOTHING ELSE
 
-EXECUTE FULL SPECTRAL MAPPING NOW.`;
+EXAMPLE OF CORRECT OUTPUT:
+```<Base64_String_Here>```
+
+WRONG: Any text before/after the code block
+WRONG: JSON not Base64 encoded
+WRONG: Missing dimensions
+
+EXECUTE FULL SPECTRAL ANALYSIS NOW.`;
 
 const TRANSLATIONS = {
     AR: {
