@@ -191,7 +191,12 @@ const Engine = {
             }
             const values = Array.isArray(parsed) ? parsed : Object.values(parsed);
             if (values.length > 0 && typeof values[0] === 'object' && 'C' in values[0]) {
-                return values.map(dim => (dim.C * 0.6) + (dim.S * 0.3) + (dim.V * 0.1));
+                return values.map(dim => {
+                    const c = dim.C;
+                    const s = dim.S ?? dim.s;
+                    const v = dim.V ?? dim.v ?? dim.V_;
+                    return (c * 0.6) + (s * 0.3) + (v * 0.1);
+                });
             } else {
                 return values.map(v => Number(v));
             }
@@ -201,8 +206,10 @@ const Engine = {
     calculate: (v1, v2) => {
         const a = Engine.normalizeTo10(v1);
         const b = Engine.normalizeTo10(v2);
+        const len = Math.min(a.length, b.length);
+        if (len === 0) return 0;
         let dot = 0, n1 = 0, n2 = 0;
-        for (let i = 0; i < a.length; i++) { dot += a[i] * b[i]; n1 += a[i] * a[i]; n2 += b[i] * b[i]; }
+        for (let i = 0; i < len; i++) { dot += a[i] * b[i]; n1 += a[i] * a[i]; n2 += b[i] * b[i]; }
         const sim = dot / (Math.sqrt(n1) * Math.sqrt(n2));
         return isNaN(sim) ? 0 : sim;
     }
