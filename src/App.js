@@ -176,27 +176,33 @@ const Engine = {
     },
 
     decode: (b64) => {
+    try {
+        let clean = b64.trim();
+        const codeBlockMatch = clean.match(/```(?:[a-zA-Z]*\n)?([\s\S]*?)```/);
+        if (codeBlockMatch) {
+            clean = codeBlockMatch[1].trim();
+        }
+        const decoded = atob(clean);
+        let parsed;
         try {
-            let clean = b64.trim();
-            const codeBlockMatch = clean.match(/```(?:[a-zA-Z]*\n)?([\s\S]*?)```/);
-            if (codeBlockMatch) {
-                clean = codeBlockMatch[1].trim();
-            }
-            const decoded = atob(clean);
-            let parsed;
-            try {
-                parsed = JSON.parse(decoded);
-            } catch {
-                parsed = decoded.split(',').map(s => Number(s.trim()));
-            }
-            const values = Array.isArray(parsed) ? parsed : Object.values(parsed);
-            if (values.length > 0 && typeof values[0] === 'object' && 'C' in values[0]) {
-                return values.map(dim => (dim.C * 0.6) + (dim.S * 0.3) + (dim.V * 0.1));
-            } else {
-                return values.map(v => Number(v));
-            }
-        } catch { return null; }
-    },
+            parsed = JSON.parse(decoded);
+        } catch {
+            parsed = decoded.split(',').map(s => Number(s.trim()));
+        }
+        const values = Array.isArray(parsed) ? parsed : Object.values(parsed);
+        if (values.length > 0 && typeof values[0] === 'object' && 'C' in values[0]) {
+            return values.map(dim => {
+                // Normalize keys: fix common AI typos (S/s, V/v/V_)
+                const c = dim.C;
+                const s = dim.S ?? dim.s;
+                const v = dim.V ?? dim.v ?? dim.V_;
+                return (c * 0.6) + (s * 0.3) + (v * 0.1);
+            });
+        } else {
+            return values.map(v => Number(v));
+        }
+    } catch { return null; }
+},
 
     calculate: (v1, v2) => {
         const a = Engine.normalizeTo10(v1);
