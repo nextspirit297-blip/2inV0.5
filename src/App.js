@@ -239,12 +239,6 @@ export default function App() {
 
     const t = TRANSLATIONS[lang];
     useEffect(() => {
-    // Test decode with a sample Base64
-    const sampleBase64 = 'eyJDIjoxMy44MiwiUyI6NC4xMiwiViI6MC44NX0=';
-    const decoded = Engine.decode(sampleBase64);
-    alert('Decoded test: ' + JSON.stringify(decoded));
-}, []);
-    useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
         setSession(session);
     });
