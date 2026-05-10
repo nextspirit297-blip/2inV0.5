@@ -309,19 +309,10 @@ const handleLogout = async () => {
 };
 const handleMatch = async () => {
     if (!userInput.trim()) return;
-    setLoading(true);
-    try {
-        const userVector = Engine.decode(userInput);
-        if (!userVector) { alert("Format Error"); setLoading(false); return; }
-        
-        // Save user's vector if logged in
-        if (session?.user) {
-            await supabase.from('profiles').upsert({ 
-                id: session.user.id, 
-                username: username,
-                vector_data: userVector 
-            });
-        }
+    const userVector = Engine.decode(userInput);
+    if (!userVector) { alert("Format Error"); return; }
+    alert('Vector length: ' + userVector.length + '\nValues: ' + JSON.stringify(userVector.slice(0, 5)) + '...');
+};
         
         const { data: users, error } = await supabase.from('profiles').select('username, vector_data');
         if (error) throw error;
