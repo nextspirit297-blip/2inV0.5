@@ -235,6 +235,15 @@ export default function App() {
 
     const t = TRANSLATIONS[lang];
     useEffect(() => {
+    // Test vector from your stored data
+    const testVectors = [
+        [9.613, 8.931, 6.685, 9.392, 10.328, 5.355],
+        [9.613, 8.931, 6.685, 9.392, 10.328, 5.355]
+    ];
+    const similarity = Engine.calculate(testVectors[0], testVectors[1]);
+    alert('Test similarity (should be ~100%): ' + (similarity * 100).toFixed(2) + '%');
+}, []);
+    useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
         setSession(session);
     });
